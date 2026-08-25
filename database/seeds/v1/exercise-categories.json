@@ -1,0 +1,451 @@
+{
+  "dataset": "exercise-categories",
+  "dependencies": [],
+  "destination_table": "library.exercise_categories",
+  "metadata": {
+    "derived_unique_count": 13,
+    "source_value_count": 1138
+  },
+  "records": [
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 17,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "activation",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Activation",
+        "record_scope": "canonical",
+        "source_values": [
+          "Activation"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.activation.ce9cd65d061f",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "active",
+          "legacy-compatibility"
+        ],
+        "source_value_count": 17,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "cardio",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "cardio",
+        "record_scope": "canonical",
+        "source_values": [
+          "cardio",
+          "Cardio"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.cardio.812343d1ddcc",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 4,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "conditioning",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Conditioning",
+        "record_scope": "canonical",
+        "source_values": [
+          "Conditioning"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.conditioning.93637a183a7e",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 4,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "functional",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Functional",
+        "record_scope": "canonical",
+        "source_values": [
+          "Functional"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.functional.d83f439ccfdf",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 24,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "hypertrophy",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Hypertrophy",
+        "record_scope": "canonical",
+        "source_values": [
+          "Hypertrophy"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.hypertrophy.4fd6c4d73249",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 35,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "olympic_weightlifting",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "olympic weightlifting",
+        "record_scope": "canonical",
+        "source_values": [
+          "olympic weightlifting"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.olympic-weightlifting.018c521337d2",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 61,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "plyometrics",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "plyometrics",
+        "record_scope": "canonical",
+        "source_values": [
+          "plyometrics"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.plyometrics.3457838d24ed",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 11,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "power",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Power",
+        "record_scope": "canonical",
+        "source_values": [
+          "Power"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.power.4b59972b0461",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 38,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "powerlifting",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "powerlifting",
+        "record_scope": "canonical",
+        "source_values": [
+          "powerlifting"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.powerlifting.3efdd954cb46",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 22,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "rehab",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Rehab",
+        "record_scope": "canonical",
+        "source_values": [
+          "Rehab"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.rehab.ddac2d58e606",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "active",
+          "legacy-compatibility"
+        ],
+        "source_value_count": 761,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "strength",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "strength",
+        "record_scope": "canonical",
+        "source_values": [
+          "strength",
+          "Strength"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.strength.f672dff6280a",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 123,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "stretching",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "stretching",
+        "record_scope": "canonical",
+        "source_values": [
+          "stretching"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.stretching.fbdef27e0d05",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.exercise_categories",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 21,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "strongman",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "strongman",
+        "record_scope": "canonical",
+        "source_values": [
+          "strongman"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "exercise-category.strongman.314214594d1a",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    }
+  ],
+  "schema_version": "logicfit.seed.dataset.v1",
+  "seed_version": "v1",
+  "source_paths": [
+    "data/library/exercises.json",
+    "data/library/exercises-legacy.json"
+  ],
+  "source_policy": "Distinct normalized source labels are preserved; active/legacy case variants normalize to one lookup record."
+}

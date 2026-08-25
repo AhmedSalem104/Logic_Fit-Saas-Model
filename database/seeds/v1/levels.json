@@ -1,0 +1,219 @@
+{
+  "dataset": "levels",
+  "dependencies": [],
+  "destination_table": "library.levels",
+  "metadata": {
+    "exercise_difficulty_count": 3,
+    "plan_level_count": 3
+  },
+  "records": [
+    {
+      "destination_table": "library.levels",
+      "provenance": {
+        "separate_concept": true,
+        "source_value_scope": "exercise_difficulty"
+      },
+      "record": {
+        "active": true,
+        "code": "beginner",
+        "legacy_mappings": [],
+        "level_type": "exercise_difficulty",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "beginner",
+        "record_scope": "canonical",
+        "source_values": [
+          "beginner",
+          "Beginner"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "level.exercise-difficulty-beginner.aa2fd229601d",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.levels",
+      "provenance": {
+        "separate_concept": true,
+        "source_value_scope": "exercise_difficulty"
+      },
+      "record": {
+        "active": true,
+        "code": "expert",
+        "legacy_mappings": [
+          {
+            "canonical_code": "expert",
+            "legacy_value": "Advanced",
+            "scope": "exercise_difficulty"
+          }
+        ],
+        "level_type": "exercise_difficulty",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "expert",
+        "record_scope": "canonical",
+        "source_values": [
+          "expert"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "level.exercise-difficulty-expert.fe323219b211",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.levels",
+      "provenance": {
+        "separate_concept": true,
+        "source_value_scope": "exercise_difficulty"
+      },
+      "record": {
+        "active": true,
+        "code": "intermediate",
+        "legacy_mappings": [],
+        "level_type": "exercise_difficulty",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "intermediate",
+        "record_scope": "canonical",
+        "source_values": [
+          "intermediate",
+          "Intermediate"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "level.exercise-difficulty-intermediate.569a1fb7b7f4",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.levels",
+      "provenance": {
+        "separate_concept": true,
+        "source_value_scope": "plan_level"
+      },
+      "record": {
+        "active": true,
+        "code": "advanced",
+        "legacy_mappings": [],
+        "level_type": "plan_level",
+        "localized_label_status": "source-evidenced",
+        "name_ar": "متقدم",
+        "name_en": "advanced",
+        "record_scope": "canonical",
+        "source_values": [
+          "advanced"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "level.plan-level-advanced.5569e1171e15",
+      "source": "top-gym",
+      "source_path": [
+        "public/index.html",
+        "src/services/intelligence-service.js"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.levels",
+      "provenance": {
+        "separate_concept": true,
+        "source_value_scope": "plan_level"
+      },
+      "record": {
+        "active": true,
+        "code": "beginner",
+        "legacy_mappings": [],
+        "level_type": "plan_level",
+        "localized_label_status": "source-evidenced",
+        "name_ar": "مبتدئ",
+        "name_en": "beginner",
+        "record_scope": "canonical",
+        "source_values": [
+          "beginner"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "level.plan-level-beginner.6d354a26b9a0",
+      "source": "top-gym",
+      "source_path": [
+        "public/index.html",
+        "src/services/intelligence-service.js"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.levels",
+      "provenance": {
+        "separate_concept": true,
+        "source_value_scope": "plan_level"
+      },
+      "record": {
+        "active": true,
+        "code": "intermediate",
+        "legacy_mappings": [],
+        "level_type": "plan_level",
+        "localized_label_status": "source-evidenced",
+        "name_ar": "متوسط",
+        "name_en": "intermediate",
+        "record_scope": "canonical",
+        "source_values": [
+          "intermediate"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "level.plan-level-intermediate.8b9c297d3185",
+      "source": "top-gym",
+      "source_path": [
+        "public/index.html",
+        "src/services/intelligence-service.js"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    }
+  ],
+  "schema_version": "logicfit.seed.dataset.v1",
+  "seed_version": "v1",
+  "source_paths": [
+    "data/library/exercises.json",
+    "data/library/exercises-legacy.json",
+    "public/index.html",
+    "src/services/intelligence-service.js"
+  ],
+  "source_policy": "ExerciseDifficulty and PlanLevel remain separate; legacy Advanced maps to exercise-difficulty expert only."
+}

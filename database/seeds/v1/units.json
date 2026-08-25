@@ -1,0 +1,218 @@
+{
+  "dataset": "units",
+  "dependencies": [],
+  "destination_table": "library.food_units",
+  "metadata": {
+    "approved_unit_count": 6,
+    "top_gym_observed_unit_counts": {
+      "gram": 327,
+      "ml": 40
+    }
+  },
+  "records": [
+    {
+      "destination_table": "library.food_units",
+      "provenance": {
+        "approved_unit": true,
+        "source_kind": "top-gym"
+      },
+      "record": {
+        "active": true,
+        "base_quantity": 1,
+        "base_unit_code": "gram",
+        "code": "gram",
+        "conversion_scope": "identity-only-unless-explicit-food-unit-metadata-exists",
+        "dimension": "mass",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "gram",
+        "observed_food_count": 327,
+        "record_scope": "canonical",
+        "source_aliases": [
+          "gram"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-unit.gram.7be85918c9f0",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_units",
+      "provenance": {
+        "approved_unit": true,
+        "source_kind": "logicfit-product-contract"
+      },
+      "record": {
+        "active": true,
+        "base_quantity": 1,
+        "base_unit_code": "kilogram",
+        "code": "kilogram",
+        "conversion_scope": "identity-only-unless-explicit-food-unit-metadata-exists",
+        "dimension": "mass",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "kilogram",
+        "observed_food_count": 0,
+        "record_scope": "canonical",
+        "source_aliases": []
+      },
+      "relationships": {},
+      "seed_key": "food-unit.kilogram.ad8e5f44c516",
+      "source": "logicfit-product-contract",
+      "source_path": [
+        "Master Bible/04_SEED_AND_CANONICAL_DATA/41_FOOD_SEED_SPEC.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_units",
+      "provenance": {
+        "approved_unit": true,
+        "source_kind": "logicfit-product-contract"
+      },
+      "record": {
+        "active": true,
+        "base_quantity": 1,
+        "base_unit_code": "liter",
+        "code": "liter",
+        "conversion_scope": "identity-only-unless-explicit-food-unit-metadata-exists",
+        "dimension": "volume",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "liter",
+        "observed_food_count": 0,
+        "record_scope": "canonical",
+        "source_aliases": []
+      },
+      "relationships": {},
+      "seed_key": "food-unit.liter.971c4b664351",
+      "source": "logicfit-product-contract",
+      "source_path": [
+        "Master Bible/04_SEED_AND_CANONICAL_DATA/41_FOOD_SEED_SPEC.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_units",
+      "provenance": {
+        "approved_unit": true,
+        "source_kind": "top-gym-and-logicfit-product-contract"
+      },
+      "record": {
+        "active": true,
+        "base_quantity": 1,
+        "base_unit_code": "milliliter",
+        "code": "milliliter",
+        "conversion_scope": "identity-only-unless-explicit-food-unit-metadata-exists",
+        "dimension": "volume",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "milliliter",
+        "observed_food_count": 40,
+        "record_scope": "canonical",
+        "source_aliases": [
+          "ml"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-unit.milliliter.65f7a67e0db3",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json",
+        "Master Bible/04_SEED_AND_CANONICAL_DATA/41_FOOD_SEED_SPEC.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_units",
+      "provenance": {
+        "approved_unit": true,
+        "source_kind": "logicfit-product-contract"
+      },
+      "record": {
+        "active": true,
+        "base_quantity": 1,
+        "base_unit_code": "piece",
+        "code": "piece",
+        "conversion_scope": "identity-only-unless-explicit-food-unit-metadata-exists",
+        "dimension": "count",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "piece",
+        "observed_food_count": 0,
+        "record_scope": "canonical",
+        "source_aliases": []
+      },
+      "relationships": {},
+      "seed_key": "food-unit.piece.7a3177e76808",
+      "source": "logicfit-product-contract",
+      "source_path": [
+        "Master Bible/04_SEED_AND_CANONICAL_DATA/41_FOOD_SEED_SPEC.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_units",
+      "provenance": {
+        "approved_unit": true,
+        "source_kind": "logicfit-product-contract"
+      },
+      "record": {
+        "active": true,
+        "base_quantity": 1,
+        "base_unit_code": "serving",
+        "code": "serving",
+        "conversion_scope": "identity-only-unless-explicit-food-unit-metadata-exists",
+        "dimension": "serving",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "serving",
+        "observed_food_count": 0,
+        "record_scope": "canonical",
+        "source_aliases": []
+      },
+      "relationships": {},
+      "seed_key": "food-unit.serving.694fcba9346a",
+      "source": "logicfit-product-contract",
+      "source_path": [
+        "Master Bible/04_SEED_AND_CANONICAL_DATA/41_FOOD_SEED_SPEC.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    }
+  ],
+  "schema_version": "logicfit.seed.dataset.v1",
+  "seed_version": "v1",
+  "source_paths": [
+    "data/library/foods.json",
+    "Master Bible/04_SEED_AND_CANONICAL_DATA/41_FOOD_SEED_SPEC.md"
+  ],
+  "source_policy": "Canonical approved units are six. TOP GYM evidence covers gram and ml; remaining approved units are metadata-only contract records with no inferred conversions."
+}

@@ -1,0 +1,219 @@
+{
+  "dataset": "food-conversions",
+  "dependencies": [
+    "units"
+  ],
+  "destination_table": null,
+  "metadata": {
+    "installed": false,
+    "supported_identity_conversion_count": 6,
+    "unsupported_cross_unit_policy": "validation-error-no-implicit-conversion"
+  },
+  "records": [
+    {
+      "destination_table": null,
+      "provenance": {
+        "reason": "same-unit identity is deterministic and does not infer density or serving equivalence"
+      },
+      "record": {
+        "conversion_kind": "identity",
+        "destination_unit_code": "gram",
+        "destination_unit_seed_key": "food-unit.gram.7be85918c9f0",
+        "factor": 1,
+        "install_status": "contract-only-no-destination-table-in-phase-2",
+        "precision_scale": null,
+        "rounding_rule": "exact",
+        "source_unit_code": "gram",
+        "source_unit_seed_key": "food-unit.gram.7be85918c9f0",
+        "status": "supported"
+      },
+      "relationships": {
+        "destination_unit_seed_key": "food-unit.gram.7be85918c9f0",
+        "source_unit_seed_key": "food-unit.gram.7be85918c9f0"
+      },
+      "seed_key": "food-conversion.gram-to-gram.078aafd1c620",
+      "source": "logicfit-product-contract",
+      "source_path": [
+        "DOCS/PHASE_2/decisions/21_FOOD_UNITS_CONTRACT_DECISION.md",
+        "DOCS/PHASE_2/10_SEED_CONTRACT.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": null,
+      "provenance": {
+        "reason": "same-unit identity is deterministic and does not infer density or serving equivalence"
+      },
+      "record": {
+        "conversion_kind": "identity",
+        "destination_unit_code": "kilogram",
+        "destination_unit_seed_key": "food-unit.kilogram.ad8e5f44c516",
+        "factor": 1,
+        "install_status": "contract-only-no-destination-table-in-phase-2",
+        "precision_scale": null,
+        "rounding_rule": "exact",
+        "source_unit_code": "kilogram",
+        "source_unit_seed_key": "food-unit.kilogram.ad8e5f44c516",
+        "status": "supported"
+      },
+      "relationships": {
+        "destination_unit_seed_key": "food-unit.kilogram.ad8e5f44c516",
+        "source_unit_seed_key": "food-unit.kilogram.ad8e5f44c516"
+      },
+      "seed_key": "food-conversion.kilogram-to-kilogram.798dddb51624",
+      "source": "logicfit-product-contract",
+      "source_path": [
+        "DOCS/PHASE_2/decisions/21_FOOD_UNITS_CONTRACT_DECISION.md",
+        "DOCS/PHASE_2/10_SEED_CONTRACT.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": null,
+      "provenance": {
+        "reason": "same-unit identity is deterministic and does not infer density or serving equivalence"
+      },
+      "record": {
+        "conversion_kind": "identity",
+        "destination_unit_code": "liter",
+        "destination_unit_seed_key": "food-unit.liter.971c4b664351",
+        "factor": 1,
+        "install_status": "contract-only-no-destination-table-in-phase-2",
+        "precision_scale": null,
+        "rounding_rule": "exact",
+        "source_unit_code": "liter",
+        "source_unit_seed_key": "food-unit.liter.971c4b664351",
+        "status": "supported"
+      },
+      "relationships": {
+        "destination_unit_seed_key": "food-unit.liter.971c4b664351",
+        "source_unit_seed_key": "food-unit.liter.971c4b664351"
+      },
+      "seed_key": "food-conversion.liter-to-liter.2c91158b6f08",
+      "source": "logicfit-product-contract",
+      "source_path": [
+        "DOCS/PHASE_2/decisions/21_FOOD_UNITS_CONTRACT_DECISION.md",
+        "DOCS/PHASE_2/10_SEED_CONTRACT.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": null,
+      "provenance": {
+        "reason": "same-unit identity is deterministic and does not infer density or serving equivalence"
+      },
+      "record": {
+        "conversion_kind": "identity",
+        "destination_unit_code": "milliliter",
+        "destination_unit_seed_key": "food-unit.milliliter.65f7a67e0db3",
+        "factor": 1,
+        "install_status": "contract-only-no-destination-table-in-phase-2",
+        "precision_scale": null,
+        "rounding_rule": "exact",
+        "source_unit_code": "milliliter",
+        "source_unit_seed_key": "food-unit.milliliter.65f7a67e0db3",
+        "status": "supported"
+      },
+      "relationships": {
+        "destination_unit_seed_key": "food-unit.milliliter.65f7a67e0db3",
+        "source_unit_seed_key": "food-unit.milliliter.65f7a67e0db3"
+      },
+      "seed_key": "food-conversion.milliliter-to-milliliter.828d073d0b44",
+      "source": "logicfit-product-contract",
+      "source_path": [
+        "DOCS/PHASE_2/decisions/21_FOOD_UNITS_CONTRACT_DECISION.md",
+        "DOCS/PHASE_2/10_SEED_CONTRACT.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": null,
+      "provenance": {
+        "reason": "same-unit identity is deterministic and does not infer density or serving equivalence"
+      },
+      "record": {
+        "conversion_kind": "identity",
+        "destination_unit_code": "piece",
+        "destination_unit_seed_key": "food-unit.piece.7a3177e76808",
+        "factor": 1,
+        "install_status": "contract-only-no-destination-table-in-phase-2",
+        "precision_scale": null,
+        "rounding_rule": "exact",
+        "source_unit_code": "piece",
+        "source_unit_seed_key": "food-unit.piece.7a3177e76808",
+        "status": "supported"
+      },
+      "relationships": {
+        "destination_unit_seed_key": "food-unit.piece.7a3177e76808",
+        "source_unit_seed_key": "food-unit.piece.7a3177e76808"
+      },
+      "seed_key": "food-conversion.piece-to-piece.384b74bc5999",
+      "source": "logicfit-product-contract",
+      "source_path": [
+        "DOCS/PHASE_2/decisions/21_FOOD_UNITS_CONTRACT_DECISION.md",
+        "DOCS/PHASE_2/10_SEED_CONTRACT.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": null,
+      "provenance": {
+        "reason": "same-unit identity is deterministic and does not infer density or serving equivalence"
+      },
+      "record": {
+        "conversion_kind": "identity",
+        "destination_unit_code": "serving",
+        "destination_unit_seed_key": "food-unit.serving.694fcba9346a",
+        "factor": 1,
+        "install_status": "contract-only-no-destination-table-in-phase-2",
+        "precision_scale": null,
+        "rounding_rule": "exact",
+        "source_unit_code": "serving",
+        "source_unit_seed_key": "food-unit.serving.694fcba9346a",
+        "status": "supported"
+      },
+      "relationships": {
+        "destination_unit_seed_key": "food-unit.serving.694fcba9346a",
+        "source_unit_seed_key": "food-unit.serving.694fcba9346a"
+      },
+      "seed_key": "food-conversion.serving-to-serving.d16da2f317c2",
+      "source": "logicfit-product-contract",
+      "source_path": [
+        "DOCS/PHASE_2/decisions/21_FOOD_UNITS_CONTRACT_DECISION.md",
+        "DOCS/PHASE_2/10_SEED_CONTRACT.md"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    }
+  ],
+  "schema_version": "logicfit.seed.dataset.v1",
+  "seed_version": "v1",
+  "source_paths": [
+    "DOCS/PHASE_2/decisions/21_FOOD_UNITS_CONTRACT_DECISION.md",
+    "DOCS/PHASE_2/10_SEED_CONTRACT.md"
+  ],
+  "source_policy": "Only same-unit identity conversions are represented. Cross-unit, serving, piece, and density conversions are explicitly unsupported until source metadata is approved."
+}

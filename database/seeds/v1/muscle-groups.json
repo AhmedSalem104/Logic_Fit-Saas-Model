@@ -1,0 +1,145 @@
+{
+  "dataset": "muscle-groups",
+  "dependencies": [],
+  "destination_table": "library.muscle_groups",
+  "metadata": {
+    "derived_unique_count": 4,
+    "source_record_count": 297
+  },
+  "records": [
+    {
+      "destination_table": "library.muscle_groups",
+      "provenance": {
+        "source_scopes": [
+          "muscles.json"
+        ],
+        "source_value_count": 51,
+        "source_value_field": "bodyPart"
+      },
+      "record": {
+        "active": true,
+        "code": "arms",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Arms",
+        "record_scope": "canonical",
+        "source_values": [
+          "Arms"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "muscle-group.arms.f355365541cf",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/muscles.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.muscle_groups",
+      "provenance": {
+        "source_scopes": [
+          "muscles.json"
+        ],
+        "source_value_count": 53,
+        "source_value_field": "bodyPart"
+      },
+      "record": {
+        "active": true,
+        "code": "core",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Core",
+        "record_scope": "canonical",
+        "source_values": [
+          "Core"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "muscle-group.core.549be3e5505e",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/muscles.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.muscle_groups",
+      "provenance": {
+        "source_scopes": [
+          "muscles.json"
+        ],
+        "source_value_count": 75,
+        "source_value_field": "bodyPart"
+      },
+      "record": {
+        "active": true,
+        "code": "lower_body",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Lower Body",
+        "record_scope": "canonical",
+        "source_values": [
+          "Lower Body"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "muscle-group.lower-body.c6d36ac78265",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/muscles.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.muscle_groups",
+      "provenance": {
+        "source_scopes": [
+          "muscles.json"
+        ],
+        "source_value_count": 118,
+        "source_value_field": "bodyPart"
+      },
+      "record": {
+        "active": true,
+        "code": "upper_body",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Upper Body",
+        "record_scope": "canonical",
+        "source_values": [
+          "Upper Body"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "muscle-group.upper-body.3b3363301f91",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/muscles.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    }
+  ],
+  "schema_version": "logicfit.seed.dataset.v1",
+  "seed_version": "v1",
+  "source_paths": [
+    "data/library/muscles.json"
+  ],
+  "source_policy": "Derived only from distinct non-empty TOP GYM muscles.json.bodyPart values; no Arabic group label was invented."
+}

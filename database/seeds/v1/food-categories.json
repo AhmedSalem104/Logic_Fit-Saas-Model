@@ -1,0 +1,561 @@
+{
+  "dataset": "food-categories",
+  "dependencies": [],
+  "destination_table": "library.food_categories",
+  "metadata": {
+    "derived_unique_count": 17,
+    "source_record_count": 367
+  },
+  "records": [
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 11,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "beverages",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Beverages",
+        "record_scope": "canonical",
+        "source_values": [
+          "Beverages"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.beverages.c5e9b64a1656",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 4,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "dairy_alternatives",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Dairy Alternatives",
+        "record_scope": "canonical",
+        "source_values": [
+          "Dairy Alternatives"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.dairy-alternatives.e924042d87e3",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 34,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "dairy",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Dairy",
+        "record_scope": "canonical",
+        "source_values": [
+          "Dairy"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.dairy.36916b840317",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 9,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "dips_spreads",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Dips & Spreads",
+        "record_scope": "canonical",
+        "source_values": [
+          "Dips & Spreads"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.dips-spreads.5864a53aad4f",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 15,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "fats",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Fats",
+        "record_scope": "canonical",
+        "source_values": [
+          "Fats"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.fats.4bf9627dfc69",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 42,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "fruits",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Fruits",
+        "record_scope": "canonical",
+        "source_values": [
+          "Fruits"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.fruits.e0b7784d8e76",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 44,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "grains",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Grains",
+        "record_scope": "canonical",
+        "source_values": [
+          "Grains"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.grains.984c833aaaab",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 14,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "legumes",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Legumes",
+        "record_scope": "canonical",
+        "source_values": [
+          "Legumes"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.legumes.5bfb0ff44a20",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 15,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "mixed_dishes",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Mixed Dishes",
+        "record_scope": "canonical",
+        "source_values": [
+          "Mixed Dishes"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.mixed-dishes.9ebd78a7e319",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 15,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "nuts",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Nuts",
+        "record_scope": "canonical",
+        "source_values": [
+          "Nuts"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.nuts.ee7353985caa",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 73,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "protein",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Protein",
+        "record_scope": "canonical",
+        "source_values": [
+          "Protein"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.protein.e0ccba3ebecc",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 2,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "salads",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Salads",
+        "record_scope": "canonical",
+        "source_values": [
+          "Salads"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.salads.d1166b6494da",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 7,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "seeds",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Seeds",
+        "record_scope": "canonical",
+        "source_values": [
+          "Seeds"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.seeds.33c6bb5759c6",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 11,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "supplements",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Supplements",
+        "record_scope": "canonical",
+        "source_values": [
+          "Supplements"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.supplements.d6a528403694",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 9,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "sweeteners",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Sweeteners",
+        "record_scope": "canonical",
+        "source_values": [
+          "Sweeteners"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.sweeteners.991e36601b18",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 3,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "sweets",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Sweets",
+        "record_scope": "canonical",
+        "source_values": [
+          "Sweets"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.sweets.d6f66734e005",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.food_categories",
+      "provenance": {
+        "source_scopes": [
+          "foods.json"
+        ],
+        "source_value_count": 59,
+        "source_value_field": "category"
+      },
+      "record": {
+        "active": true,
+        "code": "vegetables",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Vegetables",
+        "record_scope": "canonical",
+        "source_values": [
+          "Vegetables"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "food-category.vegetables.8af1ae99752e",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/foods.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    }
+  ],
+  "schema_version": "logicfit.seed.dataset.v1",
+  "seed_version": "v1",
+  "source_paths": [
+    "data/library/foods.json"
+  ],
+  "source_policy": "Distinct normalized TOP GYM foods.json.category values; no Arabic category label was invented."
+}

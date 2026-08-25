@@ -1,0 +1,241 @@
+{
+  "datasets": [
+    {
+      "checksum_sha256": "05bbc11f07ea5442dda1f5edd0e3044d7af5dc540295eeb3f0f84a8a1f34c1d2",
+      "dataset": "muscle-groups",
+      "dependencies": [],
+      "destination_table": "library.muscle_groups",
+      "file": "v1/muscle-groups.json",
+      "record_count": 4,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "data/library/muscles.json"
+      ],
+      "source_record_count": 297,
+      "unresolved_count": 0,
+      "validation_status": "passed"
+    },
+    {
+      "checksum_sha256": "4b033a1277ca3fab3f504a1135179b962bec10d3a729f6b0fb23391e1e2e41fd",
+      "dataset": "muscles",
+      "dependencies": [
+        "muscle-groups"
+      ],
+      "destination_table": "library.muscles",
+      "file": "v1/muscles.json",
+      "record_count": 297,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "data/library/muscles.json",
+        "public/data/muscle-assets.json"
+      ],
+      "source_record_count": 297,
+      "unresolved_count": 0,
+      "validation_status": "passed"
+    },
+    {
+      "checksum_sha256": "f74026609e105946ae3b2e541cb1e5b2bfce35fac011b9b56ea016bad06b9c47",
+      "dataset": "equipment",
+      "dependencies": [],
+      "destination_table": "library.equipment",
+      "file": "v1/equipment.json",
+      "record_count": 31,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_record_count": 1138,
+      "unresolved_count": 0,
+      "validation_status": "passed"
+    },
+    {
+      "checksum_sha256": "71d13b99bcedd049bfc5be5ffa4a7a75565a8ab2995c2cbe6151696978d9a423",
+      "dataset": "exercise-categories",
+      "dependencies": [],
+      "destination_table": "library.exercise_categories",
+      "file": "v1/exercise-categories.json",
+      "record_count": 13,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_record_count": 1138,
+      "unresolved_count": 0,
+      "validation_status": "passed"
+    },
+    {
+      "checksum_sha256": "86c6bea4ec0ab98ff1e357dca48322daca2eeac829bec07ff347cda28d39315d",
+      "dataset": "levels",
+      "dependencies": [],
+      "destination_table": "library.levels",
+      "file": "v1/levels.json",
+      "record_count": 6,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json",
+        "public/index.html",
+        "src/services/intelligence-service.js"
+      ],
+      "source_record_count": 6,
+      "unresolved_count": 0,
+      "validation_status": "passed"
+    },
+    {
+      "checksum_sha256": "4d73462c0ff090288ab296ec512e3ae05f486edbf08dfd15a5a1ebcaab3a75e5",
+      "dataset": "exercises",
+      "dependencies": [
+        "muscles",
+        "equipment",
+        "exercise-categories",
+        "levels"
+      ],
+      "destination_table": "library.exercises",
+      "file": "v1/exercises.json",
+      "record_count": 1133,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "data/library/exercises.json",
+        "data/library/exercises-dataset.json",
+        "data/library/exercises-legacy.json",
+        "public/data/exercise-assets.json"
+      ],
+      "source_record_count": 1138,
+      "unresolved_count": 0,
+      "validation_status": "passed"
+    },
+    {
+      "checksum_sha256": "111ea14309ffe3b6058c76bf6d7939080044533b735416179d04dd41f52529d2",
+      "dataset": "anatomy-mappings",
+      "dependencies": [
+        "muscles"
+      ],
+      "destination_table": "library.anatomy_mappings",
+      "file": "v1/anatomy-mappings.json",
+      "record_count": 194,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "public/data/anatomy-muscle-mapping.json"
+      ],
+      "source_record_count": 194,
+      "unresolved_count": 165,
+      "validation_status": "passed"
+    },
+    {
+      "checksum_sha256": "dbf80d7eb620199a20ec8e026ddac247936c3afbbbbb0fa8b81ce35b3d897e62",
+      "dataset": "food-categories",
+      "dependencies": [],
+      "destination_table": "library.food_categories",
+      "file": "v1/food-categories.json",
+      "record_count": 17,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "data/library/foods.json"
+      ],
+      "source_record_count": 367,
+      "unresolved_count": 0,
+      "validation_status": "passed"
+    },
+    {
+      "checksum_sha256": "b9484c9ea87fa655336942269cec21eaa8a231dc7b58f7f910ea8a8c6ec114c0",
+      "dataset": "units",
+      "dependencies": [],
+      "destination_table": "library.food_units",
+      "file": "v1/units.json",
+      "record_count": 6,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "data/library/foods.json",
+        "Master Bible/04_SEED_AND_CANONICAL_DATA/41_FOOD_SEED_SPEC.md"
+      ],
+      "source_record_count": 6,
+      "unresolved_count": 0,
+      "validation_status": "passed"
+    },
+    {
+      "checksum_sha256": "a83d89a58b962f8a516091f70eeeafc2d392884d1ad991b6bafe107e60749a87",
+      "dataset": "foods",
+      "dependencies": [
+        "food-categories",
+        "units"
+      ],
+      "destination_table": "library.foods",
+      "file": "v1/foods.json",
+      "record_count": 367,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "data/library/foods.json"
+      ],
+      "source_record_count": 367,
+      "unresolved_count": 0,
+      "validation_status": "passed"
+    },
+    {
+      "checksum_sha256": "01c1c4a56d98e67085397cd04cea872da9199ea63cf526e3e3afbebc50481f2f",
+      "dataset": "food-conversions",
+      "dependencies": [
+        "units"
+      ],
+      "destination_table": null,
+      "file": "v1/food-conversions.json",
+      "record_count": 6,
+      "schema_version": "logicfit.seed.dataset.v1",
+      "seed_version": "v1",
+      "source_paths": [
+        "DOCS/PHASE_2/decisions/21_FOOD_UNITS_CONTRACT_DECISION.md",
+        "DOCS/PHASE_2/10_SEED_CONTRACT.md"
+      ],
+      "source_record_count": 6,
+      "unresolved_count": 0,
+      "validation_status": "passed"
+    }
+  ],
+  "generated_at_utc": "2026-08-25T00:00:00.000Z",
+  "identity_policy": {
+    "algorithm": "NFKC + locale-independent lowercase + normalized semantic identity + SHA-256 first 12 hex + human slug",
+    "generation_date_is_not_identity": true,
+    "json_order_is_not_identity": true,
+    "numeric_source_ids_are_provenance_only": true
+  },
+  "install_order": [
+    "muscle-groups",
+    "muscles",
+    "equipment",
+    "exercise-categories",
+    "levels",
+    "exercises",
+    "anatomy-mappings",
+    "food-categories",
+    "units",
+    "foods",
+    "food-conversions"
+  ],
+  "schema_version": "logicfit.seed.manifest.v1",
+  "seed_version": "v1",
+  "source": {
+    "audit_version": "top-gym-audit-2026-08-25",
+    "operational_data_excluded": true,
+    "source_root": "C:\\Users\\B-SMART\\gym-membership-app",
+    "source_root_alias": "TOP_GYM_ROOT",
+    "system": "TOP GYM"
+  },
+  "validator_version": "logicfit-seed-validator-1.0.0",
+  "validation": {
+    "status": "GREEN",
+    "error_count": 0,
+    "warning_count": 3,
+    "validated_at_utc": "2026-08-25T12:20:43.227Z"
+  }
+}

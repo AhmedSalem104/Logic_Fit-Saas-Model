@@ -1,0 +1,5 @@
+<Project>
+  <Target Name="VerifyLogicFitTargetFramework" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(TargetFramework)' != 'net10.0'" Text="LogicFit projects must target net10.0. The approved backend architecture must not be downgraded." />
+  </Target>
+</Project>

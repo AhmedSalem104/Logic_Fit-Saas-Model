@@ -1,0 +1,1047 @@
+{
+  "dataset": "equipment",
+  "dependencies": [],
+  "destination_table": "library.equipment",
+  "metadata": {
+    "derived_unique_count": 31,
+    "source_value_count": 1138
+  },
+  "records": [
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 1,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "ab_wheel",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Ab Wheel",
+        "record_scope": "canonical",
+        "source_values": [
+          "Ab Wheel"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.ab-wheel.b1e8779da234",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 20,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "bands",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "bands",
+        "record_scope": "canonical",
+        "source_values": [
+          "bands"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.bands.dab0266a8690",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active",
+          "legacy-compatibility"
+        ],
+        "source_value_count": 223,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "barbell",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "barbell",
+        "record_scope": "canonical",
+        "source_values": [
+          "barbell",
+          "Barbell"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.barbell.7557145828db",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 2,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "battle_ropes",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Battle Ropes",
+        "record_scope": "canonical",
+        "source_values": [
+          "Battle Ropes"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.battle-ropes.8f25d0bac4db",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 188,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "body_only",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "body only",
+        "record_scope": "canonical",
+        "source_values": [
+          "body only"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.body-only.c1646651c52c",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 59,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "bodyweight",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Bodyweight",
+        "record_scope": "canonical",
+        "source_values": [
+          "Bodyweight"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.bodyweight.deb2ded14ce9",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 1,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "box",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Box",
+        "record_scope": "canonical",
+        "source_values": [
+          "Box"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.box.c7bec5b1b5ef",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 44,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "cable_machine",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Cable Machine",
+        "record_scope": "canonical",
+        "source_values": [
+          "Cable Machine"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.cable-machine.696e83eb3cff",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 81,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "cable",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "cable",
+        "record_scope": "canonical",
+        "source_values": [
+          "cable"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.cable.80471488e1e2",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 123,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "dumbbell",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "dumbbell",
+        "record_scope": "canonical",
+        "source_values": [
+          "dumbbell"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.dumbbell.b431a1a42237",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 45,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "dumbbells",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Dumbbells",
+        "record_scope": "canonical",
+        "source_values": [
+          "Dumbbells"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.dumbbells.c32bc011e561",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 9,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "e_z_curl_bar",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "e-z curl bar",
+        "record_scope": "canonical",
+        "source_values": [
+          "e-z curl bar"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.e-z-curl-bar.f214401b26d2",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 12,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "exercise_ball",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "exercise ball",
+        "record_scope": "canonical",
+        "source_values": [
+          "exercise ball"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.exercise-ball.3d113eb60bef",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 5,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "ez_bar",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "EZ Bar",
+        "record_scope": "canonical",
+        "source_values": [
+          "EZ Bar"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.ez-bar.6c2f8940682b",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 11,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "foam_roll",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "foam roll",
+        "record_scope": "canonical",
+        "source_values": [
+          "foam roll"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.foam-roll.f412ea932eac",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 3,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "kettlebell",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Kettlebell",
+        "record_scope": "canonical",
+        "source_values": [
+          "Kettlebell"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.kettlebell.8d07a31e0d3e",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 53,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "kettlebells",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "kettlebells",
+        "record_scope": "canonical",
+        "source_values": [
+          "kettlebells"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.kettlebells.d4f94f0af04c",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active",
+          "legacy-compatibility"
+        ],
+        "source_value_count": 86,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "machine",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "machine",
+        "record_scope": "canonical",
+        "source_values": [
+          "machine",
+          "Machine"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.machine.24024890174b",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active",
+          "legacy-compatibility"
+        ],
+        "source_value_count": 19,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "medicine_ball",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "medicine ball",
+        "record_scope": "canonical",
+        "source_values": [
+          "medicine ball",
+          "Medicine Ball"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.medicine-ball.8cdb4e9aaa17",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "active"
+        ],
+        "source_value_count": 122,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "other",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "other",
+        "record_scope": "canonical",
+        "source_values": [
+          "other"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.other.d41b5340226e",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 2,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "parallel_bars",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Parallel Bars",
+        "record_scope": "canonical",
+        "source_values": [
+          "Parallel Bars"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.parallel-bars.6ebcf97d0387",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 2,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "parallettes",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Parallettes",
+        "record_scope": "canonical",
+        "source_values": [
+          "Parallettes"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.parallettes.dda13a3949f3",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 4,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "pull_up_bar",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Pull-up Bar",
+        "record_scope": "canonical",
+        "source_values": [
+          "Pull-up Bar"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.pull-up-bar.fa3a89fe93a0",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 9,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "resistance_band",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Resistance Band",
+        "record_scope": "canonical",
+        "source_values": [
+          "Resistance Band"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.resistance-band.4e6ab5d37b97",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 1,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "rings",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Rings",
+        "record_scope": "canonical",
+        "source_values": [
+          "Rings"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.rings.7696f29885bf",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 1,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "rope",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Rope",
+        "record_scope": "canonical",
+        "source_values": [
+          "Rope"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.rope.53bb622cb794",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 3,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "sled",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Sled",
+        "record_scope": "canonical",
+        "source_values": [
+          "Sled"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.sled.a44289797010",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 1,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "t_bar",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "T-Bar",
+        "record_scope": "canonical",
+        "source_values": [
+          "T-Bar"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.t-bar.1b696e4adc31",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 1,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "trap_bar",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Trap Bar",
+        "record_scope": "canonical",
+        "source_values": [
+          "Trap Bar"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.trap-bar.5ba8a8a2cb3c",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 6,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "weight_plate",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Weight Plate",
+        "record_scope": "canonical",
+        "source_values": [
+          "Weight Plate"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.weight-plate.cbe234c2e67a",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    },
+    {
+      "destination_table": "library.equipment",
+      "provenance": {
+        "source_scopes": [
+          "legacy-compatibility"
+        ],
+        "source_value_count": 1,
+        "source_value_field": "equipment"
+      },
+      "record": {
+        "active": true,
+        "code": "wrist_roller",
+        "localized_label_status": "unavailable-in-verified-source",
+        "name_ar": null,
+        "name_en": "Wrist Roller",
+        "record_scope": "canonical",
+        "source_values": [
+          "Wrist Roller"
+        ]
+      },
+      "relationships": {},
+      "seed_key": "equipment.wrist-roller.b8a58ebcb8de",
+      "source": "top-gym",
+      "source_path": [
+        "data/library/exercises.json",
+        "data/library/exercises-legacy.json"
+      ],
+      "source_version": "top-gym-audit-2026-08-25",
+      "validation": {
+        "status": "generated"
+      },
+      "version": "v1"
+    }
+  ],
+  "schema_version": "logicfit.seed.dataset.v1",
+  "seed_version": "v1",
+  "source_paths": [
+    "data/library/exercises.json",
+    "data/library/exercises-legacy.json"
+  ],
+  "source_policy": "Distinct normalized source labels are preserved; semantic synonyms are not merged without evidence."
+}

@@ -1,0 +1,68 @@
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.key
+*.pem
+*.snk
+appsettings.Local.json
+
+# .NET / Visual Studio generated output
+**/bin/
+**/obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.sonarqube/
+
+# Local developer tools and reports
+.tools/
+.artifacts/
+coverage/
+test-results/
+tmp/
+*.log
+
+# JavaScript tooling output
+node_modules/
+**/dist/
+**/.vite/
+**/.cache/
+
+# Local database/export artifacts
+*.bak
+*.dacpac
+*.mdf
+*.ndf
+*.ldf
+*.sqlite
+*.db
+
+# Flutter / Dart generated output
+.dart_tool/
+**/.dart_tool/
+**/build/
+**/ephemeral/
+**/.gradle/
+**/.kotlin/
+**/generated_plugin_registrant.*
+apps/mobile/android/local.properties
+apps/mobile/ios/Flutter/Generated.xcconfig
+apps/mobile/ios/Flutter/flutter_export_environment.sh
+apps/mobile/macos/Flutter/GeneratedPluginRegistrant.swift
+apps/mobile/windows/flutter/ephemeral/
+apps/mobile/linux/flutter/ephemeral/
+apps/mobile/web/flutter.js
+
+# IDE/editor metadata
+.idea/
+.vscode/
+*.iml
+
+# OS metadata
+Thumbs.db
+desktop.ini
