@@ -88,5 +88,21 @@ h1 { margin: 8px 0 8px; font-size: clamp(1.75rem, 4vw, 2.8rem); letter-spacing: 
 .lf-toast { padding: 12px 14px; border: 1px solid var(--color-line); border-radius: 12px; background: var(--color-panel); box-shadow: var(--shadow-panel); }
 .lf-toast-success { border-color: color-mix(in srgb, var(--color-success) 50%, var(--color-line)); }
 .lf-toast-error { border-color: color-mix(in srgb, var(--color-danger) 50%, var(--color-line)); color: var(--color-danger); }
+.lf-auth-layout { min-height: min(680px, calc(100vh - 170px)); display: grid; grid-template-columns: minmax(0, .9fr) minmax(320px, 460px); align-items: center; gap: clamp(30px, 8vw, 110px); }
+.lf-auth-intro { max-width: 560px; }
+.lf-auth-intro p { color: var(--color-muted); font-size: 1.05rem; line-height: 1.8; }
+.lf-form-stack { display: grid; gap: 16px; }
+.lf-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: end; }
+.lf-form-error { color: var(--color-danger); background: color-mix(in srgb, var(--color-danger) 10%, transparent); border: 1px solid color-mix(in srgb, var(--color-danger) 40%, var(--color-line)); border-radius: 10px; padding: 10px 12px; }
+.lf-form-success { color: var(--color-success); background: color-mix(in srgb, var(--color-success) 10%, transparent); border: 1px solid color-mix(in srgb, var(--color-success) 40%, var(--color-line)); border-radius: 10px; padding: 10px 12px; }
+.lf-auth-scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.lf-scope-item { display: grid; gap: 4px; padding: 14px; border: 1px solid var(--color-line); border-radius: 12px; background: var(--color-surface); }
+.lf-secret-value { display: block; overflow-wrap: anywhere; padding: 10px; border: 1px dashed var(--color-line); border-radius: 10px; color: var(--color-accent); background: var(--color-surface); direction: ltr; text-align: left; }
+.lf-recovery-codes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; padding: 12px; border: 1px solid var(--color-line); border-radius: 10px; background: var(--color-surface); direction: ltr; }
+.lf-recovery-codes code { padding: 6px; text-align: center; }
+.lf-inline-link { color: var(--color-accent); text-align: center; text-decoration: none; }
+.lf-inline-link:hover { text-decoration: underline; }
+.lf-action-row, .lf-assignment-row { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.lf-assignment-row { justify-content: space-between; }
 @keyframes spin { to { transform: rotate(360deg); } }
-@media (max-width: 820px) { .lf-sidebar { display: none; } .lf-mobile-menu { display: inline-flex; } .lf-grid-3 { grid-template-columns: 1fr; } .lf-header { gap: 12px; } .lf-page-heading { flex-direction: column; } .lf-content { padding: 24px 18px 42px; } }
+@media (max-width: 820px) { .lf-sidebar { display: none; } .lf-mobile-menu { display: inline-flex; } .lf-grid-3, .lf-form-grid { grid-template-columns: 1fr; } .lf-header { gap: 12px; } .lf-page-heading { flex-direction: column; } .lf-content { padding: 24px 18px 42px; } .lf-auth-layout { grid-template-columns: 1fr; min-height: auto; padding-block: 26px; } }

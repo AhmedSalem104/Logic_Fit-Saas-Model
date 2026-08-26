@@ -88,6 +88,10 @@ The backend rejects self-approval, cross-Gym IDs, missing exact permission, wron
 
 Permissions are canonical backend authority and are assigned to configurable roles/profiles; role names never grant implicit authority.
 
+## Phase 5B API addendum — 2026-08-26
+
+The Authentication/RBAC API extension uses the existing locked permission identifiers only: `auth.password.change`, `auth.mfa.verify`, `auth.sessions.view`, `auth.sessions.revoke`, and `platform.security.manage` as applicable. No new permission key is introduced. Exact route-level scope, self-role restrictions, status behavior, and platform/Gym boundaries are defined in `21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md` and `decisions/21_AUTH_RBAC_API_DECISIONS.md`.
+
 | Domain | Canonical permissions | Scope / rule |
 |---|---|---|
 | Authentication/session | `auth.session.manage`, `auth.password_reset.request`, `auth.password_reset.complete`, `auth.mfa.enroll`, `auth.mfa.verify`, `auth.mfa.disable`, `auth.mfa.recovery` | Server/session scope; public reset request is rate-limited and returns generic results; self-scope for MFA. |

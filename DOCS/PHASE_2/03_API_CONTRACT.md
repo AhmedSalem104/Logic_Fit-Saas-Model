@@ -140,3 +140,9 @@ The client must treat all these values as API data. React and Flutter cannot cal
 ## Phase 4 foundation addendum — 2026-08-25
 
 Only infrastructure endpoints are implemented at this stage: health, readiness, version, and safe development diagnostics. The Phase 2 business endpoint catalog remains design-only until its corresponding vertical slice is authorized.
+
+## Phase 5B Authentication/RBAC addendum — 2026-08-26
+
+The approved `21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md` extends this same `/api/v1` envelope, error, permission, scope, idempotency, concurrency, and secret-redaction contract for the Phase 5B Authentication/RBAC operations. It does not create a second API contract or change the client boundary.
+
+Password reset uses only the locked hyphenated routes `POST /api/v1/auth/password-reset/request` and `POST /api/v1/auth/password-reset/complete`. A slash-separated route form is non-canonical and must not be implemented or referenced by clients, tests, or documentation.

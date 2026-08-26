@@ -11,7 +11,7 @@ Foundation components:
 - `GymDbContextFactory` creates a context only for the resolved Gym route;
 - `core.gym_context` provides the Gym-side identity projection.
 
-Required behavior for every future protected operation:
+Implemented behavior for the Phase 5B protected operations:
 
 - authenticate and authorize on the server;
 - resolve Gym context before opening the Gym data path;
@@ -20,4 +20,4 @@ Required behavior for every future protected operation:
 - never infer Gym scope from UI filtering;
 - never allow Gym A to query or enumerate Gym B users, sessions, permissions, or data.
 
-The correction validated Control Plane and default Gym connectivity and the explicit registry path. Cross-Gym business-resource tests belong to the resumed Authentication/RBAC vertical slice and later module gates.
+The correction validated Control Plane and default Gym connectivity and the explicit registry path. Phase 5B access/session tests now verify cross-Gym and platform/Gym authorization boundaries. Business-resource isolation for later modules remains governed by the same server-side pattern and their own vertical-slice gates.

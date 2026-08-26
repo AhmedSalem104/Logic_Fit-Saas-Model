@@ -27,20 +27,28 @@ Current local seed verification: permissions 15, roles 3, role-permissions 14, e
 
 ## Toolchain gap
 
-The official CLI build/run path is green with the pinned .NET 10 SDK. Visual Studio team use requires Visual Studio 2026 / 18.x. The final local gate still observed Visual Studio 17.14.16, so the IDE build remains blocked with `NETSDK1209`. This is an environment/toolchain requirement, not a reason to change the approved ASP.NET Core/.NET 10 architecture.
+The earlier Visual Studio 17.14.16 / `NETSDK1209` observation is historical. The supported Visual Studio 2026 / 18.x environment and pinned .NET 10 SDK are now the approved local toolchain; no target framework downgrade is permitted.
 
 ## Final local environment gate review
 
-On 2026-08-25 the official .NET CLI build, tests, EF migration checks, local API smoke test, seed idempotency checks, Web build/typecheck/test, and Flutter run/analyze/test were rerun. The Visual Studio build remained blocked because the installed `devenv.com` reports 17.14.16 and resolves the system .NET 9 SDK instead of the pinned .NET 10 SDK.
+The prior Visual Studio/browser observations above are historical. The supported Visual Studio environment and the local API/Web configuration were subsequently verified in the final environment gate.
 
-The local startup configuration is now aligned on `http://127.0.0.1:5199`: the root API script, Visual Studio launch profiles, `.env.example`, and Web client fallback use the same URL.
+On 2026-08-26 an installed, isolated Google Chrome session (`Chrome/151.0.7922.170`) opened `http://localhost:5173/` directly. React mounted, the App Shell rendered, RTL/Arabic rendered, Light and Dark themes were exercised, and the responsive mobile layout and drawer were verified. Browser fetches from `http://localhost:5173` to `http://127.0.0.1:5199/api/v1/health`, `/readiness`, and `/version` returned HTTP 200.
 
-The in-app browser verification surface was unavailable due a browser-runtime bootstrap error (`Cannot redefine property: process`). Vite startup and HTTP delivery were verified, but visual browser inspection and browser console/network inspection remain unverified.
+The direct browser console contained no LogicFit JavaScript exceptions or application errors. The only console entry was the non-functional `http://localhost:5173/favicon.ico` 404. The reported `Cannot redefine property: process` was not present in Chrome; it occurs only in the external browser-control adapter during bootstrap at `browser-client.mjs:33` while assigning `globalThis.process = processShim`. It is therefore classified as **EXTERNAL BROWSER CONTROL ADAPTER LIMITATION**, not a LogicFit Web defect. No Web source, dependency, polyfill, or configuration was changed.
 
 ## NU1903 remediation
 
 The warnings were isolated to the transitive `System.Security.Cryptography.Xml` 9.0.0 dependency of `Microsoft.EntityFrameworkCore.Design` through `Microsoft.Build.Tasks.Core`/`Microsoft.CodeAnalysis.Workspaces.MSBuild`. A private direct pin to `System.Security.Cryptography.Xml` 9.0.18 was applied as the minimum same-major security remediation. Vulnerability query, .NET build, and all .NET tests pass with zero NU1903 warnings afterward.
 
-## Not yet tested because the slice is paused
+## Phase 5B automated verification
 
-Login, logout, password reset, MFA enrollment/verification/recovery, authorization endpoint matrix, active-session UX, cross-Gym protected-resource scenarios, Auth Web E2E, Auth Flutter E2E, and Auth UAT. These are remaining Phase 5 work, not silently marked complete.
+The implementation tests now cover login, logout, password reset/change, MFA enrollment/verification/recovery, active-session UX contracts, authorization endpoint behavior, cross-Gym/platform boundaries, and audit redaction. The exact results are recorded in `12_AUTH_RBAC_TRACEABILITY.md` and `21_AUTH_TEST_RESULTS.md`.
+
+The focused live Login/browser and Flutter Windows launch checks are now recorded. The remaining release-gate activity is the complete multi-slice client E2E/UAT matrix plus the reviewed Git checkpoint; it is not silently marked complete here.
+
+Password-reset test cases must target only `POST /api/v1/auth/password-reset/request` and `POST /api/v1/auth/password-reset/complete`. A slash-separated password route spelling is invalid and must have no test, client, or server reference.
+
+## Final implementation evidence update — 2026-08-26
+
+The live Chrome run covered the implemented Web Auth/RBAC flows beyond the initial Login-to-shell smoke path, including TOTP and recovery codes, password change/reset request, sessions, access administration, Gym scope selection, role transitions, and user status. The direct browser had no LogicFit console error; the historical `Cannot redefine property: process` remains isolated to the external adapter. Flutter analyzer/tests and Windows launch pass, but no Android/iOS emulator or device is available for interactive mobile auth E2E/UAT. This is the remaining local release-gate limitation.

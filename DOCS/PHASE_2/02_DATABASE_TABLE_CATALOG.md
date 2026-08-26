@@ -135,3 +135,7 @@ This catalog is the canonical design inventory. It lists every table proposed by
 | `operations.backup_policies` | RPO/RTO and backup verification policy metadata. | target scope, RPO hours `24`, RTO hours `4`, schedule/retention/verification settings, active flag. | Database/Gym target; unique active policy. | Platform backup permissions; implementation adapter independent. |
 
 No table is added for ERP/general-ledger concepts or first-release credit workflows. The records above are contract definitions only; Phase 2 creates no migration.
+
+## Phase 5B Authentication/RBAC API addendum synchronization — 2026-08-26
+
+The Phase 5B API addendum uses the IAM and audit tables already cataloged here (`iam.users`, `iam.credentials`, `iam.sessions`, `iam.mfa_factors`, `iam.mfa_recovery_codes`, `iam.roles`, `iam.permissions`, `iam.role_permissions`, `iam.user_gym_roles`, `audit.events`, and the platform Gym registry). It introduces no new table, column, key, or cross-database foreign key.

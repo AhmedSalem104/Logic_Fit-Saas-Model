@@ -52,6 +52,11 @@ The catalogs define approved scope and source traceability. Visual design tokens
 
 - `SYS-W-001` includes login rate-limit, session-expired, logout, password-reset request/complete, and TOTP enroll/verify/disable/recovery states. Raw passwords, reset tokens, and TOTP secrets are never displayed or logged.
 - `POR-W-000`/`F-POR-000` use Member Code access only. They show validation, rate-limit, expired/revoked, and scoped-session states; they do not ask for a member username/password or expose numeric Member ID.
+
+## Phase 5B Authentication/RBAC addendum — 2026-08-26
+
+The existing authentication screen IDs are extended by `21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md`: `SYS-W-001`/`F-AUTH-001` cover password-change and MFA recovery sub-flows; `SYS-W-002`/`F-AUTH-001` may expose safe own-session listing/revocation; and `PA-W-007` remains the Web-only access administration surface for users and role assignments. No new mobile platform-administration screen is required.
+- The Web and Flutter recovery sub-flows call only `POST /api/v1/auth/password-reset/request` and `POST /api/v1/auth/password-reset/complete`. No slash-separated password route exists in the approved contract.
 - Finance screens show Gym currency (EGP by default), explicit tax, payment method, daily close/cash variance, and full/partial refund reason/permission states.
 - Store screens show Weighted Average Cost-derived inventory information, explicit 0% default tax, configured payment methods, no credit-sale action by default, and Draft/Completed/Voided/Refunded/Partially Refunded states.
 - Classes screens show recurrence boundaries, capacity, FIFO waitlist, cancellation cutoff (two-hour default), attendance, and separate no-show states. CRM screens show the six default stages and overdue follow-ups.

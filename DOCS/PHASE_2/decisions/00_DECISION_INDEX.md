@@ -31,6 +31,7 @@ These records close the approved Phase 2 contract gaps. They do not modify or su
 | `20_PAYMENT_METHODS_DECISION.md` | Configurable Cash/Card/Bank Transfer/Other | Finance/store DB/API/seed |
 | `21_FOOD_UNITS_CONTRACT_DECISION.md` | Canonical units plus explicit supported conversions only | Seed/nutrition DB/API |
 | `22_FEATURE_FLAGS_AUDIT_CONTRACT_NOTE.md` | Existing Control Plane flag/audit boundaries are sufficient for contracts | Platform DB/API/security |
+| `21_AUTH_RBAC_API_DECISIONS.md` | Phase 5B Authentication/RBAC API gap closure: password, MFA recovery, sessions, access users, roles, and scope | Phase 5B API/flows/screens/tests/security |
 
 ## Gate result
 

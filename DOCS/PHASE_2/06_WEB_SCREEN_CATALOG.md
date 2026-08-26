@@ -55,3 +55,13 @@ Platform infrastructure, global migration, backup/restore, deployment/monitoring
 |---|---|---|---|---|
 | `POR-W-000` Member Code Access / Portal Auth | `/member-portal/access`; Member; public entry from approved code/link. | Member Code field, submit, rate-limit/expired/revoked feedback; no username/password. | `POST /member-portal/access`; public rate-limited exchange; `members.portal_access_codes`, `members.portal_sessions`. | Generic invalid result; no numeric Member ID; mobile-first, RTL, no print. |
 | `NOT-W-001` In-app Notifications | `/gyms/:gymId/notifications`; authenticated staff/member; header/deep-link entry. | unread list, mark read, related entity/action link. | notifications endpoints; `notifications.read`; notification records. | Loading/empty/error/read; responsive drawer/list; RTL; no print by default. |
+
+## Phase 5B Authentication/RBAC screen mapping — 2026-08-26
+
+The following are explicit endpoint mappings for existing screen IDs; they do not create additional screens:
+
+| Screen | Addendum API | Behavior |
+|---|---|---|
+| `SYS-W-001` Login/Auth | `POST /auth/password/change`; existing MFA verify with `method=recovery_code` | Self-service password and MFA recovery sub-flows with safe validation/error states. |
+| `SYS-W-002` App Shell | `GET /auth/sessions`; `POST /auth/sessions/{sessionId}/revoke` | Account-security subsection shows safe own sessions and revocation. |
+| `PA-W-007` Users/Roles/Permissions | `GET /platform/access/catalog`, `GET /platform/access/users`, user/status/role endpoints | Web-only access administration; exact permission/scope/reason/concurrency rules are in the addendum. |

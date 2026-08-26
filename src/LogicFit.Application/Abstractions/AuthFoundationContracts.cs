@@ -1,6 +1,11 @@
 namespace LogicFit.Application;
 
-public sealed record AuthenticatedUser(Guid UserId, Guid? GymId, bool IsMfaVerified, IReadOnlySet<string> Permissions);
+public sealed record AuthenticatedUser(
+    Guid UserId,
+    Guid? GymId,
+    bool IsMfaVerified,
+    IReadOnlySet<string> Permissions,
+    Guid? SessionId = null);
 
 public interface ICurrentUserAccessor
 {
@@ -21,7 +26,11 @@ public sealed record SessionRecord(
     bool MfaVerified,
     DateTime ExpiresAtUtc,
     DateTime IdleExpiresAtUtc,
-    DateTime AbsoluteExpiresAtUtc);
+    DateTime AbsoluteExpiresAtUtc,
+    DateTime CreatedAtUtc,
+    DateTime LastSeenAtUtc,
+    string SessionKind,
+    string? UserAgent);
 
 public interface ISessionStore
 {
@@ -34,7 +43,13 @@ public interface ISessionStore
         CancellationToken cancellationToken = default);
 
     Task<SessionRecord?> FindActiveAsync(string rawToken, CancellationToken cancellationToken = default);
+    Task<SessionRecord?> FindByIdAsync(Guid sessionId, CancellationToken cancellationToken = default);
+    Task<SessionRecord?> FindOwnedByIdAsync(Guid userId, Guid sessionId, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<SessionRecord>> ListActiveForUserAsync(Guid userId, Guid? gymId, CancellationToken cancellationToken = default);
+    Task TouchAsync(Guid sessionId, CancellationToken cancellationToken = default);
+    Task<bool> MarkMfaVerifiedAsync(Guid sessionId, Guid userId, CancellationToken cancellationToken = default);
     Task RevokeAsync(Guid sessionId, string reason, CancellationToken cancellationToken = default);
+    Task<bool> RevokeOwnedAsync(Guid userId, Guid sessionId, CancellationToken cancellationToken = default);
     Task RevokeAllForUserAsync(Guid userId, string reason, CancellationToken cancellationToken = default);
 }
 
@@ -55,6 +70,12 @@ public interface ITotpService
 public interface IRecoveryCodeGenerator
 {
     IReadOnlyList<string> Generate(int count);
+}
+
+public interface ISecretProtector
+{
+    string Protect(string plaintext);
+    string Unprotect(string protectedValue);
 }
 
 public interface IGymScopeService

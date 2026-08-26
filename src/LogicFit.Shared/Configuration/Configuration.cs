@@ -18,7 +18,7 @@ public sealed class LogicFitRuntimeOptions
     public string Version { get; set; } = "0.1.0";
     public string CorsOrigins { get; set; } = "http://localhost:5173";
     public string MfaIssuer { get; set; } = "LogicFit";
-    public int PasswordMinimumLength { get; set; } = 12;
+    public string? MfaProtectionKeyBase64 { get; set; }
     public int SessionIdleTimeoutSeconds { get; set; } = 1800;
     public int SessionAbsoluteLifetimeSeconds { get; set; } = 28800;
     public int MfaChallengeSeconds { get; set; } = 300;

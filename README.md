@@ -5,17 +5,22 @@ Control Plane database plus database-per-Gym architecture.
 
 ## Current implementation boundary
 
-The repository currently contains the shared technical foundation only:
+The repository currently contains the shared technical foundation plus the
+Phase 5B Authentication/RBAC vertical slice:
 
 - ASP.NET Core Web API, C#, .NET 10, EF Core, and SQL Server;
 - React, TypeScript, Vite, Tailwind, and the Web foundation;
 - Flutter/Dart and the Mobile foundation;
 - the Phase 3 canonical reference seed package;
-- foundation tests and local development tooling.
+- SQL-backed sessions, password management, TOTP/recovery-code MFA,
+  permission-based RBAC, access administration, Gym isolation, audit, and
+  their Web/Flutter client flows;
+- foundation and Phase 5B tests and local development tooling.
 
-Authentication/RBAC and all business modules require their own explicit
-phase authorization. No business module is implied by this repository
-layout.
+The later business modules still require their own explicit phase
+authorization. Members, Measurements, Attendance, Training, Nutrition,
+Store, Finance, CRM, Classes, Reports, Notifications, and Provisioning are
+not implemented by the current boundary.
 
 ## Required toolchain
 

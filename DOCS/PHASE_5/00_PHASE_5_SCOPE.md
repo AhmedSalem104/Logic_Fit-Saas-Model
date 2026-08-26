@@ -1,10 +1,10 @@
 # Phase 5 — Backend Architecture Correction Scope
 
-Status: BACKEND CORRECTION YELLOW (CLI foundation GREEN; Visual Studio 2026 / 18.x required) / AUTH-RBAC SLICE PAUSED
+Status: BACKEND CORRECTION COMPLETE / PHASE 5B AUTH-RBAC IMPLEMENTATION IN PROGRESS (automated verification passing)
 
-This document records the safe correction performed after the Phase 5 checkpoint. The earlier Fastify/TypeScript work is draft/non-canonical. The official LogicFit backend is now ASP.NET Core Web API, C#, .NET 10, Entity Framework Core, and SQL Server.
+This document records the safe correction performed after the Phase 5 checkpoint. The earlier Fastify/TypeScript work is draft/non-canonical. The official LogicFit backend is now ASP.NET Core Web API, C#, .NET 10, Entity Framework Core, and SQL Server. The Phase 5B implementation is documented in `12_AUTH_RBAC_TRACEABILITY.md` and `13_AUTH_IMPLEMENTATION.md` through `21_AUTH_TEST_RESULTS.md`.
 
-This correction does not restart Phases 0–4, does not modify TOP GYM, and does not complete the Authentication + RBAC vertical slice. It establishes the official backend and foundation needed before that slice resumes.
+This correction did not restart Phases 0–4 and did not modify TOP GYM. The subsequent authorized Phase 5B slice implements only Authentication/RBAC; it does not authorize any later business module.
 
 Completed in this correction:
 
@@ -17,13 +17,8 @@ Completed in this correction:
 - tests for the foundation, security primitives, API envelope, EF/SQL Server state, and canonical seed;
 - removal of the abandoned Fastify/Node backend and competing Node migration/auth-seed runners.
 
-Explicitly not completed here:
+Explicitly outside this Phase 5B scope:
 
-- login/logout/password-reset API workflow;
-- MFA enrollment/verification UI or API workflow;
-- full RBAC administration;
-- Web or Flutter authentication screens;
-- Phase 5 Authentication + RBAC UAT and E2E;
 - any business module.
 
-The next authorized step is to resume Phase 5 Authentication + RBAC on the .NET backend only.
+Final live browser/UAT and Git release-gate verification remain before declaring Phase 5B GREEN. No later phase may start automatically.

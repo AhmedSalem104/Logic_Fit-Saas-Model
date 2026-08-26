@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "concurrently -k \"npm run dev:api\" \"npm run dev:web\"",
-    "dev:api": "dotnet run --project src/LogicFit.Api/LogicFit.Api.csproj --no-launch-profile --environment ASPNETCORE_ENVIRONMENT=Development --urls http://127.0.0.1:5199",
+    "dev:api": "dotnet run --project src/LogicFit.Api/LogicFit.Api.csproj --no-launch-profile --environment Development --urls http://127.0.0.1:5199",
     "dev:web": "npm --workspace @logicfit/web run dev",
     "build": "dotnet build LogicFit.sln --nologo && npm run build:web",
     "build:web": "npm --workspace @logicfit/web run build",
@@ -21,9 +21,9 @@
     "lint": "npm run lint:web",
     "lint:web": "npm --workspace @logicfit/web run lint",
     "validate:seed": "node tools/seed/validate-seeds.js",
-    "migration:apply:local": "dotnet run --project src/LogicFit.Api/LogicFit.Api.csproj --no-launch-profile --environment ASPNETCORE_ENVIRONMENT=Development --urls http://127.0.0.1:5199 -- --migrate",
-    "seed:local": "dotnet run --project src/LogicFit.Api/LogicFit.Api.csproj --no-launch-profile --environment ASPNETCORE_ENVIRONMENT=Development --urls http://127.0.0.1:5199 -- --seed",
-    "seed:verify": "dotnet run --project src/LogicFit.Api/LogicFit.Api.csproj --no-launch-profile --environment ASPNETCORE_ENVIRONMENT=Development --urls http://127.0.0.1:5199 -- --verify-seed",
+    "migration:apply:local": "dotnet run --project src/LogicFit.Api/LogicFit.Api.csproj --no-launch-profile --environment Development --urls http://127.0.0.1:5199 -- --migrate",
+    "seed:local": "dotnet run --project src/LogicFit.Api/LogicFit.Api.csproj --no-launch-profile --environment Development --urls http://127.0.0.1:5199 -- --seed",
+    "seed:verify": "dotnet run --project src/LogicFit.Api/LogicFit.Api.csproj --no-launch-profile --environment Development --urls http://127.0.0.1:5199 -- --verify-seed",
     "consistency:phase3": "node tools/seed/check-phase3-consistency.js",
     "consistency:phase4": "node tools/dev/check-phase4-consistency.js"
   },

@@ -149,3 +149,7 @@ Each row is a contract. `CP` means Control Plane; `GYM` means the selected `/gym
 | `POST /gyms/{gymId}/notifications/{id}/read` | Mark notification read | `notifications.read`, recipient scope | none → read status | recipient ownership; audit where required. |
 | `POST /gyms/{gymId}/classes/sessions/{id}/attendance` | Record attendance/no-show | `classes.attendance.manage`, GYM | member/status/time → attendance | one outcome per booking; no-show distinct; `classes.session_attendance`; audit. |
 | `GET/PATCH /platform/monitoring/thresholds` | Read/update operational thresholds | `platform.monitoring.view/manage`, CP | threshold DTO/version → thresholds | configurable latency/5xx/DB/backup/migration/provisioning rules; audit; `platform.monitoring_thresholds`. |
+
+## Phase 5B Authentication/RBAC contract addendum — 2026-08-26
+
+`21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md` is the approved, explicit extension for the Phase 5B Authentication/RBAC operations that were not fully described in the original catalog. Existing rows above remain unchanged. The addendum adds password change, own-session listing/revocation, Control Plane access catalog/user management, role assignment/revocation, and the documented recovery-code extension of `POST /auth/mfa/verify`. It adds no permission key and no business-module endpoint.

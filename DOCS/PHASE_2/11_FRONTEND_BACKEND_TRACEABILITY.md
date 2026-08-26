@@ -101,3 +101,14 @@ The following screens reuse the same use cases and REST contracts; they are list
 | `CLS-W-001` attendance/no-show | class attendance endpoint | RecordSessionAttendance | class sessions, bookings, session attendance, audit |
 | `PA-W-009` monitoring thresholds | monitoring/threshold endpoints | ManageOperationalThresholds | Control Plane monitoring thresholds, health, audit |
 | `PA-W-006` backup/restore policy | backup/restore endpoints | VerifyBackup / RestoreDatabase | backup policies, backups, restores, database registry, audit |
+
+## Phase 5B Authentication/RBAC addendum traceability — 2026-08-26
+
+| Screen/action | API | Use case | Service/domain authority | Repository/table(s) |
+|---|---|---|---|---|
+| `SYS-W-001` change password | `POST /auth/password/change` | ChangeOwnPassword | Password policy + session invalidation service | CP `iam.users`, `iam.credentials`, `iam.sessions`, `audit.events` |
+| `SYS-W-001` MFA recovery | existing `POST /auth/mfa/verify` with `method=recovery_code` | VerifyMfaRecoveryCode | MFA verification + one-time recovery-code service | CP `iam.mfa_factors`, `iam.mfa_recovery_codes`, `iam.sessions`, `audit.events` |
+| `SYS-W-002` session security | `GET /auth/sessions`; `POST /auth/sessions/{sessionId}/revoke` | ListOwnSessions / RevokeOwnSession | Session scope/ownership service | CP `iam.sessions`, `iam.users`, `audit.events` |
+| `PA-W-007` access catalog | `GET /platform/access/catalog`; `GET /platform/access/users` | ReadAccessCatalog / ListAccessUsers | Permission/scope query service | CP `iam.roles`, `iam.permissions`, `iam.role_permissions`, `iam.users`, `iam.user_gym_roles` |
+| `PA-W-007` user create/status | `POST /platform/access/users`; `PATCH /platform/access/users/{userId}/status` | CreateAccessUser / ChangeUserStatus | User status/credential service | CP `iam.users`, `iam.credentials`, `iam.user_gym_roles`, `iam.sessions`, `audit.events` |
+| `PA-W-007` role assign/revoke | `PUT /platform/access/users/{userId}/role-assignments/{roleId}`; revoke action | EnsureRoleAssignment / RevokeRoleAssignment | RBAC scope service | CP `iam.user_gym_roles`, `iam.roles`, `platform.gyms`, `audit.events` |

@@ -14,6 +14,10 @@ The primary MFA mechanism is Authenticator App / TOTP. Email OTP is not the prim
 
 ## Audit events
 
-The full slice must audit enrollment, enablement, disablement, failed/successful verification where approved, recovery-code use/regeneration, and authorized MFA reset. Event records contain actor, target, Gym/platform scope, request ID, and outcome, never secrets.
+The full slice must audit enrollment, enablement, disablement, failed/successful verification where approved, and recovery-code use/regeneration. Administrative MFA reset is deferred as a later security feature; it is not part of Phase 5B. Event records contain actor, target, Gym/platform scope, request ID, and outcome, never secrets.
 
-The native `TotpService` and `RecoveryCodeGenerator` provide primitives only. Enrollment, verification endpoints, UI, and UAT remain pending.
+The native `TotpService`, `RecoveryCodeGenerator`, and `AesGcmSecretProtector` are consumed by the implemented enrollment, verification, disablement, and recovery-code application flows. Web and Flutter MFA states are implemented; the remaining release gate is fresh live UAT against the local fixture.
+
+## Phase 5B API addendum synchronization — 2026-08-26
+
+Recovery-code verification uses the existing `POST /api/v1/auth/mfa/verify` contract with the explicit `method=recovery_code` discriminator; there is no second recovery verification endpoint. Administrative reset of another user's MFA factor is explicitly **DEFERRED — LATER ADMIN SECURITY FEATURE** because no approved Phase 5B route, dedicated permission, or step-up contract exists. Self-service enrollment, verification, disablement, regeneration, one-time recovery-code use, and redacted audit remain in scope.

@@ -48,4 +48,8 @@ Platform Admin overview and infrastructure, organizations/servers/databases, pro
 | `F-POR-000` | MOBILE REQUIRED `/portal/access` | Member enters approved Member Code; no username/password. | `POST /member-portal/access`; public rate-limited exchange; scoped/revocable portal session; generic invalid/expired/revoked states. | Access requires network; no code/session persistence in logs; mobile-first RTL. |
 | `F-NOT-001` | MOBILE REQUIRED `/notifications` | Staff/member reads in-app notifications and follows safe deep links. | notification list/read APIs; `notifications.read`; recipient-scoped. | Cache read state only with server reconciliation; RTL/loading/empty/error. |
 
+## Phase 5B Authentication/RBAC screen mapping — 2026-08-26
+
+`F-AUTH-001` remains the single approved mobile authentication shell. It may host the password-change, TOTP/recovery-code verification, and safe own-session sub-flows defined by `21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md`. Platform access administration (`PA-W-007`) is Web-only; no Flutter role/user administration screen is introduced.
+
 Finance, POS/Inventory, and infrastructure-heavy monitoring/backup remain Web-first in this contract. The approved class, CRM, training, nutrition, member, portal, and notification mobile workflows use the same API contracts and never calculate authoritative values locally.

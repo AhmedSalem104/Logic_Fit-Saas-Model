@@ -1,6 +1,6 @@
 # .NET Authentication/RBAC Architecture Foundation
 
-The authentication foundation is native .NET and is intentionally incomplete as a vertical slice until the next authorized Phase 5 implementation step.
+The authentication implementation is native .NET and follows the API-first Phase 5B vertical slice. It is limited to the approved Authentication/RBAC scope.
 
 ## Layers
 
@@ -20,4 +20,4 @@ The future authentication workflow must be server-side and session-based. The br
 - Recovery codes generated from cryptographically secure random bytes and never logged.
 - Session token is generated once, hashed with SHA-256 for persistence, and never returned from database queries.
 
-The complete login, reset, MFA lifecycle, authorization handlers, audit events, and client screens remain future Phase 5 work.
+The complete login, reset, MFA lifecycle, authorization handlers, audit events, and client screens are implemented in the Phase 5B files documented by `12_AUTH_RBAC_TRACEABILITY.md`. Final live browser/UAT verification remains a gate item.

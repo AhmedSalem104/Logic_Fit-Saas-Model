@@ -25,4 +25,10 @@ The approved catalog has 15 permissions, 3 roles, and 14 role-permission assignm
 - Self-service must not grant administration capabilities.
 - Role and permission changes require explicit permission and audit events when the full workflow is implemented.
 
-The complete endpoint-level matrix is intentionally deferred to the resumed Authentication/RBAC vertical slice; no business-module permissions were added during this correction.
+The complete endpoint-level matrix is defined for the resumed Authentication/RBAC vertical slice by `../PHASE_2/21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md`; no business-module permissions were added. The implementation is in `src/LogicFit.Application/Authentication/AuthenticationService.cs` and is enforced server-side by the API controllers and application permission checks.
+
+## Phase 5B API addendum synchronization — 2026-08-26
+
+`platform.security.manage` is the existing exact permission for the minimum Control Plane access operations: read the canonical access catalog/users, create users, change user status, and assign/revoke roles within the actor's authorized platform/Gym scope. It does not grant implicit Gym business access. Self-role assignment/revocation is rejected. Role/permission definition mutation remains deferred, and no new permission key was added.
+
+Access operations are implemented by `AccessController`, `AuthenticationService`, and `SqlAuthRepository`. Gym-to-Platform role management is denied explicitly and audited.

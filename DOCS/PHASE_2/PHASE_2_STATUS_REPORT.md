@@ -110,3 +110,7 @@ Phase 3 was separately authorized after this Phase 2 gate and is now GREEN. The 
 ## Phase 4 follow-on addendum — 2026-08-25
 
 Phase 4 was separately authorized and is now GREEN. It implemented shared local technical foundation only; no Phase 5 authentication workflow or business module was started.
+
+## Phase 5B API contract addendum — 2026-08-26
+
+The Authentication/RBAC contract gaps identified by the Phase 5B Step 0 checkpoint were closed by the approved `21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md` and decision record `decisions/21_AUTH_RBAC_API_DECISIONS.md`. This is documentation only; Phase 5B implementation remains separately authorized and has not started.

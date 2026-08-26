@@ -3,6 +3,7 @@ using LogicFit.Shared;
 using LogicFit.Infrastructure.Persistence;
 using LogicFit.Infrastructure.Services.Seeding;
 using LogicFit.Infrastructure.Security;
+using LogicFit.Infrastructure.Identity;
 using LogicFit.Domain.Constants;
 using LogicFit.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -40,6 +41,7 @@ public static class DependencyInjection
             options.Version = configuration["LogicFit:Runtime:Version"] ?? options.Version;
             options.CorsOrigins = configuration["LogicFit:Runtime:CorsOrigins"] ?? options.CorsOrigins;
             options.MfaIssuer = configuration["LogicFit:Runtime:MfaIssuer"] ?? options.MfaIssuer;
+            options.MfaProtectionKeyBase64 = configuration["LogicFit:Runtime:MfaProtectionKeyBase64"] ?? options.MfaProtectionKeyBase64;
         })
         .Validate(options => options.SessionIdleTimeoutSeconds > 0, "Session idle timeout must be positive.")
         .Validate(options => options.SessionAbsoluteLifetimeSeconds >= options.SessionIdleTimeoutSeconds, "Session absolute lifetime must be at least the idle timeout.")
@@ -51,6 +53,7 @@ public static class DependencyInjection
         services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
         services.AddSingleton<ITotpService, TotpService>();
         services.AddSingleton<IRecoveryCodeGenerator, RecoveryCodeGenerator>();
+        services.AddSingleton<ISecretProtector, AesGcmSecretProtector>();
         services.AddSingleton(serviceProvider =>
         {
             var options = serviceProvider.GetRequiredService<IOptions<LogicFitRuntimeOptions>>().Value;
@@ -87,6 +90,7 @@ public static class DependencyInjection
         services.AddScoped<CanonicalLibrarySeeder>();
         services.AddScoped<IGymDatabaseResolver, GymDatabaseResolver>();
         services.AddScoped<ISessionStore, SqlSessionStore>();
+        services.AddScoped<IAuthRepository, SqlAuthRepository>();
         services.AddScoped<ISeedCoordinator, SeedCoordinator>();
         services.AddScoped<DatabaseFoundationService>();
         return services;

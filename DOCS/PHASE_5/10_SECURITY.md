@@ -18,12 +18,20 @@
 
 ## Never log or return
 
-Passwords, password hashes, reset tokens, TOTP secrets, recovery-code values, session secrets, or private member data must not enter logs or normal responses. Authentication error messages must be enumeration-safe when the full workflow is implemented.
+Passwords, password hashes, reset tokens, TOTP secrets, recovery-code values, session secrets, or private member data must not enter logs or normal responses. The implemented Authentication/RBAC flow uses enumeration-safe authentication/MFA errors and redacted audit metadata.
 
 ## Cleanup result
 
 The abandoned Fastify/Node backend, Node bcrypt/otplib/mssql adapters, Node auth/migration/seed runners, and duplicate configuration were removed. React/Web and Flutter/Mobile dependencies were not removed or modified. The only backend/runtime implementation is the .NET solution.
 
-## Known review item
+## Phase 5B API addendum synchronization — 2026-08-26
 
-The current .NET restore reports NU1903 warnings for the transitive `System.Security.Cryptography.Xml` 9.0.0 package through EF tooling dependencies. This is a dependency-maintenance risk for the next release gate; it is not a second backend or an implementation blocker for this local foundation.
+The approved API extension is documented in `../PHASE_2/21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md`. It preserves the existing error envelope and permission keys, uses one MFA verification route for TOTP/recovery-code methods, and keeps platform security operations separate from Gym business access. Administrative MFA reset and role/permission catalog mutation are not part of Phase 5B.
+
+## Dependency review
+
+The approved minimum security remediation remains `System.Security.Cryptography.Xml` 9.0.18. Restore/build/test verification after the pin reports no NU1903 warning. No unrelated authentication package was added.
+
+## Phase 5B implementation review
+
+The custom `LogicFitSession` handler is the only runtime authentication scheme. Authorization is enforced by application permission and target-scope checks. Pending MFA challenges are bound to the authenticated pending session; challenge IDs alone are insufficient. The final live UAT must continue to verify that no secrets appear in structured logs.

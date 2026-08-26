@@ -13,7 +13,7 @@ Current approved local configuration defaults:
 
 Persisted session state includes user, optional Gym, hashed token, session kind, MFA state, idle/absolute expiry, last-seen, revocation, user-agent/IP metadata, and audit timestamps. Raw tokens are never stored.
 
-Required lifecycle behavior for the resumed slice:
+Implemented lifecycle behavior:
 
 - create after credential validation;
 - mark MFA-pending until MFA is satisfied where required;
@@ -22,3 +22,9 @@ Required lifecycle behavior for the resumed slice:
 - revoke appropriately after password changes, reset, account disablement, or security administration;
 - support permission-protected session listing/revocation;
 - audit security-sensitive transitions without logging secrets.
+
+Implementation: `src/LogicFit.Infrastructure/Security/SqlSessionStore.cs` and `src/LogicFit.Application/Authentication/AuthenticationService.cs`. Refresh rotates the bearer value, password changes/resets revoke all sessions, and pending MFA sessions cannot access `auth/me` until the challenge is completed.
+
+## Phase 5B API addendum synchronization — 2026-08-26
+
+The canonical self-service session routes are `GET /api/v1/auth/sessions` and `POST /api/v1/auth/sessions/{sessionId}/revoke`. Results are limited to the current user and current/explicitly authorized Gym scope; raw tokens and hashes are never returned. `/api/v1/auth/logout` remains the current-session logout route.

@@ -36,3 +36,7 @@
 ## Final handling rule
 
 Phase 2 is GREEN. Phase 3 and later implementation must preserve the classifications above, update affected contracts/tests/docs when implementation details are selected, and must not treat a contract document as implemented behavior.
+
+## Phase 5B follow-on API addendum — 2026-08-26
+
+The original Phase 2 gate remained GREEN. A later Phase 5B Step 0 traceability review found incomplete endpoint detail for password change, MFA recovery-code consumption, own-session management, and minimum access administration. Those follow-on contract gaps are now explicitly closed by `21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md` and `decisions/21_AUTH_RBAC_API_DECISIONS.md`; they did not require changing any Phase 2 database contract, permission key, seed identity, or business-module scope.
