@@ -23,7 +23,7 @@
 | .NET | PASS | Solution build: 0 warnings/errors; unit 5, integration 2, API 17 tests pass. |
 | EF/SQL Server | PASS | Both official EF migrations present/current; no pending model changes; Control Plane and Gym connections/readiness pass. |
 | Seeds | PASS | v1 verification and two idempotent local runs; expected counts preserved. |
-| Git/TOP GYM | PASS | Official remote/branch verified; TOP GYM unchanged; no secrets or generated artifacts added. |
+| Git/TOP GYM | PASS with pre-existing TOP GYM dirty state | LogicFit is clean and synchronized; TOP GYM was read-only, already dirty at the start, and no TOP GYM write operation was performed. No secrets or generated artifacts were added to LogicFit. |
 
 ### Android interactive evidence
 
