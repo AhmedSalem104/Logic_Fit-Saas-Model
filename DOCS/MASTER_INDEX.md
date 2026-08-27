@@ -10,7 +10,7 @@ This is the project implementation index under the official LogicFit root. The e
 | Phase 3 — Canonical Seed Data | GREEN | `PHASE_3/PHASE_3_STATUS_REPORT.md` |
 | Phase 4 — Local Technical Foundation | GREEN | `PHASE_4/PHASE_4_STATUS_REPORT.md` |
 | Phase 5 — Backend Architecture Correction | GREEN — official .NET backend | `PHASE_5/PHASE_5_STATUS_REPORT.md` |
-| Phase 5B Authentication + RBAC | IN PROGRESS — API/Web/Flutter implementation and automated tests passing; final UAT gate pending | `PHASE_5/PHASE_5_STATUS_REPORT.md` |
+| Phase 5B Authentication + RBAC | YELLOW — implementation complete; Android interactive Flutter UAT pass; iOS interactive UAT unavailable on Windows; final gate pending | `PHASE_5/PHASE_5_STATUS_REPORT.md` |
 | Phase 6+ | NOT STARTED | Requires explicit Lead authorization |
 
 Key authorities:
@@ -23,10 +23,10 @@ Key authorities:
 - Official migration/seed transition: `PHASE_5/07_MIGRATION_TRANSITION.md`, `PHASE_5/08_SEED_TRANSITION.md`.
 - Phase 5B Authentication/RBAC API addendum: `PHASE_2/21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md`, decision record `PHASE_2/decisions/21_AUTH_RBAC_API_DECISIONS.md`.
 - Phase 5B implementation traceability: `PHASE_5/12_AUTH_RBAC_TRACEABILITY.md`.
-- Phase 5B implementation records: `PHASE_5/13_AUTH_IMPLEMENTATION.md` through `PHASE_5/21_AUTH_TEST_RESULTS.md`.
+- Phase 5B implementation records: `PHASE_5/13_AUTH_IMPLEMENTATION.md` through `PHASE_5/21_AUTH_TEST_RESULTS.md`; final verification/readiness: `PHASE_5/22_FINAL_VERIFICATION_AND_READINESS.md`.
 
 The official backend is ASP.NET Core Web API / C# / .NET 10 / EF Core / SQL Server in `LogicFit.sln`. The former Fastify/TypeScript backend was draft/non-canonical and has been removed. React and Flutter remain the approved clients.
 
 No business module is GREEN until its vertical-slice gate is separately completed.
 
-Phase 5B implementation update (2026-08-26): the approved Auth/RBAC API, Web flows, automated suites, and direct Chrome verification are passing. Flutter analyzer/widget/Windows launch verification is passing; interactive Android/iOS authentication UAT and the reviewed Git checkpoint remain pending. Phase 6 and all business modules remain unauthorized.
+Phase 5B verification update (2026-08-27): the approved Auth/RBAC API, Web flows, automated suites, direct Chrome verification, and Android interactive Flutter UAT for the available mobile scope are passing. iOS interactive UAT is unavailable on this Windows workstation. Phase 6 and all business modules remain unauthorized.

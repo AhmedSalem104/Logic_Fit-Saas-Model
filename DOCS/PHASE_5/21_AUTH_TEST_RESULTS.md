@@ -1,6 +1,6 @@
 # Phase 5B Authentication/RBAC Test Results
 
-**Status:** AUTOMATED AND LIVE CLIENT VERIFICATION PASSING — final full-flow E2E/release checkpoint pending
+**Status:** AUTOMATED AND LIVE CLIENT VERIFICATION PASSING — Android interactive Flutter UAT passing; iOS interactive UAT unavailable on the current Windows workstation
 
 ## Automated results
 
@@ -36,9 +36,9 @@
 
 ## E2E/UAT classification
 
-Current clarification: direct Chrome has covered the implemented Web Auth/RBAC flow set. The remaining client evidence is interactive Flutter authentication E2E/UAT on Android/iOS; no device or emulator is installed on this workstation.
+Current clarification: direct Chrome covers the implemented Web Auth/RBAC flow set. Android interactive Flutter authentication UAT was executed on `emulator-5554`. iOS interactive UAT is unavailable on this Windows workstation because no Apple simulator/device toolchain is present.
 
-The API tests are real `WebApplicationFactory` integration tests against SQL Server, not a complete-backend mock. Web tests exercise the client/API boundary with deterministic HTTP responses; Flutter tests exercise the current widget/auth foundation. A direct Chrome run against the live Vite + ASP.NET Core processes passed the Login → API session → `/auth/me` → authenticated shell path, including Arabic/RTL, light/dark theme, responsive shell, and clean application console. A local Windows `flutter run` launch also built, synchronized, and stopped cleanly. The complete multi-slice browser/mobile E2E matrix still needs a repeatable harness or recorded UAT execution before declaring Phase 5B GREEN.
+The API tests are real `WebApplicationFactory` integration tests against SQL Server, not a complete-backend mock. Web tests exercise the client/API boundary with deterministic HTTP responses; Flutter tests exercise the current widget/auth foundation. A direct Chrome run against the live Vite + ASP.NET Core processes passed the Login → API session → `/auth/me` → authenticated shell path, including Arabic/RTL, light/dark theme, and responsive shell. Chrome reported only the missing optional `/favicon.ico` asset as HTTP 404; it reported no LogicFit exception and no `Cannot redefine property: process`. The Android run exercised the real installed Flutter app for valid/invalid login, MFA/TOTP, recovery-code verification, password-reset request, session/security view, logout, API communication, Arabic/RTL, and light/dark themes. Password-reset completion remains API-tested only because the approved request contract never returns a raw reset token. Platform access administration is Web-only by contract, so no mobile RBAC administration screen is required.
 
 ## Secret-handling result
 
@@ -46,6 +46,6 @@ No test assertion or normal response requires a password hash, raw reset token, 
 
 ## Latest live-client evidence — 2026-08-26
 
-Direct Google Chrome `151.0.7922.170` against the live Vite and ASP.NET Core processes exercised the full available Web authentication/access path: invalid and valid login, MFA/TOTP enrollment and verification, recovery-code verification and reuse rejection, password change and reauthentication, canonical `password-reset` request, session/security operations, access catalog, user creation, Gym-scope selection, role assignment/revocation, and user status transition. The browser console contained no LogicFit exception and no `Cannot redefine property: process`; the Web-to-API requests used `http://localhost:5173` → `http://127.0.0.1:5199` successfully.
+Direct Google Chrome `151.0.7922.170` against the live Vite and ASP.NET Core processes exercised the full available Web authentication/access path: invalid and valid login, MFA/TOTP enrollment and verification, recovery-code verification and reuse rejection, password change and reauthentication, canonical `password-reset` request, session/security operations, access catalog, user creation, Gym-scope selection, role assignment/revocation, and user status transition. The browser console contained no LogicFit exception and no `Cannot redefine property: process`; the only console error was the Vite request for missing `http://localhost:5173/favicon.ico` (HTTP 404). The Web-to-API requests used `http://localhost:5173` → `http://127.0.0.1:5199` successfully. No code change was made for the optional asset warning during this verification task.
 
-The Flutter client was analyzed, widget-tested, and launched on Windows successfully. No Android/iOS emulator or device is installed on this workstation, so interactive mobile auth E2E/UAT remains an explicit environment limitation rather than an unverified claim. The final Git checkpoint remains pending until the documentation and diff review is complete.
+Flutter analyzer and tests pass. Android interactive UAT is **PASS for the exercised mobile scope** on `Medium_Phone_API_36.0` / `emulator-5554` (Android 16/API 36). iOS interactive UAT is **NOT AVAILABLE** on this Windows workstation (`xcrun`/`simctl` unavailable). A non-blocking route-reset UX observation was recorded in `PHASE_5_STATUS_REPORT.md`; no code was changed during this verification.
