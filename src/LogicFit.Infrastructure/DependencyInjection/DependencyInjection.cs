@@ -91,6 +91,7 @@ public static class DependencyInjection
         services.AddScoped<IGymDatabaseResolver, GymDatabaseResolver>();
         services.AddScoped<ISessionStore, SqlSessionStore>();
         services.AddScoped<IAuthRepository, SqlAuthRepository>();
+        services.AddScoped<IPlatformRepository, SqlPlatformRepository>();
         services.AddScoped<ISeedCoordinator, SeedCoordinator>();
         services.AddScoped<DatabaseFoundationService>();
         return services;

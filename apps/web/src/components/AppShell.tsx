@@ -1,6 +1,7 @@
 import { useState, type ReactNode } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Button, Drawer } from './ui';
+import { useAuth } from '../lib/auth';
 
 const navigation = [
   { label: 'الأساس التقني', to: '/' },
@@ -9,7 +10,11 @@ const navigation = [
 
 export function AppShell({ children, theme, onToggleTheme }: { children: ReactNode; theme: 'light' | 'dark'; onToggleTheme: () => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const menu = <nav className="lf-nav" aria-label="التنقل الرئيسي">{navigation.map((item) => <NavLink key={item.to} to={item.to} onClick={() => setMenuOpen(false)} className={({ isActive }) => `lf-nav-link ${isActive ? 'is-active' : ''}`}>{item.label}</NavLink>)}</nav>;
+  const { me } = useAuth();
+  const visibleNavigation = me?.permissions.includes('platform.view')
+    ? [...navigation, { label: 'إدارة المنصة', to: '/platform-admin' }]
+    : navigation;
+  const menu = <nav className="lf-nav" aria-label="التنقل الرئيسي">{visibleNavigation.map((item) => <NavLink key={item.to} to={item.to} onClick={() => setMenuOpen(false)} className={({ isActive }) => `lf-nav-link ${isActive ? 'is-active' : ''}`}>{item.label}</NavLink>)}</nav>;
 
   return <div className="lf-app-shell">
     <aside className="lf-sidebar"><div className="lf-brand"><span className="lf-brand-mark">L</span><span>LogicFit</span></div>{menu}</aside>

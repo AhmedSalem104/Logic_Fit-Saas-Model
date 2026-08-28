@@ -304,6 +304,8 @@ public sealed class ControlPlaneDbContext(DbContextOptions<ControlPlaneDbContext
         builder.Property(x => x.AuditEventId).HasColumnName("audit_event_id").HasDefaultValueSql("NEWSEQUENTIALID()");
         builder.Property(x => x.RequestId).HasColumnName("request_id").HasMaxLength(80);
         builder.Property(x => x.ActorUserId).HasColumnName("actor_user_id");
+        builder.Property(x => x.ScopeType).HasColumnName("scope_type").HasMaxLength(30);
+        builder.Property(x => x.ScopeId).HasColumnName("scope_id");
         builder.Property(x => x.TargetType).HasColumnName("target_type").HasMaxLength(120).IsRequired();
         builder.Property(x => x.TargetId).HasColumnName("target_id");
         builder.Property(x => x.Action).HasColumnName("action").HasMaxLength(120).IsRequired();

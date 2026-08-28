@@ -89,6 +89,8 @@ public sealed class SqlAuthRepository(ControlPlaneDbContext db) : IAuthRepositor
             AuditEventId = Guid.NewGuid(),
             RequestId = Truncate(entry.RequestId, 80),
             ActorUserId = entry.ActorUserId,
+            ScopeType = Truncate(entry.ScopeType, 30),
+            ScopeId = entry.ScopeId,
             TargetType = Truncate(entry.TargetType, 120) ?? "unknown",
             TargetId = entry.TargetId,
             Action = Truncate(entry.Action, 120) ?? "unknown",

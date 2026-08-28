@@ -240,6 +240,8 @@ public sealed class AuditEventEntity
     public Guid AuditEventId { get; set; }
     public string? RequestId { get; set; }
     public Guid? ActorUserId { get; set; }
+    public string? ScopeType { get; set; }
+    public Guid? ScopeId { get; set; }
     public string TargetType { get; set; } = string.Empty;
     public Guid? TargetId { get; set; }
     public string Action { get; set; } = string.Empty;

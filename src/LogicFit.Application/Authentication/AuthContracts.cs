@@ -210,7 +210,9 @@ public sealed record AuditEntry(
     string Action,
     string Result,
     string? Reason,
-    string? MetadataJson = null);
+    string? MetadataJson = null,
+    string? ScopeType = null,
+    Guid? ScopeId = null);
 
 public interface IAuthenticationService
 {

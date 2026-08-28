@@ -10,6 +10,7 @@ public static class DependencyInjection
         services.AddScoped<ICurrentUserAccessor, CurrentUserAccessor>();
         services.AddScoped<IGymScopeService, GymScopeService>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
+        services.AddScoped<IPlatformFoundationService, PlatformFoundationService>();
         return services;
     }
 }

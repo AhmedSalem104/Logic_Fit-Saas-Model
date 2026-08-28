@@ -109,6 +109,58 @@ export type AccessUser = {
 
 export type RecoveryCodes = { codes: string[] };
 
+export type PlatformHealth = {
+  status: string;
+  service: string;
+  version: string;
+  environment: string;
+};
+
+export type PlatformStatusCount = { status: string; count: number };
+export type PlatformCounts = { total: number; byStatus: PlatformStatusCount[] };
+export type OrganizationSummary = {
+  organizationId: string;
+  name: string;
+  slug: string;
+  status: string;
+  createdAtUtc: string;
+  updatedAtUtc: string;
+};
+export type GymSummary = {
+  gymId: string;
+  organizationId: string;
+  name: string;
+  slug: string;
+  status: string;
+  timezoneName: string;
+  createdAtUtc: string;
+  updatedAtUtc: string;
+};
+export type DatabaseRegistrySummary = {
+  gymDatabaseId: string;
+  gymId: string;
+  databaseName: string;
+  environment: string;
+  schemaVersion: string | null;
+  seedVersion: string | null;
+  status: string;
+  lastHealthAtUtc: string | null;
+};
+export type PlatformOverview = {
+  observedAtUtc: string;
+  platformHealth: PlatformHealth;
+  organizationCount: number;
+  gymCounts: PlatformCounts;
+  databaseCounts: PlatformCounts;
+};
+export type GymDetail = GymSummary & { databases: DatabaseRegistrySummary[] };
+export type PlatformMonitoringSnapshot = {
+  observedAtUtc: string;
+  platformHealth: PlatformHealth;
+  registeredDatabases: DatabaseRegistrySummary[];
+};
+export type PlatformPage<T> = { data: T[]; meta: { page: number; pageSize: number; total: number; hasNext: boolean } };
+
 const ACCESS_TOKEN_KEY = 'logicfit.session.accessToken';
 const SESSION_STATE_KEY = 'logicfit.session.state';
 
@@ -200,4 +252,32 @@ export const apiClient = {
     });
   },
   revokeRole: (userId: string, assignmentId: string, reason: string, version: string) => request<{ data: { assignmentId: string; revoked: boolean } }>(`/platform/access/users/${userId}/role-assignments/${assignmentId}/revoke`, { method: 'POST', headers: { 'If-Match': `"${version}"` }, body: JSON.stringify({ reason }) }),
+  platformOverview: () => request<{ data: PlatformOverview }>('/platform/overview'),
+  platformOrganizations: (options: { search?: string; status?: string; page?: number; pageSize?: number; sort?: string } = {}) => {
+    const params = new URLSearchParams({ page: String(options.page ?? 1), pageSize: String(options.pageSize ?? 25) });
+    if (options.search) params.set('search', options.search);
+    if (options.status) params.set('status', options.status);
+    if (options.sort) params.set('sort', options.sort);
+    return request<PlatformPage<OrganizationSummary>>(`/platform/organizations?${params.toString()}`);
+  },
+  platformOrganization: (organizationId: string) => request<{ data: OrganizationSummary }>(`/platform/organizations/${organizationId}`),
+  platformGyms: (options: { organizationId?: string; search?: string; status?: string; page?: number; pageSize?: number; sort?: string } = {}) => {
+    const params = new URLSearchParams({ page: String(options.page ?? 1), pageSize: String(options.pageSize ?? 25) });
+    if (options.organizationId) params.set('organizationId', options.organizationId);
+    if (options.search) params.set('search', options.search);
+    if (options.status) params.set('status', options.status);
+    if (options.sort) params.set('sort', options.sort);
+    return request<PlatformPage<GymSummary>>(`/gyms?${params.toString()}`);
+  },
+  platformGym: (gymId: string) => request<{ data: GymDetail }>(`/gyms/${gymId}`),
+  platformDatabases: (options: { gymId?: string; environment?: string; status?: string; page?: number; pageSize?: number; sort?: string } = {}) => {
+    const params = new URLSearchParams({ page: String(options.page ?? 1), pageSize: String(options.pageSize ?? 25) });
+    if (options.gymId) params.set('gymId', options.gymId);
+    if (options.environment) params.set('environment', options.environment);
+    if (options.status) params.set('status', options.status);
+    if (options.sort) params.set('sort', options.sort);
+    return request<PlatformPage<DatabaseRegistrySummary>>(`/platform/databases?${params.toString()}`);
+  },
+  platformDatabase: (databaseId: string) => request<{ data: DatabaseRegistrySummary }>(`/platform/databases/${databaseId}`),
+  platformMonitoring: () => request<{ data: PlatformMonitoringSnapshot }>('/platform/monitoring'),
 };
