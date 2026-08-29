@@ -13,6 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Logging.ClearProviders();
 builder.Logging.AddJsonConsole(options => options.JsonWriterOptions = new System.Text.Json.JsonWriterOptions { Indented = false });
+// SQL command text is diagnostic noise for the running API and can expose
+// implementation details in structured logs. Keep application and migration
+// failures visible while suppressing per-command EF output.
+builder.Logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddLogicFitApplication();
 builder.Services.AddLogicFitInfrastructure(builder.Configuration);

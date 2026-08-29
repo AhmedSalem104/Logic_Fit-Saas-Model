@@ -12,7 +12,7 @@
 | `PA-W-001` Platform Overview | `/platform`; Platform Admin; shell/dashboard entry. | Server/DB/Gym/migration/backup/queue cards, alerts, recent audit. | `GET /platform/overview`, `/platform/monitoring`; `platform.view`. | Safe aggregates; responsive cards; RTL; print optional report only. |
 | `PA-W-002` Organizations & Gyms | `/platform/organizations`; Platform Admin; shell/org action. | Search/filter table, create modal, status, plan, open detail. | `/platform/organizations`, `/gyms`; `platform.view`, `platform.organizations.manage`; CP organization/Gym tables. | Pagination/empty/errors; mobile read-only/table cards; RTL; print not required. |
 | `PA-W-003` Gym Detail | `/platform/gyms/:gymId`; Platform Admin; org table/detail link. | Identity/status, server/DB/domain/storage/branding tabs; activate/deactivate. | `/gyms/:gymId`, database/monitoring; scoped platform permissions. | Deactivation confirmation/reason; responsive tabs; RTL; no sensitive credentials. |
-| `PA-W-004` Provisioning Run | `/platform/provisioning/:runId`; Operations; Gym create result. | Stepper Pending/Running/Success/Failed/Retry, safe error/log ref. | `/platform/provisioning/:runId`, retry; `platform.provision`; provisioning tables. | Poll/loading/partial failure; web-first; RTL; print run report optional. |
+| `PA-W-004` Provisioning Run | `/platform/provisioning/:runId`; Operations; asynchronous Gym provisioning result. | Stepper for `Requested`/`Provisioning`/`Migrating`/`Seeding`/`Verifying`/`Active` and the four named failure states; safe error reference; retry when allowed. | `/platform/provisioning/:runId`, retry; `platform.provision`; provisioning tables. | Poll/loading/partial failure; web-first; RTL; print run report optional. |
 | `PA-W-005` Databases & Migrations | `/platform/databases`; Operations; platform nav. | DB table, versions, backup/migration status; preview/run/retry drawer. | `/platform/databases`, `/platform/migrations`; `platform.databases.view`, `platform.migrations.*`; CP ops. | Confirm/reason for execution; partial failure prominent; web-only; RTL; print optional. |
 | `PA-W-006` Backups & Restore | `/platform/backups`; Operations; platform nav/DB detail. | Backup list/verification, restore wizard target→backup→reason→confirm. | `/platform/backups`, `/platform/restores`; `platform.backups.*`, `platform.restore`; backup/restore tables. | High-risk disabled until checks; web-only; RTL; print audit summary. |
 | `PA-W-007` Users / Roles / Permissions | `/platform/access`; Security Admin; platform nav. | User table, role/permission matrix, Gym scope assignment; grant/revoke. | `/auth/me`, platform access endpoints; `platform.security.manage`; iam tables. | Sensitive fields masked; web-only; RTL; no print by default. |
@@ -65,3 +65,15 @@ The following are explicit endpoint mappings for existing screen IDs; they do no
 | `SYS-W-001` Login/Auth | `POST /auth/password/change`; existing MFA verify with `method=recovery_code` | Self-service password and MFA recovery sub-flows with safe validation/error states. |
 | `SYS-W-002` App Shell | `GET /auth/sessions`; `POST /auth/sessions/{sessionId}/revoke` | Account-security subsection shows safe own sessions and revocation. |
 | `PA-W-007` Users/Roles/Permissions | `GET /platform/access/catalog`, `GET /platform/access/users`, user/status/role endpoints | Web-only access administration; exact permission/scope/reason/concurrency rules are in the addendum. |
+
+## Phase 7 provisioning screen closure - 2026-08-29
+
+`PA-W-004` is the single approved provisioning screen. Its canonical Phase 7
+route is `/platform-admin/provisioning/:runId` (the Phase 2 route is the
+historical identity). It consumes only the three finalized provisioning APIs,
+shows the exact lifecycle states `Requested`, `Provisioning`, `Migrating`,
+`Seeding`, `Verifying`, `Active` and the four failure states, and exposes
+retry only when the status response says `retryable=true`. It never displays
+database credentials, connection strings, raw failure payloads, or owner
+passwords. Arabic, RTL, light/dark, responsive, loading, empty, success,
+failure, and retry states remain required. There is no Phase 7 Flutter screen.

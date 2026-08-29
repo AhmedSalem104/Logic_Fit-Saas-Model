@@ -4,7 +4,12 @@
 
 The Phase 3 canonical JSON package under `database/seeds/v1/` is unchanged. The official executor is the native C# `CanonicalLibrarySeeder`, coordinated by `SeedCoordinator` and invoked by the .NET API command. The duplicate Node SQL seed runner and duplicate Node auth seed package were removed.
 
-Authentication reference data is represented by the native `PermissionCatalog`: 15 permissions, 3 roles, and 14 role-permission assignments. No fake production user is seeded.
+Authentication reference data for the Phase 5B baseline is represented by
+the native `PermissionCatalog`: 15 permissions, 3 roles, and 14
+role-permission assignments. Phase 7 adds the separately approved
+`platform.provision` grant for `platform-security-admin`, so the current
+runtime catalog is 16 permissions and 15 assignments. No fake production user
+is seeded.
 
 ## Behavior
 

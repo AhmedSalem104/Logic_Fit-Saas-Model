@@ -4,6 +4,7 @@ using LogicFit.Infrastructure.Persistence;
 using LogicFit.Infrastructure.Services.Seeding;
 using LogicFit.Infrastructure.Security;
 using LogicFit.Infrastructure.Identity;
+using LogicFit.Infrastructure.Provisioning;
 using LogicFit.Domain.Constants;
 using LogicFit.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -50,6 +51,7 @@ public static class DependencyInjection
         .ValidateOnStart();
 
         services.AddSingleton<ISqlServerConnectionFactory, SqlServerConnectionFactory>();
+        services.AddSingleton<ISqlServerDatabaseCreator, SqlServerDatabaseCreator>();
         services.AddSingleton<IPasswordHasher, Pbkdf2PasswordHasher>();
         services.AddSingleton<ITotpService, TotpService>();
         services.AddSingleton<IRecoveryCodeGenerator, RecoveryCodeGenerator>();
@@ -94,6 +96,12 @@ public static class DependencyInjection
         services.AddScoped<IPlatformRepository, SqlPlatformRepository>();
         services.AddScoped<ISeedCoordinator, SeedCoordinator>();
         services.AddScoped<DatabaseFoundationService>();
+        services.AddSingleton<ProvisioningQueue>();
+        services.AddSingleton<IProvisioningQueue>(serviceProvider => serviceProvider.GetRequiredService<ProvisioningQueue>());
+        services.AddScoped<SqlProvisioningService>();
+        services.AddScoped<IProvisioningService>(serviceProvider => serviceProvider.GetRequiredService<SqlProvisioningService>());
+        services.AddScoped<IProvisioningWorkflow>(serviceProvider => serviceProvider.GetRequiredService<SqlProvisioningService>());
+        services.AddHostedService<ProvisioningWorker>();
         return services;
     }
 

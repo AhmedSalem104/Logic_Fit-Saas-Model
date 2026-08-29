@@ -43,3 +43,11 @@ Phase 2 references such as `platform.organizations.manage`,
 keys are not Phase 6 permissions. They remain deferred security/product
 decisions for the phase that needs their operations. No Phase 6 endpoint may
 use an alias or bypass authorization.
+
+## Phase 7 transition note - 2026-08-29
+
+The subsequent Phase 7 human approval authorizes the separate permission
+`platform.provision` for provisioning execution. Phase 7 implementation now
+seeds it for the existing `platform-security-admin` role. This does not alter
+the Phase 6 contract: all eight Phase 6 read-only routes continue to require
+only `platform.view`, and no Phase 6 route uses `platform.provision`.

@@ -5,7 +5,7 @@ Every flow below is a contract boundary. Screen IDs are from the screen catalogs
 | Flow ID / actor | Preconditions | Screen → action | API | Business rule | DB entities | Result / next state |
 |---|---|---|---|---|---|---|
 | `FLOW-AUTH-001` User login | Account exists; service available. | `SYS-W-001` enter credentials → submit. | `POST /auth/login`, optional MFA. | Rate limit; verify credential; MFA if configured; never reveal account existence. | CP users/credentials/sessions/mfa. | Authenticated session → App Shell or MFA. |
-| `FLOW-PLAT-001` Gym provisioning | Platform actor has provision permission; org/slug/target valid. | `PA-W-002` create Gym → `PA-W-004` monitor. | `POST /platform/provisioning`, retry/status. | Pending→Running→Success/Failed; each step auditable; no partial Ready. | CP Gyms/DB registry/provisioning/iam/backup/audit. | Ready Gym or actionable Failed/Retry. |
+| `FLOW-PLAT-001` Gym provisioning | Authenticated Platform Admin with `platform.provision` and verified MFA step-up; new org/Gym input and valid registered server target. | Existing registry entry → `PA-W-004` monitor. | `POST /api/v1/platform/provisioning`, status, retry. | `Requested` → `Provisioning` → `Migrating` → `Seeding` → `Verifying` → `Active`; four named failure states; no partial Active. | CP organizations/Gyms/servers/DB registry/provisioning/IAM/audit. | Active Gym or safe retryable/non-retryable failure. |
 | `FLOW-MEM-001` Create member | Gym context; actor has `members.create`. | `MEM-W-002` fill exact fields → save. | `POST /gyms/{gymId}/members`. | Backend validates TOP GYM field rules; no duplicate policy invented beyond contract. | `members.members`, audit. | Member created → profile or list. |
 | `FLOW-MEM-002` Edit member | Member belongs to current Gym; Draft/current version. | `MEM-W-002` edit → save. | `PATCH /members/{id}`. | Scope + rowversion; soft delete only through delete permission. | members.members/audit. | Updated profile; stale conflict if version changed. |
 | `FLOW-MEM-003` Member profile | Read permission for member and selected tabs. | `MEM-W-003` open → tabs. | member detail/timeline/membership/attendance/measurements/plan/doc endpoints. | Per-tab sensitive filtering; no cross-Gym query. | member domain tables. | Profile view; next action governed by tab permission. |
@@ -54,3 +54,16 @@ Every flow below is a contract boundary. Screen IDs are from the screen catalogs
 | `FLOW-AUTH-005` MFA recovery | MFA challenge and valid recovery code. | `SYS-W-001`; `F-AUTH-001`. | Existing `POST /auth/mfa/verify` with `method=recovery_code`. | One-time hash match; no silent TOTP/recovery fallback; rate-limited. | `iam.mfa_recovery_codes`, sessions, audit. | MFA challenge completed or safe failure. |
 | `FLOW-AUTH-006` Session security | Authenticated user with session permissions. | `SYS-W-002`; `F-AUTH-001`. | `GET /auth/sessions`; `POST /auth/sessions/{id}/revoke`. | Own current/authorized scope only; raw tokens never returned. | `iam.sessions`, audit for revoke. | Safe sessions listed/revoked. |
 | `FLOW-AUTH-007` Access administration | Security administrator with `platform.security.manage`. | `PA-W-007`. | `/platform/access/*` addendum endpoints. | Control Plane security operation; explicit Gym target authorization; no implicit Gym business access. | IAM users/roles/permissions/assignments, audit. | User/role scope changed or safely denied. |
+
+## Phase 7 provisioning flow closure - 2026-08-29
+
+`FLOW-PLAT-001` is finalized by the Phase 7 contract package. A verified
+Platform Admin submits a new organization/Gym request with an idempotency
+key; the server creates the Control Plane registry records and returns a
+202 response containing the operation ID. A worker performs placement,
+database creation, EF migration, canonical seed, verification, Owner
+initialization, and activation in the approved order. The Web client polls
+the existing status route and may request a controlled retry only for a
+retryable failure. No client supplies a Gym ID, physical database name,
+connection string, or credential. Platform/Gym boundaries and the exact state
+machine are defined in `../PHASE_7/05_PROVISIONING_LIFECYCLE.md`.

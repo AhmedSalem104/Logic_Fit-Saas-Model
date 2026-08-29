@@ -281,7 +281,7 @@ Errors are `401 AUTHENTICATION_REQUIRED`/`SESSION_INVALID`, `403 PERMISSION_DENI
 
 ### `GET /api/v1/platform/access/catalog`
 
-Requires an authenticated actor with `platform.security.manage`. It is a Control Plane read and returns the existing canonical 15 permissions, 3 roles, and 14 role-permission assignments, including role scope type and safe descriptions. It does not permit catalog mutation and does not expose credentials, session material, MFA secrets, or private user data.
+Requires an authenticated actor with `platform.security.manage`. It is a Control Plane read and returns the Phase 5B baseline catalog of 15 permissions, 3 roles, and 14 role-permission assignments, including role scope type and safe descriptions. The later Phase 7 `platform.provision` extension is a separate provisioning permission and does not authorize this Phase 5B access-administration operation. It does not permit catalog mutation and does not expose credentials, session material, MFA secrets, or private user data.
 
 ### `GET /api/v1/platform/access/users`
 
@@ -530,8 +530,18 @@ No new table, column, permission key, seed identity, or cross-database foreign k
 
 - Existing routes are reused; only `/auth/mfa/verify` receives the documented optional `method` extension.
 - New routes are unique and do not duplicate existing catalog routes.
-- No new permission key is added; all operations use the locked 15-key catalog.
+- No new permission key is added by this Phase 5B addendum; all Phase 5B
+  operations use the locked 15-key baseline catalog.
 - Session, MFA, password, account status, role, and Gym scope behavior are explicit.
 - Platform security permission authorizes the listed Control Plane security operation only; it does not grant implicit Gym business access.
 - Administrative MFA reset and role/permission catalog mutation are explicitly deferred, not silently assumed.
 - This addendum closes the Phase 5B API contract gaps. Implementation remains a separate explicitly authorized task.
+
+## Later Phase 7 permission transition - 2026-08-29
+
+The statement above is scoped to the Phase 5B baseline: it uses the
+15-permission, 3-role, 14-assignment catalog. The approved Phase 7 extension
+adds `platform.provision` for asynchronous provisioning only, granted to the
+existing `platform-security-admin` role and now applied by the Phase 7 EF/seed
+implementation. It is not a Phase 5B access-administration permission and
+does not authorize Phase 5B routes.

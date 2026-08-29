@@ -159,6 +159,47 @@ export type PlatformMonitoringSnapshot = {
   platformHealth: PlatformHealth;
   registeredDatabases: DatabaseRegistrySummary[];
 };
+export type ProvisioningRequest = {
+  organization: { name: string; slug: string };
+  gym: { name: string; slug: string; timezoneName: string };
+  serverTarget: { serverId: string };
+  owner: { email: string; displayName: string; initialPassword: string };
+};
+export type ProvisioningAccepted = {
+  operationId: string;
+  organizationId: string;
+  gymId: string;
+  status: string;
+  currentStep: string | null;
+  requestedAtUtc: string;
+  statusUrl: string;
+};
+export type ProvisioningStatus = {
+  operationId: string;
+  organizationId: string;
+  gymId: string;
+  status: string;
+  currentStep: string | null;
+  attemptNo: number;
+  requestedAtUtc: string;
+  startedAtUtc: string | null;
+  completedAtUtc: string | null;
+  server: { serverId: string; environment: string; status: string } | null;
+  database: { databaseId: string; databaseName: string; status: string; schemaVersion: string | null; seedVersion: string | null } | null;
+  ownerInitialized: boolean;
+  retryable: boolean;
+  failure: { failureCategory: string; errorCode: string; failedStep: string; occurredAtUtc: string; retryable: boolean } | null;
+  steps: Array<{ stepKey: string; status: string; attemptNo: number; startedAtUtc: string | null; completedAtUtc: string | null; retryable: boolean; failureCategory: string | null }>;
+};
+export type ProvisioningRetryAccepted = {
+  operationId: string;
+  status: string;
+  retryAccepted: boolean;
+  failedStep: string;
+  nextStep: string;
+  nextAttemptNo: number;
+  retryable: boolean;
+};
 export type PlatformPage<T> = { data: T[]; meta: { page: number; pageSize: number; total: number; hasNext: boolean } };
 
 const ACCESS_TOKEN_KEY = 'logicfit.session.accessToken';
@@ -280,4 +321,7 @@ export const apiClient = {
   },
   platformDatabase: (databaseId: string) => request<{ data: DatabaseRegistrySummary }>(`/platform/databases/${databaseId}`),
   platformMonitoring: () => request<{ data: PlatformMonitoringSnapshot }>('/platform/monitoring'),
+  requestProvisioning: (input: ProvisioningRequest, idempotencyKey: string) => request<{ data: ProvisioningAccepted }>('/platform/provisioning', { method: 'POST', headers: { 'Idempotency-Key': idempotencyKey }, body: JSON.stringify(input) }),
+  provisioningStatus: (operationId: string) => request<{ data: ProvisioningStatus }>(`/platform/provisioning/${operationId}`),
+  retryProvisioning: (operationId: string, reason: string, idempotencyKey: string) => request<{ data: ProvisioningRetryAccepted }>(`/platform/provisioning/${operationId}/retry`, { method: 'POST', headers: { 'Idempotency-Key': idempotencyKey }, body: JSON.stringify({ reason }) }),
 };

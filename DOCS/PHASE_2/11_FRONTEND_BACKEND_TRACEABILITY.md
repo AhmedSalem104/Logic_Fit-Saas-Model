@@ -112,3 +112,15 @@ The following screens reuse the same use cases and REST contracts; they are list
 | `PA-W-007` access catalog | `GET /platform/access/catalog`; `GET /platform/access/users` | ReadAccessCatalog / ListAccessUsers | Permission/scope query service | CP `iam.roles`, `iam.permissions`, `iam.role_permissions`, `iam.users`, `iam.user_gym_roles` |
 | `PA-W-007` user create/status | `POST /platform/access/users`; `PATCH /platform/access/users/{userId}/status` | CreateAccessUser / ChangeUserStatus | User status/credential service | CP `iam.users`, `iam.credentials`, `iam.user_gym_roles`, `iam.sessions`, `audit.events` |
 | `PA-W-007` role assign/revoke | `PUT /platform/access/users/{userId}/role-assignments/{roleId}`; revoke action | EnsureRoleAssignment / RevokeRoleAssignment | RBAC scope service | CP `iam.user_gym_roles`, `iam.roles`, `platform.gyms`, `audit.events` |
+
+## Phase 7 provisioning traceability closure - 2026-08-29
+
+| Requirement | API | Permission | Web | Flutter | Contract/test source |
+|---|---|---|---|---|---|
+| Request asynchronous provisioning | `POST /api/v1/platform/provisioning` | `platform.provision`; verified Platform scope and MFA step-up | `PA-W-002` action to `PA-W-004` | NO FLUTTER UI REQUIRED | `FLOW-PLAT-001`; Phase 7 API/lifecycle/security contracts |
+| Observe provisioning operation | `GET /api/v1/platform/provisioning/{runId}` | `platform.provision`; authorized Platform operation scope | `PA-W-004` polling stepper | NO FLUTTER UI REQUIRED | Phase 7 API/lifecycle/Web contracts |
+| Retry a retryable operation | `POST /api/v1/platform/provisioning/{runId}/retry` | `platform.provision`; verified MFA step-up | `PA-W-004` retry action | NO FLUTTER UI REQUIRED | Phase 7 API/recovery/security contracts |
+
+The complete database, EF, application, audit, and test mapping for these
+rows is `../PHASE_7/09_PROVISIONING_TRACEABILITY.md`. No Phase 7 API or
+screen exists outside this matrix.

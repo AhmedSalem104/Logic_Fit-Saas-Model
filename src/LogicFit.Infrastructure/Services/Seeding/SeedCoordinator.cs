@@ -17,6 +17,7 @@ public sealed class SeedCoordinator(
     public async Task<SeedRunResult> ApplyAsync(CancellationToken cancellationToken = default)
     {
         await using var transaction = await controlPlane.Database.BeginTransactionAsync(cancellationToken);
+        await ApplyPlatformServerCatalogAsync(cancellationToken);
         await ApplyPermissionCatalogAsync(cancellationToken);
         await controlPlane.SaveChangesAsync(cancellationToken);
         await transaction.CommitAsync(cancellationToken);
@@ -115,6 +116,39 @@ public sealed class SeedCoordinator(
                 });
             }
         }
+    }
+
+    private async Task ApplyPlatformServerCatalogAsync(CancellationToken cancellationToken)
+    {
+        var server = await controlPlane.Servers.FirstOrDefaultAsync(x => x.ServerId == PlatformServerDefaults.LocalServerId, cancellationToken);
+        if (server is null)
+        {
+            server = new ServerEntity
+            {
+                ServerId = PlatformServerDefaults.LocalServerId,
+                Name = PlatformServerDefaults.LocalServerName,
+                Environment = PlatformServerDefaults.LocalEnvironment,
+                ProviderKey = PlatformServerDefaults.LocalProviderKey,
+                Status = "active",
+                HealthStatus = "healthy",
+                EndpointRef = PlatformServerDefaults.LocalEndpointRef,
+                CreatedAtUtc = DateTime.UtcNow,
+                UpdatedAtUtc = DateTime.UtcNow
+            };
+            controlPlane.Servers.Add(server);
+        }
+        else
+        {
+            server.Name = PlatformServerDefaults.LocalServerName;
+            server.Environment = PlatformServerDefaults.LocalEnvironment;
+            server.ProviderKey = PlatformServerDefaults.LocalProviderKey;
+            server.Status = "active";
+            server.HealthStatus = "healthy";
+            server.EndpointRef = PlatformServerDefaults.LocalEndpointRef;
+            server.UpdatedAtUtc = DateTime.UtcNow;
+        }
+
+        await controlPlane.SaveChangesAsync(cancellationToken);
     }
 
     private static class StableGuid

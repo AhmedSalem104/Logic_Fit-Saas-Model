@@ -102,3 +102,20 @@ The Authentication/RBAC API extension uses the existing locked permission identi
 | Classes attendance | `classes.attendance.manage` | Selected Gym/session/member; separate attendance/no-show state. |
 
 Training and Nutrition retain the exact permission-based approval matrix: creator may create/edit Draft and submit review; Reviewer needs `*.review`; Approver needs `*.approve`; Publisher needs `*.publish`; creator self-approval is rejected; Platform Admin has no implicit Gym plan approval/publish.
+
+## Phase 7 provisioning permission approval - 2026-08-29
+
+The final Phase 7 human approval adds the dedicated permission
+`platform.provision` to the forward canonical contract. It authorizes only
+the asynchronous Platform provisioning operation and its safe status/retry
+scope; `platform.view` is not an alias and `platform.security.manage` is not
+reused. The permission is critical/high-risk, Control Plane scoped, requires
+the existing Phase 5B verified-MFA step-up, and is audited with the Phase 7
+provisioning vocabulary.
+
+The only approved role grant is the existing Platform role
+`platform-security-admin`. No Gym role receives this permission and no new
+role is created. Phase 7 implementation has now applied the approved EF/seed
+change: the current runtime catalog contains 16 permissions, 3 roles, and 15
+role-permission assignments. The Phase 5B baseline count remains historical
+traceability; Phase 6 routes continue to require only `platform.view`.

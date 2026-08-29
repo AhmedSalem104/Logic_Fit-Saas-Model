@@ -41,3 +41,12 @@ visibility is only a client-side reflection of backend authorization.
 - **Web:** Admitted Platform screens require the same permission.
 - **Flutter:** No Platform UI.
 - **Tests:** 401/403, platform-vs-Gym scope, and role-grant regression tests.
+
+## Later Phase 7 transition - 2026-08-29
+
+P7-D-001 approves the separate `platform.provision` permission for Phase 7
+provisioning execution. The Phase 7 implementation seeds that key only for
+the existing `platform-security-admin` role. This later decision does not
+change the Phase 6 selection above: Phase 6 remains authorized only by
+`platform.view`, and the new key is not a Phase 6 permission or route
+requirement.

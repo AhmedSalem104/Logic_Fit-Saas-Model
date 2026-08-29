@@ -32,3 +32,16 @@ The complete endpoint-level matrix is defined for the resumed Authentication/RBA
 `platform.security.manage` is the existing exact permission for the minimum Control Plane access operations: read the canonical access catalog/users, create users, change user status, and assign/revoke roles within the actor's authorized platform/Gym scope. It does not grant implicit Gym business access. Self-role assignment/revocation is rejected. Role/permission definition mutation remains deferred, and no new permission key was added.
 
 Access operations are implemented by `AccessController`, `AuthenticationService`, and `SqlAuthRepository`. Gym-to-Platform role management is denied explicitly and audited.
+
+## Phase 7 forward permission approval - 2026-08-29
+
+Phase 5B remains implemented with 15 permissions, 3 roles, and 14
+assignments. A later Phase 7 contract approval adds `platform.provision` to
+the forward catalog for asynchronous provisioning only, granted only to the
+existing `platform-security-admin` role after the Phase 7 migration/seed
+implementation. It does not change the Phase 5B runtime in this documentation
+task. The final Phase 7 contract explicitly maps Gym Owner to the existing
+`gym-security-admin` role. That role's existing permissions remain unchanged;
+no Owner alias or new role key is introduced. A Gym Owner cannot invoke
+provisioning, which remains restricted to `platform-security-admin` with
+`platform.provision`.

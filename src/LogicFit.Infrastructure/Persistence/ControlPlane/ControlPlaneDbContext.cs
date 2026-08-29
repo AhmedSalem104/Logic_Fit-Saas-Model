@@ -10,6 +10,9 @@ public sealed class ControlPlaneDbContext(DbContextOptions<ControlPlaneDbContext
     public DbSet<OrganizationEntity> Organizations => Set<OrganizationEntity>();
     public DbSet<GymEntity> Gyms => Set<GymEntity>();
     public DbSet<GymDatabaseEntity> GymDatabases => Set<GymDatabaseEntity>();
+    public DbSet<ServerEntity> Servers => Set<ServerEntity>();
+    public DbSet<ProvisioningRunEntity> ProvisioningRuns => Set<ProvisioningRunEntity>();
+    public DbSet<ProvisioningStepEntity> ProvisioningSteps => Set<ProvisioningStepEntity>();
     public DbSet<FeatureFlagEntity> FeatureFlags => Set<FeatureFlagEntity>();
     public DbSet<UserEntity> Users => Set<UserEntity>();
     public DbSet<CredentialEntity> Credentials => Set<CredentialEntity>();
@@ -30,6 +33,9 @@ public sealed class ControlPlaneDbContext(DbContextOptions<ControlPlaneDbContext
         ConfigureOrganization(modelBuilder.Entity<OrganizationEntity>());
         ConfigureGym(modelBuilder.Entity<GymEntity>());
         ConfigureGymDatabase(modelBuilder.Entity<GymDatabaseEntity>());
+        ConfigureServer(modelBuilder.Entity<ServerEntity>());
+        ConfigureProvisioningRun(modelBuilder.Entity<ProvisioningRunEntity>());
+        ConfigureProvisioningStep(modelBuilder.Entity<ProvisioningStepEntity>());
         ConfigureFeatureFlag(modelBuilder.Entity<FeatureFlagEntity>());
         ConfigureUser(modelBuilder.Entity<UserEntity>());
         ConfigureCredential(modelBuilder.Entity<CredentialEntity>());
@@ -61,7 +67,9 @@ public sealed class ControlPlaneDbContext(DbContextOptions<ControlPlaneDbContext
 
     private static void ConfigureGym(EntityTypeBuilder<GymEntity> builder)
     {
-        builder.ToTable("gyms", "platform");
+        builder.ToTable("gyms", "platform", table => table.HasCheckConstraint(
+            "CK_platform_gyms_status",
+            "[status] IN (N'archived', N'suspended', N'ready', N'provisioning', N'Provisioning', N'Migrating', N'Seeding', N'Verifying', N'Active')"));
         builder.HasKey(x => x.GymId).HasName("PK_platform_gyms");
         builder.Property(x => x.GymId).HasColumnName("gym_id").HasDefaultValueSql("NEWSEQUENTIALID()");
         builder.Property(x => x.OrganizationId).HasColumnName("organization_id").IsRequired();
@@ -69,18 +77,23 @@ public sealed class ControlPlaneDbContext(DbContextOptions<ControlPlaneDbContext
         builder.Property(x => x.Slug).HasColumnName("slug").HasMaxLength(120).IsRequired();
         builder.Property(x => x.Status).HasColumnName("status").HasMaxLength(30).HasDefaultValue("provisioning").IsRequired();
         builder.Property(x => x.TimezoneName).HasColumnName("timezone_name").HasMaxLength(80).HasDefaultValue("Africa/Cairo").IsRequired();
+        builder.Property(x => x.OwnerUserId).HasColumnName("owner_user_id");
         ConfigureAudit(builder, x => x.CreatedAtUtc, x => x.UpdatedAtUtc);
         builder.Property(x => x.RowVersion).HasColumnName("row_version").IsRowVersion();
         builder.HasIndex(x => new { x.OrganizationId, x.Slug }).IsUnique().HasDatabaseName("UQ_platform_gyms_org_slug");
         builder.HasOne(x => x.Organization).WithMany(x => x.Gyms).HasForeignKey(x => x.OrganizationId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne<UserEntity>().WithMany().HasForeignKey(x => x.OwnerUserId).OnDelete(DeleteBehavior.Restrict);
     }
 
     private static void ConfigureGymDatabase(EntityTypeBuilder<GymDatabaseEntity> builder)
     {
-        builder.ToTable("gym_databases", "platform");
+        builder.ToTable("gym_databases", "platform", table => table.HasCheckConstraint(
+            "CK_platform_gym_databases_status",
+            "[status] IN (N'pending', N'provisioning', N'Provisioning', N'Migrating', N'Seeding', N'Verifying', N'Active', N'healthy', N'degraded', N'failed', N'disabled')"));
         builder.HasKey(x => x.GymDatabaseId).HasName("PK_platform_gym_databases");
         builder.Property(x => x.GymDatabaseId).HasColumnName("gym_database_id").HasDefaultValueSql("NEWSEQUENTIALID()");
         builder.Property(x => x.GymId).HasColumnName("gym_id").IsRequired();
+        builder.Property(x => x.ServerId).HasColumnName("server_id").IsRequired();
         builder.Property(x => x.DatabaseName).HasColumnName("database_name").HasMaxLength(128).IsRequired();
         builder.Property(x => x.Environment).HasColumnName("environment").HasMaxLength(30).HasDefaultValue("local").IsRequired();
         builder.Property(x => x.SchemaVersion).HasColumnName("schema_version").HasMaxLength(80);
@@ -92,6 +105,95 @@ public sealed class ControlPlaneDbContext(DbContextOptions<ControlPlaneDbContext
         builder.Property(x => x.RowVersion).HasColumnName("row_version").IsRowVersion();
         builder.HasIndex(x => new { x.Environment, x.DatabaseName }).IsUnique().HasDatabaseName("UQ_platform_gym_databases_name");
         builder.HasOne(x => x.Gym).WithMany(x => x.Databases).HasForeignKey(x => x.GymId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.Server).WithMany(x => x.GymDatabases).HasForeignKey(x => x.ServerId).OnDelete(DeleteBehavior.Restrict);
+    }
+
+    private static void ConfigureServer(EntityTypeBuilder<ServerEntity> builder)
+    {
+        builder.ToTable("servers", "platform", table =>
+        {
+            table.HasCheckConstraint("CK_platform_servers_status", "[status] IN (N'active', N'inactive')");
+            table.HasCheckConstraint("CK_platform_servers_health", "[health_status] IN (N'healthy', N'degraded', N'unavailable')");
+        });
+        builder.HasKey(x => x.ServerId).HasName("PK_platform_servers");
+        builder.Property(x => x.ServerId).HasColumnName("server_id").HasDefaultValueSql("NEWSEQUENTIALID()");
+        builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(120).IsRequired();
+        builder.Property(x => x.Environment).HasColumnName("environment").HasMaxLength(30).IsRequired();
+        builder.Property(x => x.ProviderKey).HasColumnName("provider_key").HasMaxLength(80).IsRequired();
+        builder.Property(x => x.Status).HasColumnName("status").HasMaxLength(30).HasDefaultValue("active").IsRequired();
+        builder.Property(x => x.HealthStatus).HasColumnName("health_status").HasMaxLength(30).HasDefaultValue("healthy").IsRequired();
+        builder.Property(x => x.EndpointRef).HasColumnName("endpoint_ref").HasMaxLength(240);
+        ConfigureAudit(builder, x => x.CreatedAtUtc, x => x.UpdatedAtUtc);
+        builder.Property(x => x.RowVersion).HasColumnName("row_version").IsRowVersion();
+        builder.HasIndex(x => new { x.Environment, x.Name }).IsUnique().HasDatabaseName("UQ_platform_servers_environment_name");
+    }
+
+    private static void ConfigureProvisioningRun(EntityTypeBuilder<ProvisioningRunEntity> builder)
+    {
+        builder.ToTable("runs", "provisioning", table =>
+        {
+            table.HasCheckConstraint("CK_provisioning_runs_status", "[status] IN (N'Requested', N'Provisioning', N'Migrating', N'Seeding', N'Verifying', N'Active', N'ProvisioningFailed', N'MigrationFailed', N'SeedingFailed', N'VerificationFailed')");
+            table.HasCheckConstraint("CK_provisioning_runs_attempt", "[attempt_no] > 0");
+        });
+        builder.HasKey(x => x.ProvisioningRunId).HasName("PK_provisioning_runs");
+        builder.Property(x => x.ProvisioningRunId).HasColumnName("provisioning_run_id").HasDefaultValueSql("NEWSEQUENTIALID()");
+        builder.Property(x => x.OrganizationId).HasColumnName("organization_id").IsRequired();
+        builder.Property(x => x.GymId).HasColumnName("gym_id").IsRequired();
+        builder.Property(x => x.RequestedByUserId).HasColumnName("requested_by_user_id").IsRequired();
+        builder.Property(x => x.OwnerUserId).HasColumnName("owner_user_id");
+        builder.Property(x => x.Status).HasColumnName("status").HasMaxLength(40).IsRequired();
+        builder.Property(x => x.CurrentStep).HasColumnName("current_step").HasMaxLength(50);
+        builder.Property(x => x.AttemptNo).HasColumnName("attempt_no").IsRequired();
+        builder.Property(x => x.IdempotencyKeyHash).HasColumnName("idempotency_key_hash").HasColumnType("char(64)").IsRequired();
+        builder.Property(x => x.RequestFingerprint).HasColumnName("request_fingerprint").HasColumnType("char(64)").IsRequired();
+        builder.Property(x => x.ServerId).HasColumnName("server_id");
+        builder.Property(x => x.GymDatabaseId).HasColumnName("gym_database_id");
+        builder.Property(x => x.RequestedAtUtc).HasColumnName("requested_at_utc").HasColumnType("datetime2(3)").IsRequired();
+        builder.Property(x => x.StartedAtUtc).HasColumnName("started_at_utc").HasColumnType("datetime2(3)");
+        builder.Property(x => x.CompletedAtUtc).HasColumnName("completed_at_utc").HasColumnType("datetime2(3)");
+        builder.Property(x => x.FailureCategory).HasColumnName("failure_category").HasMaxLength(80);
+        builder.Property(x => x.ErrorCode).HasColumnName("error_code").HasMaxLength(80);
+        builder.Property(x => x.SafeErrorMetadataJson).HasColumnName("safe_error_metadata_json").HasColumnType("nvarchar(max)");
+        builder.Property(x => x.LastRetryIdempotencyKeyHash).HasColumnName("last_retry_idempotency_key_hash").HasColumnType("char(64)");
+        builder.Property(x => x.LastRetryFingerprint).HasColumnName("last_retry_fingerprint").HasColumnType("char(64)");
+        builder.Property(x => x.LastRetryFailedStep).HasColumnName("last_retry_failed_step").HasMaxLength(50);
+        builder.Property(x => x.LastRetryNextStep).HasColumnName("last_retry_next_step").HasMaxLength(50);
+        builder.Property(x => x.LastRetryAttemptNo).HasColumnName("last_retry_attempt_no");
+        ConfigureAudit(builder, x => x.CreatedAtUtc, x => x.UpdatedAtUtc);
+        builder.Property(x => x.RowVersion).HasColumnName("row_version").IsRowVersion();
+        builder.HasIndex(x => new { x.RequestedByUserId, x.IdempotencyKeyHash }).IsUnique().HasDatabaseName("UQ_provisioning_runs_actor_idempotency");
+        builder.HasIndex(x => x.GymId).IsUnique().HasDatabaseName("UQ_provisioning_runs_gym_active").HasFilter("[status] IN (N'Requested', N'Provisioning', N'Migrating', N'Seeding', N'Verifying', N'Active')");
+        builder.HasIndex(x => new { x.Status, x.UpdatedAtUtc }).HasDatabaseName("IX_provisioning_runs_status_updated");
+        builder.HasOne(x => x.Organization).WithMany().HasForeignKey(x => x.OrganizationId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.Gym).WithMany().HasForeignKey(x => x.GymId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.RequestedByUser).WithMany().HasForeignKey(x => x.RequestedByUserId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.OwnerUser).WithMany().HasForeignKey(x => x.OwnerUserId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.Server).WithMany().HasForeignKey(x => x.ServerId).OnDelete(DeleteBehavior.Restrict);
+        builder.HasOne(x => x.GymDatabase).WithMany().HasForeignKey(x => x.GymDatabaseId).OnDelete(DeleteBehavior.Restrict);
+    }
+
+    private static void ConfigureProvisioningStep(EntityTypeBuilder<ProvisioningStepEntity> builder)
+    {
+        builder.ToTable("steps", "provisioning", table =>
+        {
+            table.HasCheckConstraint("CK_provisioning_steps_status", "[status] IN (N'Pending', N'Running', N'Success', N'Failed')");
+            table.HasCheckConstraint("CK_provisioning_steps_attempt", "[attempt_no] > 0");
+        });
+        builder.HasKey(x => x.ProvisioningStepId).HasName("PK_provisioning_steps");
+        builder.Property(x => x.ProvisioningStepId).HasColumnName("provisioning_step_id").HasDefaultValueSql("NEWSEQUENTIALID()");
+        builder.Property(x => x.ProvisioningRunId).HasColumnName("provisioning_run_id").IsRequired();
+        builder.Property(x => x.StepKey).HasColumnName("step_key").HasMaxLength(50).IsRequired();
+        builder.Property(x => x.AttemptNo).HasColumnName("attempt_no").IsRequired();
+        builder.Property(x => x.Status).HasColumnName("status").HasMaxLength(20).IsRequired();
+        builder.Property(x => x.StartedAtUtc).HasColumnName("started_at_utc").HasColumnType("datetime2(3)");
+        builder.Property(x => x.CompletedAtUtc).HasColumnName("completed_at_utc").HasColumnType("datetime2(3)");
+        builder.Property(x => x.Retryable).HasColumnName("retryable").IsRequired();
+        builder.Property(x => x.FailureCategory).HasColumnName("failure_category").HasMaxLength(80);
+        builder.Property(x => x.ErrorCode).HasColumnName("error_code").HasMaxLength(80);
+        builder.Property(x => x.SafeMetadataJson).HasColumnName("safe_metadata_json").HasColumnType("nvarchar(max)");
+        builder.HasIndex(x => new { x.ProvisioningRunId, x.StepKey, x.AttemptNo }).IsUnique().HasDatabaseName("UQ_provisioning_steps_run_step_attempt");
+        builder.HasIndex(x => new { x.ProvisioningRunId, x.StepKey }).HasDatabaseName("IX_provisioning_steps_run_step");
+        builder.HasOne(x => x.ProvisioningRun).WithMany(x => x.Steps).HasForeignKey(x => x.ProvisioningRunId).OnDelete(DeleteBehavior.Restrict);
     }
 
     private static void ConfigureFeatureFlag(EntityTypeBuilder<FeatureFlagEntity> builder)

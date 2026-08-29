@@ -21,6 +21,7 @@ public sealed class GymEntity
     public string Slug { get; set; } = string.Empty;
     public string Status { get; set; } = "provisioning";
     public string TimezoneName { get; set; } = "Africa/Cairo";
+    public Guid? OwnerUserId { get; set; }
     public DateTime CreatedAtUtc { get; set; }
     public DateTime UpdatedAtUtc { get; set; }
     public byte[] RowVersion { get; set; } = [];
@@ -33,6 +34,7 @@ public sealed class GymDatabaseEntity
 {
     public Guid GymDatabaseId { get; set; }
     public Guid GymId { get; set; }
+    public Guid ServerId { get; set; }
     public string DatabaseName { get; set; } = string.Empty;
     public string Environment { get; set; } = "local";
     public string? SchemaVersion { get; set; }
@@ -45,6 +47,23 @@ public sealed class GymDatabaseEntity
     public byte[] RowVersion { get; set; } = [];
 
     public GymEntity? Gym { get; set; }
+    public ServerEntity? Server { get; set; }
+}
+
+public sealed class ServerEntity
+{
+    public Guid ServerId { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Environment { get; set; } = string.Empty;
+    public string ProviderKey { get; set; } = string.Empty;
+    public string Status { get; set; } = "active";
+    public string HealthStatus { get; set; } = "healthy";
+    public string? EndpointRef { get; set; }
+    public DateTime CreatedAtUtc { get; set; }
+    public DateTime UpdatedAtUtc { get; set; }
+    public byte[] RowVersion { get; set; } = [];
+
+    public ICollection<GymDatabaseEntity> GymDatabases { get; } = new List<GymDatabaseEntity>();
 }
 
 public sealed class FeatureFlagEntity
@@ -233,6 +252,63 @@ public sealed class MigrationRunEntity
     public DateTime RequestedAtUtc { get; set; }
     public DateTime? CompletedAtUtc { get; set; }
     public string? ErrorCode { get; set; }
+}
+
+public sealed class ProvisioningRunEntity
+{
+    public Guid ProvisioningRunId { get; set; }
+    public Guid OrganizationId { get; set; }
+    public Guid GymId { get; set; }
+    public Guid RequestedByUserId { get; set; }
+    public Guid? OwnerUserId { get; set; }
+    public string Status { get; set; } = "Requested";
+    public string? CurrentStep { get; set; }
+    public int AttemptNo { get; set; } = 1;
+    public string IdempotencyKeyHash { get; set; } = string.Empty;
+    public string RequestFingerprint { get; set; } = string.Empty;
+    public Guid? ServerId { get; set; }
+    public Guid? GymDatabaseId { get; set; }
+    public DateTime RequestedAtUtc { get; set; }
+    public DateTime? StartedAtUtc { get; set; }
+    public DateTime? CompletedAtUtc { get; set; }
+    public string? FailureCategory { get; set; }
+    public string? ErrorCode { get; set; }
+    public string? SafeErrorMetadataJson { get; set; }
+    // Internal retry replay markers. They contain hashes and step metadata only;
+    // no request secret or credential is persisted here.
+    public string? LastRetryIdempotencyKeyHash { get; set; }
+    public string? LastRetryFingerprint { get; set; }
+    public string? LastRetryFailedStep { get; set; }
+    public string? LastRetryNextStep { get; set; }
+    public int? LastRetryAttemptNo { get; set; }
+    public DateTime CreatedAtUtc { get; set; }
+    public DateTime UpdatedAtUtc { get; set; }
+    public byte[] RowVersion { get; set; } = [];
+
+    public OrganizationEntity? Organization { get; set; }
+    public GymEntity? Gym { get; set; }
+    public UserEntity? RequestedByUser { get; set; }
+    public UserEntity? OwnerUser { get; set; }
+    public ServerEntity? Server { get; set; }
+    public GymDatabaseEntity? GymDatabase { get; set; }
+    public ICollection<ProvisioningStepEntity> Steps { get; } = new List<ProvisioningStepEntity>();
+}
+
+public sealed class ProvisioningStepEntity
+{
+    public Guid ProvisioningStepId { get; set; }
+    public Guid ProvisioningRunId { get; set; }
+    public string StepKey { get; set; } = string.Empty;
+    public int AttemptNo { get; set; }
+    public string Status { get; set; } = "Pending";
+    public DateTime? StartedAtUtc { get; set; }
+    public DateTime? CompletedAtUtc { get; set; }
+    public bool Retryable { get; set; }
+    public string? FailureCategory { get; set; }
+    public string? ErrorCode { get; set; }
+    public string? SafeMetadataJson { get; set; }
+
+    public ProvisioningRunEntity? ProvisioningRun { get; set; }
 }
 
 public sealed class AuditEventEntity

@@ -24,9 +24,9 @@ Each row is a contract. `CP` means Control Plane; `GYM` means the selected `/gym
 | `GET/POST /platform/servers` | View/register server metadata | `platform.servers.view/manage`, CP | server DTO → server | provider refs only; audit; `platform.servers`. |
 | `GET /platform/databases` | DB registry/health list | `platform.databases.view`, CP | filters → DB registry DTOs | never credentials; `platform.gym_databases/health`. |
 | `GET /platform/databases/{id}` | DB detail | `platform.databases.view`, CP | none → health/version/backup summary | safe metadata; CP DB/health/backups/migrations. |
-| `POST /platform/provisioning` | Start Gym provisioning | `platform.provision`, CP | `{organization,gym,plan,serverTarget,owner}` + idempotency → run | validates unique slug/target; step state; audit; provisioning tables. |
-| `GET /platform/provisioning/{runId}` | Monitor provisioning | `platform.provision` or diagnostics, CP | none → run/steps | safe errors/log refs; provisioning tables. |
-| `POST /platform/provisioning/{runId}/retry` | Retry failed step | `platform.provision`, confirmation/reason | `{reason}` → run | only retryable failure; audit; provisioning. |
+| `POST /platform/provisioning` | Start Gym provisioning | `platform.provision`, CP | `{organization,gym,serverTarget,owner}` + required idempotency → asynchronous run (`202`) | The historical `plan` member is not accepted; server creates registry records, validates target, and audits. |
+| `GET /platform/provisioning/{runId}` | Monitor provisioning | `platform.provision`, CP | none → safe run/steps result | Exact Phase 7 lifecycle, redacted failure, and no diagnostic-permission alias. |
+| `POST /platform/provisioning/{runId}/retry` | Retry failed step | `platform.provision`, CP | `{reason}` + required idempotency → asynchronous retry acceptance (`202`) | Only a persisted retryable failure; same run/target; audit. |
 | `GET /platform/migrations` | Migration preview/history | `platform.migrations.view`, CP | filters → run/definition list | no execution; migration tables. |
 | `POST /platform/migrations/preview` | Preview compatibility | `platform.migrations.view`, CP | `{migrationKey,targetGymIds}` → compatibility report | no mutation; migration definitions/DB registry. |
 | `POST /platform/migrations` | Execute rollout | `platform.migrations.execute`, explicit confirmation/reason | `{migrationKey,targetGymIds,canaryPolicy}` → migration run | backup/preflight/canary required; audit; migration/backup tables. |
@@ -153,3 +153,19 @@ Each row is a contract. `CP` means Control Plane; `GYM` means the selected `/gym
 ## Phase 5B Authentication/RBAC contract addendum — 2026-08-26
 
 `21_AUTH_RBAC_API_CONTRACT_ADDENDUM.md` is the approved, explicit extension for the Phase 5B Authentication/RBAC operations that were not fully described in the original catalog. Existing rows above remain unchanged. The addendum adds password change, own-session listing/revocation, Control Plane access catalog/user management, role assignment/revocation, and the documented recovery-code extension of `POST /auth/mfa/verify`. It adds no permission key and no business-module endpoint.
+
+## Phase 7 provisioning route closure - 2026-08-29
+
+The three historical provisioning rows above are the only Phase 7 public
+operations. Their complete `/api/v1` schemas, asynchronous behavior,
+permission, idempotency, lifecycle, error, audit, and secret-redaction rules
+are finalized in `../PHASE_7/03_PROVISIONING_API_CONTRACT.md`. The canonical
+routes are:
+
+- `POST /api/v1/platform/provisioning`
+- `GET /api/v1/platform/provisioning/{runId}`
+- `POST /api/v1/platform/provisioning/{runId}/retry`
+
+No `/migrate`, `/seed`, `/cancel`, database-create, or compatibility route is
+admitted. Phase 7 uses `platform.provision`; the Phase 6 read-only routes
+remain outside this operation set and continue to use `platform.view`.

@@ -25,9 +25,9 @@ public sealed class EfFoundationTests
         Assert.True(await gym.Database.CanConnectAsync());
         Assert.Contains("20260825144155_InitialControlPlaneFoundation", await controlPlane.Database.GetAppliedMigrationsAsync());
         Assert.Contains("20260825144011_InitialGymFoundation", await gym.Database.GetAppliedMigrationsAsync());
-        Assert.Equal(15, await controlPlane.Permissions.CountAsync());
+        Assert.Equal(16, await controlPlane.Permissions.CountAsync());
         Assert.Equal(3, await controlPlane.Roles.CountAsync());
-        Assert.Equal(14, await controlPlane.RolePermissions.CountAsync());
+        Assert.Equal(15, await controlPlane.RolePermissions.CountAsync());
         Assert.Equal(1133, await gym.Exercises.CountAsync());
         Assert.Equal(367, await gym.Foods.CountAsync());
         Assert.Equal(297, await gym.Muscles.CountAsync());

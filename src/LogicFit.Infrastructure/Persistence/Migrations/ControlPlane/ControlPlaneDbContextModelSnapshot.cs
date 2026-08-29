@@ -262,6 +262,10 @@ namespace LogicFit.Infrastructure.Persistence.Migrations.ControlPlane
                         .HasColumnType("nvarchar(80)")
                         .HasColumnName("seed_version");
 
+                    b.Property<Guid>("ServerId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("server_id");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
@@ -281,11 +285,16 @@ namespace LogicFit.Infrastructure.Persistence.Migrations.ControlPlane
 
                     b.HasIndex("GymId");
 
+                    b.HasIndex("ServerId");
+
                     b.HasIndex("Environment", "DatabaseName")
                         .IsUnique()
                         .HasDatabaseName("UQ_platform_gym_databases_name");
 
-                    b.ToTable("gym_databases", "platform");
+                    b.ToTable("gym_databases", "platform", t =>
+                        {
+                            t.HasCheckConstraint("CK_platform_gym_databases_status", "[status] IN (N'pending', N'provisioning', N'Provisioning', N'Migrating', N'Seeding', N'Verifying', N'Active', N'healthy', N'degraded', N'failed', N'disabled')");
+                        });
                 });
 
             modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.GymEntity", b =>
@@ -311,6 +320,10 @@ namespace LogicFit.Infrastructure.Persistence.Migrations.ControlPlane
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uniqueidentifier")
                         .HasColumnName("organization_id");
+
+                    b.Property<Guid?>("OwnerUserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("owner_user_id");
 
                     b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
@@ -350,11 +363,16 @@ namespace LogicFit.Infrastructure.Persistence.Migrations.ControlPlane
                     b.HasKey("GymId")
                         .HasName("PK_platform_gyms");
 
+                    b.HasIndex("OwnerUserId");
+
                     b.HasIndex("OrganizationId", "Slug")
                         .IsUnique()
                         .HasDatabaseName("UQ_platform_gyms_org_slug");
 
-                    b.ToTable("gyms", "platform");
+                    b.ToTable("gyms", "platform", t =>
+                        {
+                            t.HasCheckConstraint("CK_platform_gyms_status", "[status] IN (N'archived', N'suspended', N'ready', N'provisioning', N'Provisioning', N'Migrating', N'Seeding', N'Verifying', N'Active')");
+                        });
                 });
 
             modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.MfaFactorEntity", b =>
@@ -739,6 +757,233 @@ namespace LogicFit.Infrastructure.Persistence.Migrations.ControlPlane
                     b.ToTable("permissions", "iam");
                 });
 
+            modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.ProvisioningRunEntity", b =>
+                {
+                    b.Property<Guid>("ProvisioningRunId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("provisioning_run_id")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
+
+                    b.Property<int>("AttemptNo")
+                        .HasColumnType("int")
+                        .HasColumnName("attempt_no");
+
+                    b.Property<DateTime?>("CompletedAtUtc")
+                        .HasColumnType("datetime2(3)")
+                        .HasColumnName("completed_at_utc");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(3)")
+                        .HasColumnName("created_at_utc")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<string>("CurrentStep")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("current_step");
+
+                    b.Property<string>("ErrorCode")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)")
+                        .HasColumnName("error_code");
+
+                    b.Property<string>("FailureCategory")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)")
+                        .HasColumnName("failure_category");
+
+                    b.Property<Guid?>("GymDatabaseId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("gym_database_id");
+
+                    b.Property<Guid>("GymId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("gym_id");
+
+                    b.Property<string>("IdempotencyKeyHash")
+                        .IsRequired()
+                        .HasColumnType("char(64)")
+                        .HasColumnName("idempotency_key_hash");
+
+                    b.Property<int?>("LastRetryAttemptNo")
+                        .HasColumnType("int")
+                        .HasColumnName("last_retry_attempt_no");
+
+                    b.Property<string>("LastRetryFailedStep")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("last_retry_failed_step");
+
+                    b.Property<string>("LastRetryFingerprint")
+                        .HasColumnType("char(64)")
+                        .HasColumnName("last_retry_fingerprint");
+
+                    b.Property<string>("LastRetryIdempotencyKeyHash")
+                        .HasColumnType("char(64)")
+                        .HasColumnName("last_retry_idempotency_key_hash");
+
+                    b.Property<string>("LastRetryNextStep")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("last_retry_next_step");
+
+                    b.Property<Guid>("OrganizationId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("organization_id");
+
+                    b.Property<Guid?>("OwnerUserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("owner_user_id");
+
+                    b.Property<string>("RequestFingerprint")
+                        .IsRequired()
+                        .HasColumnType("char(64)")
+                        .HasColumnName("request_fingerprint");
+
+                    b.Property<DateTime>("RequestedAtUtc")
+                        .HasColumnType("datetime2(3)")
+                        .HasColumnName("requested_at_utc");
+
+                    b.Property<Guid>("RequestedByUserId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("requested_by_user_id");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnName("row_version");
+
+                    b.Property<string>("SafeErrorMetadataJson")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("safe_error_metadata_json");
+
+                    b.Property<Guid?>("ServerId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("server_id");
+
+                    b.Property<DateTime?>("StartedAtUtc")
+                        .HasColumnType("datetime2(3)")
+                        .HasColumnName("started_at_utc");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime>("UpdatedAtUtc")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(3)")
+                        .HasColumnName("updated_at_utc")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.HasKey("ProvisioningRunId")
+                        .HasName("PK_provisioning_runs");
+
+                    b.HasIndex("GymDatabaseId");
+
+                    b.HasIndex("GymId")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_provisioning_runs_gym_active")
+                        .HasFilter("[status] IN (N'Requested', N'Provisioning', N'Migrating', N'Seeding', N'Verifying', N'Active')");
+
+                    b.HasIndex("OrganizationId");
+
+                    b.HasIndex("OwnerUserId");
+
+                    b.HasIndex("ServerId");
+
+                    b.HasIndex("RequestedByUserId", "IdempotencyKeyHash")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_provisioning_runs_actor_idempotency");
+
+                    b.HasIndex("Status", "UpdatedAtUtc")
+                        .HasDatabaseName("IX_provisioning_runs_status_updated");
+
+                    b.ToTable("runs", "provisioning", t =>
+                        {
+                            t.HasCheckConstraint("CK_provisioning_runs_attempt", "[attempt_no] > 0");
+
+                            t.HasCheckConstraint("CK_provisioning_runs_status", "[status] IN (N'Requested', N'Provisioning', N'Migrating', N'Seeding', N'Verifying', N'Active', N'ProvisioningFailed', N'MigrationFailed', N'SeedingFailed', N'VerificationFailed')");
+                        });
+                });
+
+            modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.ProvisioningStepEntity", b =>
+                {
+                    b.Property<Guid>("ProvisioningStepId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("provisioning_step_id")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
+
+                    b.Property<int>("AttemptNo")
+                        .HasColumnType("int")
+                        .HasColumnName("attempt_no");
+
+                    b.Property<DateTime?>("CompletedAtUtc")
+                        .HasColumnType("datetime2(3)")
+                        .HasColumnName("completed_at_utc");
+
+                    b.Property<string>("ErrorCode")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)")
+                        .HasColumnName("error_code");
+
+                    b.Property<string>("FailureCategory")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)")
+                        .HasColumnName("failure_category");
+
+                    b.Property<Guid>("ProvisioningRunId")
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("provisioning_run_id");
+
+                    b.Property<bool>("Retryable")
+                        .HasColumnType("bit")
+                        .HasColumnName("retryable");
+
+                    b.Property<string>("SafeMetadataJson")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("safe_metadata_json");
+
+                    b.Property<DateTime?>("StartedAtUtc")
+                        .HasColumnType("datetime2(3)")
+                        .HasColumnName("started_at_utc");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("status");
+
+                    b.Property<string>("StepKey")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("step_key");
+
+                    b.HasKey("ProvisioningStepId")
+                        .HasName("PK_provisioning_steps");
+
+                    b.HasIndex("ProvisioningRunId", "StepKey")
+                        .HasDatabaseName("IX_provisioning_steps_run_step");
+
+                    b.HasIndex("ProvisioningRunId", "StepKey", "AttemptNo")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_provisioning_steps_run_step_attempt");
+
+                    b.ToTable("steps", "provisioning", t =>
+                        {
+                            t.HasCheckConstraint("CK_provisioning_steps_attempt", "[attempt_no] > 0");
+
+                            t.HasCheckConstraint("CK_provisioning_steps_status", "[status] IN (N'Pending', N'Running', N'Success', N'Failed')");
+                        });
+                });
+
             modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.RoleEntity", b =>
                 {
                     b.Property<Guid>("RoleId")
@@ -831,6 +1076,87 @@ namespace LogicFit.Infrastructure.Persistence.Migrations.ControlPlane
                         .HasDatabaseName("UQ_iam_role_permissions_pair");
 
                     b.ToTable("role_permissions", "iam");
+                });
+
+            modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.ServerEntity", b =>
+                {
+                    b.Property<Guid>("ServerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasColumnName("server_id")
+                        .HasDefaultValueSql("NEWSEQUENTIALID()");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(3)")
+                        .HasColumnName("created_at_utc")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.Property<string>("EndpointRef")
+                        .HasMaxLength(240)
+                        .HasColumnType("nvarchar(240)")
+                        .HasColumnName("endpoint_ref");
+
+                    b.Property<string>("Environment")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
+                        .HasColumnName("environment");
+
+                    b.Property<string>("HealthStatus")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
+                        .HasDefaultValue("healthy")
+                        .HasColumnName("health_status");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(120)
+                        .HasColumnType("nvarchar(120)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("ProviderKey")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)")
+                        .HasColumnName("provider_key");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion")
+                        .HasColumnName("row_version");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)")
+                        .HasDefaultValue("active")
+                        .HasColumnName("status");
+
+                    b.Property<DateTime>("UpdatedAtUtc")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2(3)")
+                        .HasColumnName("updated_at_utc")
+                        .HasDefaultValueSql("SYSUTCDATETIME()");
+
+                    b.HasKey("ServerId")
+                        .HasName("PK_platform_servers");
+
+                    b.HasIndex("Environment", "Name")
+                        .IsUnique()
+                        .HasDatabaseName("UQ_platform_servers_environment_name");
+
+                    b.ToTable("servers", "platform", t =>
+                        {
+                            t.HasCheckConstraint("CK_platform_servers_health", "[health_status] IN (N'healthy', N'degraded', N'unavailable')");
+
+                            t.HasCheckConstraint("CK_platform_servers_status", "[status] IN (N'active', N'inactive')");
+                        });
                 });
 
             modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.SessionEntity", b =>
@@ -1082,7 +1408,15 @@ namespace LogicFit.Infrastructure.Persistence.Migrations.ControlPlane
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("LogicFit.Infrastructure.Persistence.Entities.ServerEntity", "Server")
+                        .WithMany("GymDatabases")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Gym");
+
+                    b.Navigation("Server");
                 });
 
             modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.GymEntity", b =>
@@ -1092,6 +1426,11 @@ namespace LogicFit.Infrastructure.Persistence.Migrations.ControlPlane
                         .HasForeignKey("OrganizationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("LogicFit.Infrastructure.Persistence.Entities.UserEntity", null)
+                        .WithMany()
+                        .HasForeignKey("OwnerUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Organization");
                 });
@@ -1134,6 +1473,65 @@ namespace LogicFit.Infrastructure.Persistence.Migrations.ControlPlane
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.ProvisioningRunEntity", b =>
+                {
+                    b.HasOne("LogicFit.Infrastructure.Persistence.Entities.GymDatabaseEntity", "GymDatabase")
+                        .WithMany()
+                        .HasForeignKey("GymDatabaseId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("LogicFit.Infrastructure.Persistence.Entities.GymEntity", "Gym")
+                        .WithMany()
+                        .HasForeignKey("GymId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LogicFit.Infrastructure.Persistence.Entities.OrganizationEntity", "Organization")
+                        .WithMany()
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LogicFit.Infrastructure.Persistence.Entities.UserEntity", "OwnerUser")
+                        .WithMany()
+                        .HasForeignKey("OwnerUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("LogicFit.Infrastructure.Persistence.Entities.UserEntity", "RequestedByUser")
+                        .WithMany()
+                        .HasForeignKey("RequestedByUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("LogicFit.Infrastructure.Persistence.Entities.ServerEntity", "Server")
+                        .WithMany()
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Gym");
+
+                    b.Navigation("GymDatabase");
+
+                    b.Navigation("Organization");
+
+                    b.Navigation("OwnerUser");
+
+                    b.Navigation("RequestedByUser");
+
+                    b.Navigation("Server");
+                });
+
+            modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.ProvisioningStepEntity", b =>
+                {
+                    b.HasOne("LogicFit.Infrastructure.Persistence.Entities.ProvisioningRunEntity", "ProvisioningRun")
+                        .WithMany("Steps")
+                        .HasForeignKey("ProvisioningRunId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ProvisioningRun");
                 });
 
             modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.RolePermissionEntity", b =>
@@ -1214,11 +1612,21 @@ namespace LogicFit.Infrastructure.Persistence.Migrations.ControlPlane
                     b.Navigation("RolePermissions");
                 });
 
+            modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.ProvisioningRunEntity", b =>
+                {
+                    b.Navigation("Steps");
+                });
+
             modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.RoleEntity", b =>
                 {
                     b.Navigation("RolePermissions");
 
                     b.Navigation("UserGymRoles");
+                });
+
+            modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.ServerEntity", b =>
+                {
+                    b.Navigation("GymDatabases");
                 });
 
             modelBuilder.Entity("LogicFit.Infrastructure.Persistence.Entities.UserEntity", b =>

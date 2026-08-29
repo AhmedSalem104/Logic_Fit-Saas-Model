@@ -14,7 +14,7 @@ authoritative working source; absent root kickoff files are not reconstructed.
 | Phase 5 - Backend Architecture Correction | GREEN - official .NET backend | `PHASE_5/PHASE_5_STATUS_REPORT.md` |
 | Phase 5B Authentication + RBAC | YELLOW - implementation complete; Android interactive Flutter UAT pass; iOS interactive UAT unavailable on Windows; final gate pending | `PHASE_5/PHASE_5_STATUS_REPORT.md` |
 | Phase 6 - Platform Foundation | YELLOW - read-only implementation complete; Chrome adapter verification pending | `PHASE_6/PHASE_6_STATUS_REPORT.md` |
-| Phase 7+ | NOT STARTED | Requires Phase 6 implementation authorization and a completed Phase 6 gate |
+| Phase 7 - Gym Provisioning | GREEN - implementation and direct Chrome verification complete; external adapter limitation documented | `PHASE_7/PHASE_7_STATUS_REPORT.md` |
 
 ## Key authorities
 
@@ -40,6 +40,9 @@ authoritative working source; absent root kickoff files are not reconstructed.
   `PHASE_6/11_PHASE_6_CONTRACT_GAP_REGISTER.md`,
   `PHASE_6/10_PHASE_6_DECISIONS.md`, and
   `PHASE_6/decisions/00_DECISION_INDEX.md`.
+- Phase 7 provisioning contract audit: `PHASE_7/PHASE_7_CONTRACT_STATUS_REPORT.md`,
+  `PHASE_7/10_PHASE_7_DECISIONS.md`, and
+  `PHASE_7/11_PHASE_7_CONTRACT_GAP_REGISTER.md`.
 
 The official backend is ASP.NET Core Web API / C# / .NET 10 / EF Core / SQL
 Server in `LogicFit.sln`. The former Fastify/TypeScript backend was
@@ -64,3 +67,18 @@ See `PHASE_6/12_PLATFORM_IMPLEMENTATION.md`,
 `PHASE_6/14_PLATFORM_WEB_IMPLEMENTATION.md`,
 `PHASE_6/15_PLATFORM_TEST_RESULTS.md`, and
 `PHASE_6/PHASE_6_STATUS_REPORT.md`.
+
+Phase 7 contract-closure update (2026-08-29): P7-D-001 through P7-D-015 have
+been recorded from the final human approval. The closed contract covers
+asynchronous Gym provisioning, organization/Gym registry creation, registered
+server placement, deterministic database naming, EF migration and Phase 3
+seed orchestration, verification, Owner initialization, lifecycle/retry,
+audit, and the three existing provisioning routes. `platform.provision` is
+approved as a Phase 7 permission and is a forward contract change; the
+Phase 5B runtime catalog remains unchanged until implementation. The final
+human approval resolves P7-G-023 by mapping Gym Owner to the existing
+`gym-security-admin` role. No new role, alias, rename, or unrelated grant is
+introduced. The authorized implementation now adds the provisioning Control
+Plane model/migrations, local asynchronous workflow, exactly three APIs, and
+the Platform Admin Web flow. Phase 3 seed data and TOP GYM remain unchanged;
+the implementation and verification record is in `PHASE_7/PHASE_7_STATUS_REPORT.md`.

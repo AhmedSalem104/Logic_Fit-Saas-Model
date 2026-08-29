@@ -18,3 +18,10 @@
 
 The detailed evidence, options, selected option, and surface impacts for
 each decision are recorded in `decisions/01_` through `decisions/10_`.
+
+## Later Phase 7 transition - 2026-08-29
+
+P7-D-001 subsequently approves `platform.provision` for Phase 7
+provisioning execution. It does not revise P6-D-007: all Phase 6 routes
+remain read-only and continue to use only `platform.view`. The Phase 7 key is
+not added to the Phase 6 runtime by this contract-only update.

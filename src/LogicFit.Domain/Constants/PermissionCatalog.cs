@@ -22,7 +22,8 @@ public static class PermissionCatalog
         new("auth.sessions.revoke", "auth", "sessions.revoke", "high", "Revoke an owned authenticated session."),
         new("auth.session.manage", "auth", "session.manage", "high", "Manage sessions under the approved authentication contract."),
         new("platform.security.manage", "platform", "security.manage", "critical", "Manage users, roles, permission assignments and security controls."),
-        new("platform.view", "platform", "view", "normal", "View safe platform scope information.")
+        new("platform.view", "platform", "view", "normal", "View safe platform scope information."),
+        new("platform.provision", "platform", "provision", "critical", "Create and initialize an isolated LogicFit Gym through the approved provisioning workflow.")
     ];
 
     public static IReadOnlyList<RoleDefinition> Roles { get; } =
@@ -47,6 +48,7 @@ public static class PermissionCatalog
         new("gym-authenticated-user", "auth.session.manage"),
         new("gym-security-admin", "platform.security.manage"),
         new("platform-security-admin", "platform.security.manage"),
-        new("platform-security-admin", "platform.view")
+        new("platform-security-admin", "platform.view"),
+        new("platform-security-admin", "platform.provision")
     ];
 }
