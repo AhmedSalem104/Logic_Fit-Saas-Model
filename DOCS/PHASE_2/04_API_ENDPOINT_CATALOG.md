@@ -44,7 +44,7 @@ Each row is a contract. `CP` means Control Plane; `GYM` means the selected `/gym
 |---|---|---|---|---|
 | `GET /gyms/{gymId}/members` | List/search/filter members | `members.read`, GYM | query → paged member DTOs | authorized fields only; members. |
 | `POST /gyms/{gymId}/members` | Create member | `members.create`, GYM | member create DTO → member | fullName/phone/TOPGYM field rules; audit; members. |
-| `GET/PATCH/DELETE /gyms/{gymId}/members/{memberId}` | Read/update/archive member | `members.read`, `members.update`, `members.delete`, GYM | DTO + version → member | tenant/member existence; soft delete; audit; members. |
+| `GET/PUT/DELETE /gyms/{gymId}/members/{memberId}` | Read/update/archive member | `members.read`, `members.update`, `members.delete`, GYM | DTO + version → member | tenant/member existence; soft delete; audit; members. |
 | `GET /gyms/{gymId}/members/{memberId}/timeline` | Member timeline | `members.read`, GYM | filters → timeline DTOs | financial/sensitive filtering; timeline/source tables. |
 | `GET/POST /gyms/{gymId}/members/{memberId}/memberships` | List/add membership | `memberships.read`, `memberships.create`, GYM | membership DTO → membership | dates/freeze/payment linkage; membership tables. |
 | `POST /gyms/{gymId}/memberships/{membershipId}/freeze` | Freeze membership | `memberships.freeze`, GYM | `{days,reason}` → membership | approved freeze rule from contract; event/audit; membership tables. |

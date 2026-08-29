@@ -1,7 +1,7 @@
 # Members Flutter Contract
 
-**Status:** BLOCKED — profile tab boundary and API schemas require closure
-**Client:** existing Flutter app using Dio, Riverpod, and GoRouter
+**Status:** GREEN — Flutter contract closed; implementation not authorized by this task
+**Client:** existing Flutter application using Dio, Riverpod, and GoRouter
 
 ## F-MEM-001 — Mobile Member list
 
@@ -10,29 +10,27 @@
 | Route | `/gym/members` |
 | API | `GET /api/v1/gyms/{gymId}/members` |
 | Permission | `members.read` |
-| Purpose | Authorized staff Member search/list |
+| Actions | Search, status filter, page, open profile |
 | States | Loading, paged loading, empty, error/retry, unauthorized, success |
-| Offline | Existing catalog permits a cache of the last authorized list for read-only use; mutations remain online |
-| UX | Cards, safe fields only, Arabic/RTL, Light/Dark themes |
+| Offline | Last authorized safe list may be cached read-only; mutations require network |
+| UX | Safe cards, Arabic/RTL, Light/Dark |
 
 ## F-MEM-002 — Mobile Member profile
 
 | Item | Contract |
 |---|---|
 | Route | `/gym/members/:id` |
-| APIs | Member detail and approved timeline/detail APIs |
-| Permission | `members.read` plus a separate permission for any future linked tab |
-| Purpose | Authorized Member profile summary |
+| APIs | Member detail GET and Member timeline GET |
+| Permission | `members.read`; future linked tabs require their own contracts |
+| Content | Core profile, status, Member Code where contractually required, and Member-domain timeline |
 | States | Loading, cached/stale read, empty/not found, error/retry, unauthorized, success |
-| Offline | Existing catalog permits safe cached read; no sensitive prefetch |
-| UX | Safe allowlist, Arabic/RTL, Light/Dark themes |
-
-The Phase 2 catalog names membership, attendance, measurements, and plans tabs. Attendance is separately scoped as `F-MEM-003`; measurements and plans are later-domain contracts. P8-G-006 requires a decision on the core profile surface before implementation.
+| Offline | Safe cached read only; no sensitive prefetch; mutations require network |
+| UX | Arabic/RTL, Light/Dark, safe allowlist |
 
 ## F-MEM-003 — Attendance boundary
 
-`F-MEM-003` remains a separately scoped Attendance screen. It is documented to preserve traceability, but no Attendance API, table, permission, route implementation, or Member-core flow is authorized by this contract audit.
+`F-MEM-003` remains separately scoped Attendance. It is not part of the Phase 8 Members core implementation, API, schema, or tests.
 
 ## Client security
 
-Flutter uses the same API and server-side authorization as Web. It must not access SQL Server, calculate authoritative permissions, or create a second session/Member business rule system.
+Flutter uses the same API and backend authorization as Web. It does not access SQL Server, calculate authoritative permission decisions, or create a second Member/session/business-rule system.

@@ -15,7 +15,7 @@ authoritative working source; absent root kickoff files are not reconstructed.
 | Phase 5B Authentication + RBAC | YELLOW - implementation complete; Android interactive Flutter UAT pass; iOS interactive UAT unavailable on Windows; final gate pending | `PHASE_5/PHASE_5_STATUS_REPORT.md` |
 | Phase 6 - Platform Foundation | YELLOW - read-only implementation complete; Chrome adapter verification pending | `PHASE_6/PHASE_6_STATUS_REPORT.md` |
 | Phase 7 - Gym Provisioning | GREEN - implementation and direct Chrome verification complete; external adapter limitation documented | `PHASE_7/PHASE_7_STATUS_REPORT.md` |
-| Phase 8 - Members | BLOCKED - contract audit gaps recorded; implementation not authorized | `PHASE_8/PHASE_8_CONTRACT_STATUS_REPORT.md` |
+| Phase 8 - Members | GREEN - contract closure complete; implementation not authorized in this task | `PHASE_8/PHASE_8_CONTRACT_STATUS_REPORT.md` |
 
 ## Key authorities
 
@@ -87,11 +87,12 @@ Plane model/migrations, local asynchronous workflow, exactly three APIs, and
 the Platform Admin Web flow. Phase 3 seed data and TOP GYM remain unchanged;
 the implementation and verification record is in `PHASE_7/PHASE_7_STATUS_REPORT.md`.
 
-Phase 8 Members contract-audit update (2026-08-29): the locked core scope is
-Member list/create/detail/update/history-preserving delete-or-archive/timeline
+Phase 8 Members contract-closure update (2026-08-29): the approved core scope is
+Member list/create/detail/PUT update/history-preserving DELETE archive/timeline
 in the Gym database, with the existing five `members.*` permission identifiers,
 MEM-W-001 through MEM-W-003, and F-MEM-001/F-MEM-002. No Member seed data or
-membership/attendance/business-module behavior is included. The contract is
-BLOCKED by the exact lifecycle/delete semantics, concrete role grants,
-duplicate/idempotency policy, complete DTO/query schemas, timeline event scope,
-and the Phase 2 profile-tab boundary. See `PHASE_8/PHASE_8_CONTRACT_STATUS_REPORT.md`.
+membership/attendance/business-module behavior is included. P8-G-001 through
+P8-G-006 are explicitly resolved; the complete contract and traceability are in
+`PHASE_8/PHASE_8_CONTRACT_STATUS_REPORT.md` and
+`PHASE_8/16_PHASE_8_GAP_REGISTER.md`. Implementation remains unauthorized in
+the contract-closure task.

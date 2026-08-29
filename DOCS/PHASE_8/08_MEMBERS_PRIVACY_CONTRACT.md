@@ -1,31 +1,33 @@
 # Members Privacy Contract
 
-**Status:** BLOCKED — exact list/detail/timeline DTO allowlists need closure
+**Status:** GREEN — privacy and response boundaries closed
 
-## Data classes
+## Core field classification
 
-| Data | Classification | Contract treatment |
+| Field/data | Classification | Core response rule |
 |---|---|---|
-| Member ID, Gym ID, status, registration date, audit/version metadata | Operational identifier/state | Return only where required by the endpoint and authorization |
-| Full name, phone, email, notes | Personal data | Gym-scoped; purpose-limited; no unnecessary list exposure |
-| Membership, payment, attendance, health/measurement, training, nutrition, CRM, documents | Separate/sensitive domain data | Not part of Member-core responses; future contract and permission required |
-| Portal access codes/sessions and QR tokens | Authentication or access secret | Separate contracts; never returned in Member core APIs |
+| `memberId`, `gymId`, status, registration date, version | Operational identifiers/state | Return only in the approved scoped DTO |
+| `fullName`, phone, email, Member Code | Personal/contact or protected Portal data | Return only in approved administrative projection; Member Code remains governed by Portal rules |
+| notes | Personal free text | Detail/update only as approved; never copied into logs or timeline metadata |
+| Membership, payment, attendance, measurement, training, nutrition, CRM, documents | Separate or sensitive domains | Excluded from Phase 8 core DTOs and timeline |
+| Passwords, hashes, MFA, recovery codes, sessions, QR/raw Portal secrets | Authentication/access secrets | Never stored or returned by Members APIs |
 
-## Response boundaries
+## List projection
 
-The list, detail, and timeline endpoints must each have an explicit field allowlist. Phase 2 says the list uses authorized fields and the profile uses sensitive filtering, but the complete JSON allowlists are not present. This is P8-G-004/P8-G-005.
+The list returns only `memberId`, approved Member Code representation when the existing Portal contract requires it, `fullName`, normalized phone, optional email, registration date, status, timestamps, and opaque version. It does not return authentication, infrastructure, future-domain, or arbitrary metadata.
 
-## Logging and audit
+## Detail projection
 
-- Do not log full request bodies for Member mutations.
-- Do not log authentication secrets or database infrastructure secrets.
-- Audit records should identify the actor, Gym, Member, action, request ID, and safe changed-field metadata as allowed by the existing audit contract.
-- Notes and contact values must not be copied into exception messages or structured logs without an approved operational need.
+Detail returns the approved core profile and safe audit/version metadata. It does not include password data, MFA, recovery, session, QR, membership, payment, attendance, health, training, nutrition, CRM, document, or infrastructure values.
 
-## Tenant and role controls
+## Timeline and audit redaction
 
-Privacy is enforced by backend authentication, effective permission, and Gym scope. Hiding a field in React or Flutter is not an authorization boundary. Platform Admin access to Platform APIs does not imply unrestricted access to Member records.
+Timeline exposes only the four Member-domain event types and allowlisted safe metadata. Audit records identify Member/Gym/actor/request and safe changed-field information. Secrets and unnecessary personal payloads are redacted.
+
+## Authorization and isolation
+
+The backend enforces the actor, Gym, role, and permission for every response. Platform Admin access to Platform APIs does not grant Member data access. React/Flutter field hiding is not a privacy or authorization boundary.
 
 ## Export
 
-`members.export` is an existing permission identifier, but no Phase 8 export endpoint or output contract is present. Export is deferred; no download, print, or bulk endpoint may be inferred from the screen catalog.
+`members.export` remains a contracted permission assigned to `gym-security-admin`, but no export endpoint or output format is part of Phase 8 core. It is documented as `CONTRACTED PERMISSION / IMPLEMENTATION DEFERRED`.

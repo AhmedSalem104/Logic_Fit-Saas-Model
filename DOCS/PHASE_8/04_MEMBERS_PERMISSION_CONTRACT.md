@@ -1,47 +1,34 @@
 # Members Permission Contract
 
-**Status:** BLOCKED — concrete role grants are not defined by the current canonical RBAC assignments
-**RBAC system:** Phase 5B; no second authorization system
+**Status:** GREEN — permission and role grants closed
+**Authorization system:** Phase 5B RBAC; no second system
 
-## Approved permission identifiers
+## Permissions
 
-| Permission | Intended operation | Scope | API mapping |
-|---|---|---|---|
-| `members.read` | Read Member list, detail, and timeline | Authorized Gym | List, detail, timeline |
-| `members.create` | Create a Member | Authorized Gym | Create |
-| `members.update` | Change mutable Member profile data | Authorized Gym | Update |
-| `members.delete` | History-preserving delete/archive operation | Authorized Gym | Delete/archive |
-| `members.export` | Export Member data if a future endpoint is contracted | Authorized Gym | No Phase 8 core route currently exists |
-
-These identifiers come from the locked Phase 2 permission contract and the Phase 8 initial scope. No new permission key, alias, or role is authorized.
-
-## Role reconciliation
-
-The concrete canonical roles remain:
-
-- `gym-authenticated-user`
-- `gym-security-admin`
-- `platform-security-admin`
-
-The current canonical runtime catalog contains no `members.*` grants. Phase 2 defines the permission identifiers and generic Gym Owner/Manager profile guidance, but it does not close exact grants for these three concrete roles.
-
-| Role | Members grants in current canonical assignments | Phase 8 decision |
+| Permission | Scope | Operations |
 |---|---|---|
-| `gym-authenticated-user` | None evidenced | Exact grant set required |
-| `gym-security-admin` | None evidenced | Exact grant set required |
-| `platform-security-admin` | No implicit Gym business access | Must remain denied unless explicit Gym-scoped grant is approved |
+| `members.read` | Authorized Gym | List, detail, timeline |
+| `members.create` | Authorized Gym | Create |
+| `members.update` | Authorized Gym | PUT profile/status update |
+| `members.delete` | Authorized Gym | Archive through DELETE; never SQL DELETE |
+| `members.export` | Authorized Gym | Contracted permission; implementation deferred from Phase 8 core |
 
-This is P8-G-002. Implementation must not seed or infer grants until it is resolved.
+No new permission key or alias is created.
 
-## Authorization rules
+## Approved role grants
 
-- Every request requires Phase 5B authentication and resolved Gym scope.
-- The backend evaluates the permission for the requested Gym and operation.
-- A client-provided role, permission, or Gym identifier is never trusted.
-- Cross-Gym access is denied by server-side scope enforcement.
-- A Platform operation and a Gym Member operation remain different security surfaces.
-- The UI may hide unavailable actions but cannot authorize them.
+| Canonical role | Members grants |
+|---|---|
+| `gym-security-admin` | `members.read`, `members.create`, `members.update`, `members.delete`, `members.export` |
+| `gym-authenticated-user` | `members.read` |
+| `platform-security-admin` | None; no automatic Gym business-data access |
 
-## Export
+These grants apply only in the role's authorized Gym scope. The Platform Admin role continues to use Platform APIs and does not receive implicit Member access.
 
-The permission is documented because it is already canonical. No Phase 8 API catalog route currently implements export, and no export behavior, format, field set, limits, or audit contract exists. It is therefore deferred and must not be implemented as an implied list/download action.
+## Enforcement
+
+- The backend resolves the actor, Gym, role assignment, and permission for every request.
+- A client-side hidden button or route guard is not authorization.
+- Cross-Gym access is denied server-side.
+- Inactive user, inactive Gym, revoked role, or missing permission produces the existing canonical authorization result.
+- Member Code Portal access remains separate from staff RBAC.

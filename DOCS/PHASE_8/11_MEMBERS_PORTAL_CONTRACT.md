@@ -1,27 +1,27 @@
 # Members Portal Relationship Contract
 
-**Status:** Core Members contract does not modify Portal authentication; Portal policy is a future dependency
+**Status:** GREEN — relationship boundary closed
 
 ## Existing Portal authority
 
-The Phase 2 contract defines Member Portal access as:
+The approved Portal flow is:
 
-`Member Code -> Gym context -> scoped portal session`
+`Member Code -> validation -> Gym context -> secure scoped Portal session -> Portal`
 
-It is not the Staff/Admin authentication flow from Phase 5B. The portal must remain separate from the Gym staff Member APIs and must not receive an Admin session or Admin permission implicitly.
+It is separate from Phase 5B staff/platform authentication. Portal sessions are Gym/member-scoped, expiring, rate-limited, revocable, and audited as defined by the existing Portal contract.
 
 ## Phase 8 relationship
 
-- Core Member create/read/update/archive APIs do not create Portal credentials or sessions.
-- The core Member response must not expose a raw Portal access code, portal session, QR token, password, or authentication secret.
-- Member Code may be displayed only under the separate approved Portal/Member privacy rules.
-- The Portal may consume an approved safe Member projection; it must not call the staff/admin detail API as a substitute for a Portal contract.
-- Portal authentication, code rotation/revocation, code reveal, and Portal UI are not implemented in this Members contract audit.
+- Core Member APIs do not change Portal authentication.
+- Core Member create does not create a second Portal credential or session system.
+- Member Code is consumed from the existing Portal access-code contract when that contract requires it; it is Gym-unique, is not a numeric database identifier, and is not mutable through normal Member PUT.
+- Portal access material and raw codes are never returned as authentication secrets by the core Member API, logged, or placed in timeline metadata.
+- Portal users never receive Admin Members permissions and do not call Admin Member APIs as a substitute for the Portal-safe projection.
 
-## Unresolved future dependency
+## Phase boundary
 
-The existing source documents do not close the Member Code generation format, length, uniqueness scope, mutability, reveal/rotation policy, or exact Portal-safe field allowlist. These are recorded as a future Portal contract dependency, not guessed in Phase 8. If the product requires Portal behavior in the Phase 8 core release, P8-G-007 must be explicitly promoted and resolved before implementation.
+Portal UI, code issuance/rotation/reveal, and Portal-specific API implementation remain governed by the existing Portal contract. Phase 8 only preserves the Member relationship and safe separation; it does not add Portal routes.
 
 ## Legacy reconciliation
 
-TOP GYM's membership-code lookup and code reveal/rotate behavior is reference evidence only. Its one-database architecture, unrestricted legacy routes, and membership/payment coupling are not LogicFit authority.
+TOP GYM membership-code behavior is reference evidence only. Its one-database routes and membership/payment coupling are not copied into LogicFit.

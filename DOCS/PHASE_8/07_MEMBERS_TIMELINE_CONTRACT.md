@@ -1,45 +1,44 @@
 # Members Timeline Contract
 
-**Status:** BLOCKED — event source and core event scope are not closed
+**Status:** GREEN — Member-domain timeline contract closed
 
-## Locked storage evidence
-
-The Phase 2 database catalog describes `members.timeline_events` with:
-
-- `timeline_event_id`;
-- `member_id`;
-- `event_type`;
-- `event_at_utc`;
-- `source_type`;
-- `source_id`;
-- `summary`;
-- `metadata_json`;
-- `created_at_utc`.
-
-It also requires Member/time indexing, authorization, and filtering of financial or sensitive data. The API catalog defines a Gym-scoped read route:
+## Route and scope
 
 `GET /api/v1/gyms/{gymId}/members/{memberId}/timeline`
 
-with `members.read`.
+Requires `members.read`, authenticated Phase 5B session, and authorized Gym scope. The route already exists in the Phase 2 API catalog; no second timeline API is created.
 
-## Unresolved event boundary
+## Core events
 
-The Phase 2 Member contract describes a future projection that may include membership, attendance, measurement, CRM, training/nutrition, and payment events. The Phase 8 locked initial scope excludes those modules. No implementation may silently import their records or event types.
+The Members core timeline contains exactly these event categories:
 
-Human approval is required for:
+- `MEMBER_CREATED`
+- `MEMBER_UPDATED`
+- `MEMBER_ARCHIVED`
+- `MEMBER_STATUS_CHANGED`
 
-- the event types available in the Members core slice;
-- whether Member create/update/archive events are included;
-- the source of each event and projection ownership;
-- whether the initial timeline is Member-core-only until future modules exist;
-- the safe metadata allowlist and whether actor identity is shown;
-- event ordering and tie-breaking;
-- time/status filters, page size, and response envelope fields;
-- behavior for a missing or inaccessible source event.
+It does not include payments, subscriptions, attendance, training, nutrition, store, CRM, classes, or other future-module events. Future modules may contribute events only through their own approved contract updates.
 
-## Security and privacy invariants
+## Timeline DTO
 
-- The timeline is always scoped to the requested Gym and Member.
-- Financial, health, authentication, and other sensitive records are excluded unless an explicit authorized contract later permits them.
-- No password, MFA secret, recovery code, session token, database credential, or private key may be stored in or returned through timeline metadata.
-- The API returns only an approved safe projection, never arbitrary `metadata_json`.
+```json
+{
+  "eventId": "uuid",
+  "memberId": "uuid",
+  "gymId": "uuid",
+  "eventType": "MEMBER_CREATED|MEMBER_UPDATED|MEMBER_ARCHIVED|MEMBER_STATUS_CHANGED",
+  "occurredAt": "ISO-8601-UTC",
+  "actorId": "uuid-or-null",
+  "metadata": "approved-safe-object"
+}
+```
+
+The event table follows the existing `members.timeline_events` evidence. `sourceType`/`sourceId` identify the Member-domain source event where applicable; they are not a route to arbitrary future data.
+
+## Query and ordering
+
+Timeline uses the existing collection envelope and pagination: `page` default 1, `pageSize` default 25, maximum 100. Results are ordered by `occurredAt` descending, then `eventId` descending as a deterministic tie-breaker. No arbitrary filters or sort fields are accepted.
+
+## Safe metadata
+
+Only approved safe metadata is returned, such as a changed-field name or status transition. Raw request bodies, notes, passwords, MFA secrets, recovery codes, session tokens, authentication secrets, database credentials, and arbitrary JSON are excluded. The timeline is always Member- and Gym-scoped.

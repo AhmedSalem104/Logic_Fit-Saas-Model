@@ -1,76 +1,119 @@
 # Members API Contract
 
-**Status:** BLOCKED — route family is known, implementation-ready schemas are not yet closed
+**Status:** GREEN — API contract closed
 **Base:** `/api/v1`
 
-## Canonical operation set
+## Canonical routes
 
-These routes are the only Phase 8 Members core routes currently authorized by the Phase 2 catalog:
-
-| Method | Canonical route | Permission | Operation |
+| Method | Route | Permission | Result |
 |---|---|---|---|
-| `GET` | `/api/v1/gyms/{gymId}/members` | `members.read` | List/search/filter Members |
-| `POST` | `/api/v1/gyms/{gymId}/members` | `members.create` | Create a Member |
-| `GET` | `/api/v1/gyms/{gymId}/members/{memberId}` | `members.read` | Read Member detail |
-| `PATCH` | `/api/v1/gyms/{gymId}/members/{memberId}` | `members.update` | Update a Member |
-| `DELETE` | `/api/v1/gyms/{gymId}/members/{memberId}` | `members.delete` | Delete/archive according to the closed lifecycle contract |
-| `GET` | `/api/v1/gyms/{gymId}/members/{memberId}/timeline` | `members.read` | Read the authorized Member timeline |
+| `GET` | `/api/v1/gyms/{gymId}/members` | `members.read` | Paged Member summaries |
+| `POST` | `/api/v1/gyms/{gymId}/members` | `members.create` | Created Member |
+| `GET` | `/api/v1/gyms/{gymId}/members/{memberId}` | `members.read` | Member detail |
+| `PUT` | `/api/v1/gyms/{gymId}/members/{memberId}` | `members.update` | Updated Member |
+| `DELETE` | `/api/v1/gyms/{gymId}/members/{memberId}` | `members.delete` | Archived Member |
+| `GET` | `/api/v1/gyms/{gymId}/members/{memberId}/timeline` | `members.read` | Paged Member-domain timeline |
 
-No export route is present in the locked API catalog. `members.export` is retained as an approved permission identifier, but export is deferred unless a separate operation contract is approved.
+The Phase 8 approval explicitly selects `PUT`; affected older Phase 2 `PATCH` references are documentation drift and are reconciled to this route. No compatibility route is permitted.
 
-## Common API rules already locked
+## Common contract
 
-- The API is authoritative and clients use it exclusively.
-- `gymId` is resolved and authorized server-side before data access.
-- Responses use the existing `{ data, meta }` success envelope.
-- Errors use the existing error envelope with `code`, `message`, `fieldErrors`, and request metadata.
-- Standard status families are 400 validation/filter/state, 401 unauthenticated, 403 unauthorized or scope denied, 404 safe not found, 409 concurrency/duplicate, 422 domain validation, and 429 rate limiting where applicable.
-- Collection paging supports `page >= 1` and `pageSize` up to 100; the endpoint-specific default and complete query allowlist are not closed.
-- Mutation authorization and validation are re-evaluated by the backend in the transaction.
-- Mutable updates use the existing opaque row-version/`If-Match` convention once the exact representation is confirmed.
+- Authentication is the Phase 5B session model.
+- The server authorizes the requested Gym and permission before data access.
+- Success uses the existing `{ data, meta }` envelope. Collection `meta` includes `page`, `pageSize`, `total`, `hasNext`, `requestId`, and `version`.
+- Errors use the existing error envelope.
+- `401` means unauthenticated; `403` means missing permission or unauthorized Gym; `404` is the canonical safe resource result; `409` is duplicate/idempotency/concurrency conflict; `422` is domain validation; `400` is malformed input/filter; `429` applies only to the existing abuse policy.
+- Unknown query/sort fields are rejected; arbitrary SQL-like filters are not accepted.
+- No response or log contains passwords, password hashes, MFA/recovery/session secrets, credentials, connection strings, or private keys.
 
-## Known request/response field set
+## DTO contract
 
-The locked profile fields are:
+### `MemberSummary` (list)
 
-```text
-fullName: required string, max 120
-phone: required normalized string, max 30
-email: optional string, max 254
-registrationDate: date
-notes: optional string, max 1000
-status: canonical Member status — unresolved
-memberId / gymId / audit / version metadata: response-controlled
+```json
+{
+  "memberId": "uuid",
+  "memberCode": "string",
+  "fullName": "string",
+  "phone": "string",
+  "email": "string-or-null",
+  "registrationDate": "YYYY-MM-DD",
+  "status": "ACTIVE|INACTIVE|ARCHIVED",
+  "createdAtUtc": "ISO-8601-UTC",
+  "updatedAtUtc": "ISO-8601-UTC",
+  "version": "opaque-row-version"
+}
 ```
 
-This is not a complete JSON schema. The exact casing, nullability, date format, status vocabulary, list/detail field allowlists, version field, and error field names must be approved before implementation.
+The list contains only these operational identification fields. The existing Portal contract establishes `memberCode` for Portal-enabled Members; raw Portal access secrets are separate and are never returned.
 
-## Endpoint-specific closure items
+### `MemberDetail`
 
-### List
+`MemberDetail` contains `memberId`, `gymId`, the same approved profile fields, status, `createdAtUtc`, `updatedAtUtc`, and opaque `version`. Actor IDs remain internal audit metadata and are not returned unless a later explicit safe projection contract permits them. It contains no linked membership, payment, attendance, health, training, nutrition, CRM, document, QR, or authentication payload.
 
-The route, permission, Gym scope, and paged collection concept are locked. The default page size, searchable fields, normalization rules, exact status filter, sortable fields/directions, list privacy allowlist, and response metadata remain unresolved.
+### `CreateMemberRequest`
 
-### Create
+```json
+{
+  "fullName": "string",
+  "phone": "string",
+  "email": "string-or-null",
+  "registrationDate": "YYYY-MM-DD",
+  "notes": "string-or-null"
+}
+```
 
-The route, `members.create`, exact core form fields, server validation, Gym ownership, audit, and no automatic membership/payment/attendance creation are locked. Duplicate handling, idempotency-key requirement/fingerprint behavior, generated/stable Member Code behavior, response status, and complete response schema remain unresolved.
+No client-supplied `memberId`, `gymId`, status override, database identifier, membership, payment, attendance, or future-module field is accepted. If the already approved Portal contract requires a server-managed Member Code, it is handled by that existing Portal mechanism and is not a second create flow.
 
-### Detail
+### `UpdateMemberRequest`
 
-The route and `members.read` are locked. The core detail allowlist, timeline link/shape, future-domain tab behavior, privacy filtering, and not-found/scope disclosure policy remain unresolved.
+```json
+{
+  "fullName": "string",
+  "phone": "string",
+  "email": "string-or-null",
+  "registrationDate": "YYYY-MM-DD",
+  "notes": "string-or-null",
+  "status": "ACTIVE|INACTIVE"
+}
+```
 
-### Update
+The request is a complete replacement of mutable profile fields. `memberId`, `gymId`, creation metadata, Member Code, and an `ARCHIVED` status are immutable through this operation. Status transitions are validated against the lifecycle contract. `If-Match` with the opaque current version is required.
 
-The route, `members.update`, Gym ownership protection, row-version concept, validation, and audit are locked. Mutable versus immutable fields, exact `If-Match`/version contract, conflict response, and status mutation rules remain unresolved.
+### Archive response
 
-### Delete/archive
+`DELETE` returns the normal envelope with `{ memberId, status: "ARCHIVED", archivedAtUtc, version }`. It requires `If-Match` unless the caller is repeating an already successful archive with the same authorized resource state. Repeated archive is idempotent and never physically deletes.
 
-The route and `members.delete` are locked. The meaning of delete, resulting status/visibility, audit payload, recovery, and physical-purge policy remain unresolved. Phase 2 history-preservation rules rule out an unqualified destructive delete.
+### Timeline DTO
 
-### Timeline
+```json
+{
+  "eventId": "uuid",
+  "memberId": "uuid",
+  "gymId": "uuid",
+  "eventType": "MEMBER_CREATED|MEMBER_UPDATED|MEMBER_ARCHIVED|MEMBER_STATUS_CHANGED",
+  "occurredAt": "ISO-8601-UTC",
+  "actorId": "uuid-or-null",
+  "metadata": "approved-safe-object"
+}
+```
 
-The route, `members.read`, Gym scope, time-ordered projection concept, and sensitive-data filtering are locked. Event types, source ownership, metadata allowlist, ordering tie-breaker, filters, page size, and future-domain inclusion remain unresolved.
+Timeline metadata is allowlisted and never exposes arbitrary JSON.
 
-## Security and privacy
+## List query contract
 
-No request or response may carry passwords, reset secrets, TOTP secrets, recovery codes, session secrets, database credentials, or private keys. Platform Admin does not gain implicit Member API access. Client-side permission checks are UX only; backend authorization is authoritative.
+`GET` accepts:
+
+- `page`: integer, default `1`;
+- `pageSize`: integer, default `25`, maximum `100`;
+- `search`: one safe term evaluated only against `memberCode`, `firstName`, `lastName`, `displayName`, `phone`, and `email` search projections;
+- `status`: one or more of `ACTIVE`, `INACTIVE`, `ARCHIVED`;
+- `sort`: `createdAt` or `updatedAt` with `asc|desc`; default `createdAt:desc`.
+
+The default status result is `ACTIVE` and `INACTIVE`; `ARCHIVED` requires an explicit status filter. Sorting always adds `memberId` as a stable descending tie-breaker. Queries are parameterized and Gym-scoped.
+
+The name selectors are API search projections over the canonical `full_name` value; they do not authorize new persisted first-name/last-name columns. Phone/email matching uses the canonical normalized values.
+
+## Idempotency and errors
+
+Create requires the existing `Idempotency-Key` policy. An equivalent repeated key returns the original result; a conflicting payload returns deterministic `409 IDEMPOTENCY_KEY_CONFLICT`. Concurrent Member Code creation yields one success and one deterministic `409 DUPLICATE_RESOURCE`. Stale update/archive returns `409 CONCURRENCY_CONFLICT`. Invalid or unauthorized Gym context never causes an unscoped query.

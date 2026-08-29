@@ -1,74 +1,59 @@
 # Phase 8 — Members Scope
 
-**Contract status:** BLOCKED — contract audit complete, implementation not authorized
-**Audit date:** 2026-08-29
-**Module:** Members (first approved business module)
+**Contract status:** GREEN — contract closure complete; implementation is not authorized by this task
+**Closure date:** 2026-08-29
 
-## Purpose
+## Authority and closure
 
-This package closes the Phase 8 Members specification before any production or business implementation. It records the requirements that are already authoritative, the requirements implied by those contracts, and the decisions that still require explicit product or security approval.
+This package applies the explicit human approvals for P8-G-001 through P8-G-006. LogicFit Phase 2–7 documentation remains the project authority, with the final Phase 8 approval acting as the explicit update for the Members operation contract. Stale Phase 2 Member references to `PATCH` are reconciled to the approved `PUT` operation in the affected documentation; no runtime code is changed.
 
-No C#, EF migration, SQL change, seed change, API implementation, React feature, Flutter feature, test implementation, or database write is authorized by this document.
+The root files `DECISION_LOCK.md`, `IMPLEMENTATION_ROADMAP.md`, and `CODEX_KICKOFF.md` remain absent. No contents were reconstructed.
 
-## Authority reviewed
+## Final Phase 8 core scope
 
-- `DOCS/MASTER_INDEX.md`
-- All available `DOCS/PHASE_2/` contracts, especially the database, API, screen, flow, permission, dependency, member, and QR contracts
-- `DOCS/PHASE_3/` canonical seed contracts
-- `DOCS/PHASE_4/` foundation and architecture contracts
-- `DOCS/PHASE_5/` authentication/RBAC and Members readiness material
-- `DOCS/PHASE_6/` Platform Foundation contracts
-- `DOCS/PHASE_7/` provisioning contracts and implementation material
-- `DOCS/TOP_GYM_*` source-reference/audit documents
+Phase 8 Members core contains:
 
-The root files `DECISION_LOCK.md`, `IMPLEMENTATION_ROADMAP.md`, and `CODEX_KICKOFF.md` are absent. They were not reconstructed. The repository documentation itself states that their absence is not permission to invent decisions.
-
-## Locked initial scope
-
-Phase 8 contains the Members core slice only:
-
-- list Members;
-- create a Member;
-- read Member details;
-- update a Member;
-- delete/archive a Member according to the closed lifecycle decision;
-- read a Member timeline;
+- Gym-scoped Member list, search, status filtering, and deterministic paging;
+- Member creation;
+- Member detail;
+- Member profile update;
+- history-preserving Member archive through the DELETE route;
+- Member-domain timeline;
+- existing Members permissions and Phase 5B authorization/audit;
 - Web screens `MEM-W-001`, `MEM-W-002`, and `MEM-W-003`;
-- Flutter screens `F-MEM-001` and `F-MEM-002`;
-- the five existing Members permission identifiers:
-  `members.read`, `members.create`, `members.update`, `members.delete`, and `members.export`.
+- Flutter screens `F-MEM-001` and `F-MEM-002`.
 
-There is no operational Member seed data. Phase 3 library seeds are unchanged.
+The canonical API family is `/api/v1/gyms/{gymId}/members`. No Member seed data is permitted.
 
-## Explicitly outside the core slice
+## Final decisions
 
-The following are dependencies or later phases, not Phase 8 core implementation:
+- Member status is `ACTIVE`, `INACTIVE`, or `ARCHIVED`.
+- There is no physical Member delete; `members.delete` means archive.
+- `gym-security-admin` receives all five Members permissions.
+- `gym-authenticated-user` receives `members.read` only.
+- `platform-security-admin` receives no automatic Gym Member access.
+- Member IDs are system-generated and immutable.
+- The existing Portal contract requires a Member Code for Portal-enabled Members; it is Gym-unique and is not an internal database identifier.
+- Phone and email are not globally unique; existing stronger authoritative rules would take precedence if later documented.
+- Create idempotency, optimistic concurrency, and idempotent archive behavior are required.
+- List defaults are page size 25, maximum 100, `createdAt` descending with a stable ID tie-breaker; archived rows require an explicit status filter.
+- Timeline is limited to Member-domain events: `MEMBER_CREATED`, `MEMBER_UPDATED`, `MEMBER_ARCHIVED`, and `MEMBER_STATUS_CHANGED`.
+- Future Memberships, Attendance, Measurements, Training, Nutrition, Store, Finance, CRM, Classes, Documents, and Notifications are not implemented or represented by placeholder features.
 
-- membership packages, subscriptions, billing, payments, renewals, and refunds;
-- attendance (`F-MEM-003` remains separately scoped);
-- measurements, training, nutrition, store, finance, CRM, classes, reports, notifications, and documents;
-- Member Portal authentication changes;
-- QR implementation;
-- provisioning and Platform Foundation work.
+## Boundaries
 
-## Requirement classification
+Phase 5B owns authentication, sessions, MFA, RBAC, Gym context, and the single audit system. Phase 6 owns Platform Foundation. Phase 7 owns Gym provisioning. Phase 8 consumes those foundations and owns only the Member core contract. Member Portal authentication remains separate, and `F-MEM-003` remains Attendance scope.
 
-| Classification | Phase 8 result |
+## Classification result
+
+| Classification | Closure result |
 |---|---|
-| A — Locked | Architecture, Gym database boundary, core table name and approved fields, route family and operation set, permission identifiers, screen IDs, no Member seed data, API envelope/error conventions, Phase 8 business boundary |
-| B — Implied by locked contract | Server-side Gym authorization, reuse of Phase 5B authentication/RBAC/audit, EF Core-only persistence, row-version concurrency protection, soft-delete/archive intent where history exists, no direct client/database access |
-| C — Contract gap | Complete DTOs, query allowlists, status values/transitions, uniqueness/idempotency rules, timeline event source and payload, exact privacy field allowlists, profile tab boundary |
-| D — Product/security decision required | Concrete role grants for the five permissions, lifecycle/delete semantics, duplicate and retry policy, timeline scope, profile surface, exact Member Code/Portal policy if included |
-| E — Contract conflict/drift | Phase 2 profile screens enumerate linked future-domain tabs, while the locked core scope excludes those domains; the timeline source catalog also references future domains |
+| A — Locked | Architecture, Gym database boundary, core table, core fields, route family, operation set, permissions, screen IDs, no Member seeds, API envelope, and module boundaries |
+| B — Implied | Server-side Gym authorization, Phase 5B RBAC/audit reuse, EF Core persistence, row-version concurrency, history-preserving archive, and no direct client/database access |
+| C — Contract gap | Closed by P8-G-001 through P8-G-006 and the schemas in this package |
+| D — Product/security decision | Closed by the explicit human approval recorded in `15_PHASE_8_DECISIONS.md` |
+| E — Documentation drift | PATCH references reconciled to PUT; future-domain tabs explicitly bounded |
 
-## Phase boundaries
+## Implementation boundary
 
-- Phase 5B owns authentication, sessions, MFA, RBAC, Gym context, and audit infrastructure.
-- Phase 6 owns Platform Foundation and must not expose unrestricted Gym Member business data.
-- Phase 7 owns provisioning and must not create Member records.
-- Phase 8 owns the scoped Member profile and timeline contract only.
-- Memberships, attendance, measurements, and other operational modules remain separate vertical slices.
-
-## Current gate result
-
-The Phase 8 contract is **BLOCKED** until the exact decisions in `16_PHASE_8_GAP_REGISTER.md` are approved. The audit deliberately does not infer business behavior from TOP GYM or from common SaaS practice.
+This is a contract package only. No C#, EF migration, SQL change, database write, seed change, API implementation, React feature, Flutter feature, test implementation, or TOP GYM change is included.

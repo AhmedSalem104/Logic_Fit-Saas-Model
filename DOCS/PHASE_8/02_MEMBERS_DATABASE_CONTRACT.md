@@ -1,65 +1,49 @@
 # Members Database Contract
 
-**Status:** BLOCKED pending lifecycle, uniqueness, and DTO/query decisions
+**Status:** GREEN — schema contract closed
 **Database:** selected Gym database only
 **Migration authority:** EF Core only
 
-## Core table
+## Canonical table
 
-The locked Phase 2 table is `members.members`. The following columns are contract evidence, not an implementation instruction until the gap register is closed.
+The core table is `members.members`. No table is added to the Control Plane for operational Member data.
 
-| Column | Contract type | Requiredness / rules | Classification |
-|---|---|---|---|
-| `member_id` | `uniqueidentifier` | Stable Member identity; primary key | LOCKED |
-| `gym_id` | `uniqueidentifier` | Control Plane reference; ownership is mandatory for every Member | IMPLIED; exact DDL nullability must be retained in the closed schema |
-| `full_name` | `nvarchar(120)` | Required; server validation | LOCKED |
-| `phone` | `nvarchar(30)` | Required; normalized; server validation | LOCKED |
-| `email` | `nvarchar(254)` | Optional / nullable | LOCKED |
-| `registration_date` | `date` | Present in the catalog; exact requiredness and API date semantics need closure | CONTRACT GAP |
-| `notes` | `nvarchar(1000)` | Optional / nullable | LOCKED |
-| `status` | Contract status field | Exact type, allowed values, transitions, and archive meaning need closure | CONTRACT GAP |
-| audit metadata | Existing audit convention | created/updated actor and UTC timestamps | IMPLIED |
-| `row_version` | SQL row-version convention | Mutable-root optimistic concurrency token | LOCKED convention |
-| deletion/archive metadata | `deleted_at`/`deleted_by` or explicit archive state | History-preserving delete behavior is required, exact representation needs closure | CONTRACT GAP |
+| Column | SQL contract | Rules |
+|---|---|---|
+| `member_id` | `uniqueidentifier NOT NULL` | System-generated stable PK; immutable |
+| `gym_id` | `uniqueidentifier NOT NULL` logical CP reference | Required Gym ownership; no cross-database FK |
+| `full_name` | `nvarchar(120) NOT NULL` | Required; server validation |
+| `phone` | `nvarchar(30) NOT NULL` | Required; normalized; no global uniqueness |
+| `email` | `nvarchar(254) NULL` | Optional; normalized; no global uniqueness |
+| `registration_date` | `date NOT NULL` | Date-only Member registration value |
+| `notes` | `nvarchar(1000) NULL` | Optional; not copied into logs |
+| `status` | `nvarchar(40) NOT NULL` | Exactly `ACTIVE`, `INACTIVE`, or `ARCHIVED` |
+| `created_at_utc` / `created_by_user_id` | Existing audit columns | Immutable creation metadata |
+| `updated_at_utc` / `updated_by_user_id` | Existing audit columns | Updated on accepted mutation |
+| `row_version` | `rowversion NOT NULL` | Optimistic concurrency token |
+| archive representation | Explicit `status = ARCHIVED` state | Preserves history; no physical delete and no separate hard-delete path |
 
-## Keys, references, and indexes
+The existing Portal contract requires a Member Code for Portal-enabled Members. It is Gym-unique, is not a database identifier, and is not changed by normal Member update. Its protected access material remains governed by the existing Portal access-code contract; no second code system is introduced.
 
-- `member_id` is the sole Member primary key.
-- `gym_id` is a logical Control Plane reference; the database-per-Gym boundary means there is no cross-database foreign key.
-- The Phase 2 catalog requires indexes supporting normalized phone, name, and status queries.
-- The Phase 2 catalog explicitly leaves email uniqueness configurable; no uniqueness rule may be implemented until P8-G-003 is approved.
-- The exact composite/index definitions, collation, and normalization storage strategy are part of the implementation-ready schema closure and must not be guessed.
+## Constraints and indexes
 
-## Related contract-listed tables
+- Primary key: `member_id`.
+- Logical ownership: `gym_id` must match the selected Gym context.
+- Status constraint: only `ACTIVE`, `INACTIVE`, `ARCHIVED`.
+- Indexes support normalized phone, name, status, and `created_at_utc` ordering.
+- A Member Code uniqueness constraint is scoped to the Gym when the Portal contract requires the code.
+- Phone and email have no global uniqueness constraint. A future stronger authoritative contract would take precedence and require an explicit contract update.
+- `row_version` is required on update/archive preconditions.
+- No password, MFA secret, recovery code, session token, database credential, or private key is stored here.
 
-The Phase 2 catalog lists memberships, membership events, attendance records, body measurements, timeline events, QR tokens, and portal access/session tables. Those tables are not Member-core implementation permission. Memberships, attendance, measurements, and QR/Portal behavior remain separate contracts. `members.timeline_events` is relevant to the core timeline route, but its event-source scope is unresolved in P8-G-005.
+## Timeline relation
 
-## Timeline table evidence
+The approved core timeline uses `members.timeline_events` with `timeline_event_id`, `member_id`, `event_type`, `event_at_utc`, `source_type`, `source_id`, `summary`, safe `metadata_json`, and `created_at_utc`, indexed by Member and descending event time. Gym scope is inherited from the selected Gym database and Member relation; the API projection includes the resolved `gymId`. It contains only the four Member-domain events defined in `07_MEMBERS_TIMELINE_CONTRACT.md`.
 
-The catalog describes `members.timeline_events` with:
+## Related tables and seed boundary
 
-- `timeline_event_id`;
-- `member_id` foreign key;
-- `event_type`;
-- `event_at_utc`;
-- `source_type`;
-- `source_id`;
-- `summary`;
-- `metadata_json`;
-- `created_at_utc`.
+Memberships, attendance, body measurements, QR tokens, Portal access/session records, and future business tables remain their own contracts. They are not created merely to support the core Member profile. There is no operational Member seed data and Phase 3 library seed identity remains unchanged.
 
-It also requires a Member/time index and filtering of financial or sensitive data. The approved core event set, projection ownership, payload allowlist, and pagination contract remain open.
+## Delete and concurrency
 
-## Database invariants
-
-- No Member seed data is allowed.
-- Phase 3 library seed identity and counts are unchanged.
-- No Member table belongs in the Control Plane.
-- No shared operational `tenant_id` database is introduced.
-- No cross-Gym Member query is valid.
-- No password, MFA secret, recovery code, session token, or database credential is stored in Member data or timeline metadata.
-- EF Core is the only migration mechanism.
-
-## Concurrency and deletion
-
-The existing database contract requires row-version protection for mutable roots and history-preserving deletion/archive where history exists. Exact conflict responses, archive/status interaction, uniqueness constraints, and recovery/purge policy are unresolved and tracked in P8-G-001 through P8-G-003.
+Archive changes status to `ARCHIVED`, preserves identity/history/audit relationships, and never issues SQL DELETE. Archived Members cannot be changed by normal update. Repeated archive is idempotent. A stale `row_version` returns `409 CONCURRENCY_CONFLICT`.

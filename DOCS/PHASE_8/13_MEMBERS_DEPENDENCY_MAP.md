@@ -1,44 +1,42 @@
 # Members Dependency Map
 
-**Status:** BLOCKED for implementation pending the Phase 8 gap register
-
-## Dependency graph
+**Status:** GREEN — dependencies and boundaries closed
 
 ```text
-Phase 5B Authentication / Sessions / MFA / RBAC / Audit
+Phase 5B Auth / Sessions / MFA / RBAC / Audit
                          |
 Phase 6 Platform + Phase 7 Gym registry/provisioning
                          |
                  Phase 8 Members core
                     /        |       \
-             Member Portal  Timeline   Future profile tabs
-                              |          |
-                  future Memberships  Attendance / Measurements /
-                                      Training / Nutrition / Documents /
-                                      Payments / CRM / Classes
+             Portal-safe   Timeline   future business modules
+             projection                 |
+                              Memberships / Attendance / Measurements /
+                              Training / Nutrition / Payments / Store /
+                              Finance / CRM / Classes / Documents
 ```
 
 ## Required dependencies
 
-| Dependency | Phase 8 relationship | Boundary |
+| Dependency | Phase 8 use | Boundary |
 |---|---|---|
-| Authentication/session | Reuse current authenticated staff session | Phase 5B; no second auth |
-| RBAC | Evaluate existing Members permissions in resolved Gym scope | Phase 5B; exact role grants are P8-G-002 |
-| Audit | Reuse one audit system for Member mutations/security events | Phase 5B; no second audit |
-| Gym context/provisioning | Use an existing active Gym database/context | Phases 6/7; Phase 8 does not provision |
-| Phase 3 library seeds | No dependency for Member core profile | Must remain unchanged |
-| Member Portal | Separate scoped Portal projection/auth contract | Future/adjacent; do not change Portal auth |
-| Timeline | Core route is catalogued, but source/event boundary is open | P8-G-005 |
+| Authentication/session | Reuse authenticated Phase 5B staff session | No second auth |
+| RBAC | Evaluate the five approved Members permissions in Gym scope | Exact grants in 04 |
+| Audit | Reuse the one server audit system | No second audit |
+| Gym context | Resolve selected active Gym database | Phases 6/7 foundation |
+| EF Core | Persist and query the Gym schema | Only migration system |
+| Portal | Preserve Member Code flow and safe projection boundary | No Portal auth change |
+| Timeline | Persist/read four Member-domain event types | No future source leakage |
 
-## Future-domain dependencies
+## Future dependencies
 
-Memberships, attendance, measurements, training, nutrition, payments, store, finance, CRM, classes, reports, notifications, documents, and QR are not imported into Member create/update/delete behavior. Their relationships may be represented by future links only after their own contracts are approved.
+Memberships, attendance, measurements, training, nutrition, payments, store, finance, CRM, classes, reports, notifications, documents, and QR remain separate contracts. Their records do not become side effects of Member create/update/archive.
 
-## Exclusions
+## Explicit exclusions
 
-- No membership package/catalog behavior.
-- No payments or billing.
-- No attendance implementation; `F-MEM-003` remains separate.
-- No Member seed/demo data.
-- No Platform Admin implicit Member access.
-- No change to provisioning or Phase 5B.
+- no membership packages, subscriptions, billing, or payments;
+- no Attendance implementation (`F-MEM-003` remains separate);
+- no measurements, training, nutrition, store, finance, CRM, classes, documents, or notifications;
+- no operational Member seed/demo data;
+- no Platform Admin implicit Member access;
+- no provisioning or Phase 5B/6/7 redesign.

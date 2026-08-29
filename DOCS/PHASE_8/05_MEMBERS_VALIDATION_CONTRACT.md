@@ -1,44 +1,45 @@
 # Members Validation Contract
 
-**Status:** BLOCKED — field limits are known, but normalization, duplicate, and status rules are incomplete
-**Scope:** Contract only
+**Status:** GREEN — validation contract closed
 
-## Locked profile validation
+## Member profile fields
 
-| Field | Locked rule | Remaining closure |
-|---|---|---|
-| `fullName` | Required; maximum 120 characters | Exact whitespace/Unicode normalization and allowed character policy |
-| `phone` | Required; normalized; maximum 30 characters; TOP GYM reference observes a service minimum of 5 | Canonical normalization algorithm, accepted formats, and duplicate policy |
-| `email` | Optional; maximum 254 characters; normalized by the server | Case/Unicode normalization and duplicate policy |
-| `registrationDate` | Date value; no time-of-day in the database contract | Requiredness, accepted range, future-date rule, and API serialization |
-| `notes` | Optional; maximum 1000 characters | Exact whitespace and privacy/logging treatment |
-| `status` | Contract field | Canonical values, default, transitions, and validation are unresolved |
+| Field | Rule |
+|---|---|
+| `fullName` | Required string; maximum 120 characters |
+| `phone` | Required string; server-normalized; maximum 30 characters; the existing TOP GYM-derived minimum of 5 characters applies |
+| `email` | Optional nullable string; server-normalized; maximum 254 characters |
+| `registrationDate` | Required `YYYY-MM-DD` date; stored as SQL `date` |
+| `notes` | Optional nullable string; maximum 1000 characters |
+| `status` | `ACTIVE`, `INACTIVE`, or `ARCHIVED`; create defaults to `ACTIVE`; normal update accepts only `ACTIVE` or `INACTIVE` |
+| `memberId` | Server-generated UUID; never accepted from a client |
+| `gymId` | Route scope only; never accepted as a body ownership override |
+| `memberCode` | Existing Portal contract value when required; Gym-unique, protected, and not a client-selected database identifier |
 
-No additional personal, health, membership, payment, attendance, training, nutrition, CRM, or document fields may be added to the core create/update contract.
+## Normalization
 
-## Server-side rules
+Phone and email are normalized by the backend before comparison and persistence according to the existing LogicFit/TOP GYM field contract. No global uniqueness is applied. Name search uses the canonical `full_name` search projection; `firstName`, `lastName`, and `displayName` are approved API search selectors and do not add persisted columns.
 
-- Validation executes in the API and is repeated at the persistence boundary.
-- The route Gym is the only valid ownership context for a new Member.
-- A normal update cannot change `gymId` or move a Member between Gyms.
-- The API uses the existing LogicFit validation/error envelope.
-- Unknown filter, sort, or search fields are rejected according to the common API contract; arbitrary SQL-like filters are not allowed.
-- Passwords, session values, MFA values, recovery codes, and other authentication secrets are not Member fields.
+## Create/update/archive validation
 
-## Unresolved validation decisions
+- Create accepts only `fullName`, `phone`, `email`, `registrationDate`, and `notes`.
+- Create cannot select another Gym, supply a Member ID, force an inactive/archived status, or create membership/payment/attendance/future-module records.
+- PUT accepts only mutable profile fields and `status` values permitted by the lifecycle contract.
+- `memberId`, Gym ownership, creation metadata, Member Code, and `ARCHIVED` are immutable through PUT.
+- DELETE has no business payload; it archives the scoped Member and preserves history.
+- All mutations validate the current Gym, permission, and row version server-side.
 
-P8-G-003 must define whether normalized phone and/or email are unique within a Gym, whether duplicates are allowed with warnings, and how concurrent duplicate creation is reported. P8-G-004 must define the query allowlist and serialized request/response schema. P8-G-001 must define valid status values and transitions.
+## Duplicate and idempotency validation
 
-## Error mapping to preserve
+- Member Code, when required by the Portal contract, is unique within the Gym and is enforced by a database constraint.
+- Phone and email are not globally unique; multiple Members may share either value unless a stronger future authoritative contract explicitly changes this rule.
+- Create uses the existing idempotency-key policy. Equivalent replay returns the original result; a conflicting payload for the same key returns `409 DUPLICATE_RESOURCE`.
+- Concurrent Member Code creation yields one success and one deterministic `409 DUPLICATE_RESOURCE`.
 
-The existing API contract provides:
+## Query validation
 
-- `400` for malformed requests, invalid fields, and invalid filter/state syntax;
-- `401` for missing or invalid authentication;
-- `403` for missing permission or unauthorized Gym scope;
-- `404` for the approved safe not-found behavior;
-- `409` for duplicate or optimistic-concurrency conflicts once the exact condition is closed;
-- `422` for domain validation where distinct from structural validation;
-- `429` only where an approved abuse/rate-limit policy applies.
+List accepts only `page`, `pageSize`, `search`, `status`, and the approved `sort` fields. `page` defaults to 1; `pageSize` defaults to 25 and is capped at 100. Status values are case-sensitive canonical values. Unknown parameters, fields, or sort directions return `400 INVALID_FILTER`.
 
-No second validation or error format may be introduced.
+## Error contract
+
+The existing LogicFit error envelope is used: `400 VALIDATION_ERROR`/`INVALID_FILTER`/`INVALID_STATE_TRANSITION`, `401 AUTHENTICATION_REQUIRED` or `SESSION_INVALID`, `403 PERMISSION_DENIED` or `GYM_SCOPE_DENIED`, `404 RESOURCE_NOT_FOUND` for an absent resource within authorized scope, `409 DUPLICATE_RESOURCE` or `CONCURRENCY_CONFLICT`, and `422 DOMAIN_RULE_VIOLATION` where a domain rule is distinct from field validation.

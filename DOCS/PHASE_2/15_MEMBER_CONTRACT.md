@@ -37,7 +37,7 @@ These fields are the audited TOP GYM member fields. No extra personal/health fie
 | Capability | Screen/API | Permission | Data |
 |---|---|---|---|
 | Search/list | `MEM-W-001`, `GET /gyms/{gymId}/members` | `members.read` | members.members |
-| Create/edit | `MEM-W-002`, POST/PATCH member | `members.create/update` | members.members |
+| Create/edit | `MEM-W-002`, POST/PUT member | `members.create/update` | members.members |
 | Profile | `MEM-W-003`, member detail/timeline | `members.read` + tab-specific permission | linked member tables |
 | Membership | `MEM-W-004`, membership/freeze/renew/payment | membership/finance permissions | memberships/events/payments |
 | Attendance | profile/mobile attendance | attendance permissions | attendance records |
