@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'auth.dart';
+import 'members.dart';
 
 const _defaultApiBaseUrl = String.fromEnvironment(
   'LOGICFIT_API_BASE_URL',
@@ -77,7 +78,8 @@ final _routerProvider = Provider<GoRouter>((ref) {
     redirect: (_, state) {
       final protected =
           state.matchedLocation == '/app' ||
-          state.matchedLocation == '/app/security';
+          state.matchedLocation == '/app/security' ||
+          state.matchedLocation.startsWith('/app/members');
       if (protected && (auth == null || auth.requiresMfa)) return '/login';
       if (state.matchedLocation == '/login' &&
           auth != null &&
@@ -104,6 +106,16 @@ final _routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/app/security',
         builder: (context, state) => const SecurityMobileScreen(),
+      ),
+      GoRoute(
+        path: '/app/members',
+        builder: (context, state) => const MobileMembersRoute(),
+      ),
+      GoRoute(
+        path: '/app/members/:memberId',
+        builder: (context, state) => MobileMemberDetailRoute(
+          memberId: state.pathParameters['memberId']!,
+        ),
       ),
     ],
   );
@@ -559,6 +571,43 @@ class _PasswordResetScreenState extends ConsumerState<PasswordResetScreen> {
   );
 }
 
+class MobileMembersRoute extends ConsumerWidget {
+  const MobileMembersRoute({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(authControllerProvider).session;
+    if (session == null) return const LoginScreen();
+    return AppShell(
+      title: 'الأعضاء',
+      child: MembersScreen(
+        dio: ref.read(apiClientProvider).dio,
+        accessToken: session.accessToken,
+      ),
+    );
+  }
+}
+
+class MobileMemberDetailRoute extends ConsumerWidget {
+  const MobileMemberDetailRoute({required this.memberId, super.key});
+
+  final String memberId;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final session = ref.watch(authControllerProvider).session;
+    if (session == null) return const LoginScreen();
+    return AppShell(
+      title: 'ملف العضو',
+      child: MemberDetailScreen(
+        dio: ref.read(apiClientProvider).dio,
+        accessToken: session.accessToken,
+        memberId: memberId,
+      ),
+    );
+  }
+}
+
 class AuthenticatedScreen extends ConsumerWidget {
   const AuthenticatedScreen({super.key});
 
@@ -592,6 +641,11 @@ class AuthenticatedScreen extends ConsumerWidget {
           FilledButton.tonal(
             onPressed: () => context.go('/app/security'),
             child: const Text('أمان الحساب والجلسات'),
+          ),
+          const SizedBox(height: 12),
+          FilledButton.tonal(
+            onPressed: () => context.go('/app/members'),
+            child: const Text('الأعضاء'),
           ),
           const SizedBox(height: 12),
           FilledButton.tonal(
@@ -988,6 +1042,12 @@ class AppShell extends ConsumerWidget {
                   leading: const Icon(Icons.health_and_safety_outlined),
                   onTap: () => context.go('/diagnostics'),
                 ),
+                if (ref.watch(authControllerProvider).session != null)
+                  ListTile(
+                    title: const Text('الأعضاء'),
+                    leading: const Icon(Icons.people_outline),
+                    onTap: () => context.go('/app/members'),
+                  ),
               ],
             ),
           ),

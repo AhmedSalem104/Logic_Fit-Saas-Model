@@ -38,3 +38,41 @@ public sealed class GymAuditEventEntity
     public string? MetadataJson { get; set; }
     public DateTime OccurredAtUtc { get; set; }
 }
+
+public sealed class MemberEntity
+{
+    public Guid MemberId { get; set; }
+    public Guid GymId { get; set; }
+    public string MemberCode { get; set; } = string.Empty;
+    public string FullName { get; set; } = string.Empty;
+    public string Phone { get; set; } = string.Empty;
+    public string? Email { get; set; }
+    public DateOnly RegistrationDate { get; set; }
+    public string? Notes { get; set; }
+    public string Status { get; set; } = "ACTIVE";
+    public string CreateIdempotencyKeyHash { get; set; } = string.Empty;
+    public string CreateRequestFingerprint { get; set; } = string.Empty;
+    public Guid? CreatedByUserId { get; set; }
+    public Guid? UpdatedByUserId { get; set; }
+    public DateTime CreatedAtUtc { get; set; }
+    public DateTime UpdatedAtUtc { get; set; }
+    public byte[] RowVersion { get; set; } = [];
+
+    public ICollection<MemberTimelineEventEntity> TimelineEvents { get; } = new List<MemberTimelineEventEntity>();
+}
+
+public sealed class MemberTimelineEventEntity
+{
+    public Guid TimelineEventId { get; set; }
+    public Guid MemberId { get; set; }
+    public string EventType { get; set; } = string.Empty;
+    public DateTime EventAtUtc { get; set; }
+    public Guid? ActorUserId { get; set; }
+    public string SourceType { get; set; } = "member";
+    public Guid? SourceId { get; set; }
+    public string Summary { get; set; } = string.Empty;
+    public string? MetadataJson { get; set; }
+    public DateTime CreatedAtUtc { get; set; }
+
+    public MemberEntity? Member { get; set; }
+}

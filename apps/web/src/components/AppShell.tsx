@@ -11,9 +11,13 @@ const navigation = [
 export function AppShell({ children, theme, onToggleTheme }: { children: ReactNode; theme: 'light' | 'dark'; onToggleTheme: () => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const { me } = useAuth();
-  const visibleNavigation = me?.permissions.includes('platform.view')
-    ? [...navigation, { label: 'إدارة المنصة', to: '/platform-admin' }]
-    : navigation;
+  const visibleNavigation = [
+    ...navigation,
+    ...(me?.permissions.includes('members.read') && me.scopes.some((scope) => scope.scopeType === 'gym' && scope.gymId)
+      ? [{ label: 'الأعضاء', to: '/app/members' }]
+      : []),
+    ...(me?.permissions.includes('platform.view') ? [{ label: 'إدارة المنصة', to: '/platform-admin' }] : []),
+  ];
   const menu = <nav className="lf-nav" aria-label="التنقل الرئيسي">{visibleNavigation.map((item) => <NavLink key={item.to} to={item.to} onClick={() => setMenuOpen(false)} className={({ isActive }) => `lf-nav-link ${isActive ? 'is-active' : ''}`}>{item.label}</NavLink>)}</nav>;
 
   return <div className="lf-app-shell">

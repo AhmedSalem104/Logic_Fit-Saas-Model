@@ -23,7 +23,12 @@ public static class PermissionCatalog
         new("auth.session.manage", "auth", "session.manage", "high", "Manage sessions under the approved authentication contract."),
         new("platform.security.manage", "platform", "security.manage", "critical", "Manage users, roles, permission assignments and security controls."),
         new("platform.view", "platform", "view", "normal", "View safe platform scope information."),
-        new("platform.provision", "platform", "provision", "critical", "Create and initialize an isolated LogicFit Gym through the approved provisioning workflow.")
+        new("platform.provision", "platform", "provision", "critical", "Create and initialize an isolated LogicFit Gym through the approved provisioning workflow."),
+        new("members.read", "members", "read", "normal", "Read authorized Gym Member profiles and timelines."),
+        new("members.create", "members", "create", "high", "Create a Member inside an authorized Gym."),
+        new("members.update", "members", "update", "high", "Update a Member profile or active status inside an authorized Gym."),
+        new("members.delete", "members", "archive", "high", "Archive a Member without physically deleting historical records."),
+        new("members.export", "members", "export", "high", "Export authorized Member data when an approved export operation is enabled.")
     ];
 
     public static IReadOnlyList<RoleDefinition> Roles { get; } =
@@ -49,6 +54,12 @@ public static class PermissionCatalog
         new("gym-security-admin", "platform.security.manage"),
         new("platform-security-admin", "platform.security.manage"),
         new("platform-security-admin", "platform.view"),
-        new("platform-security-admin", "platform.provision")
+        new("platform-security-admin", "platform.provision"),
+        new("gym-authenticated-user", "members.read"),
+        new("gym-security-admin", "members.read"),
+        new("gym-security-admin", "members.create"),
+        new("gym-security-admin", "members.update"),
+        new("gym-security-admin", "members.delete"),
+        new("gym-security-admin", "members.export")
     ];
 }

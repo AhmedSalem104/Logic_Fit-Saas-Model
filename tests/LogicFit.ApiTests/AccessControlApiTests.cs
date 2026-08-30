@@ -38,9 +38,9 @@ public sealed class AccessControlApiTests : IClassFixture<WebApplicationFactory<
             using var catalogResponse = await client.GetAsync("/api/v1/platform/access/catalog");
             Assert.Equal(HttpStatusCode.OK, catalogResponse.StatusCode);
             var catalog = (await catalogResponse.Content.ReadFromJsonAsync<ApiResponse<AccessCatalogData>>())!.Data;
-            Assert.Equal(16, catalog.Permissions.Count);
+            Assert.Equal(21, catalog.Permissions.Count);
             Assert.Equal(3, catalog.Roles.Count);
-            Assert.Equal(15, catalog.RolePermissionAssignmentCount);
+            Assert.Equal(21, catalog.RolePermissionAssignmentCount);
             Assert.Contains(catalog.Permissions, permission => permission.Key == "platform.security.manage");
 
             using var listResponse = await client.GetAsync($"/api/v1/platform/access/users?gymId={admin.GymId:D}&pageSize=100");

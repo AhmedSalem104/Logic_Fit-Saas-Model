@@ -94,5 +94,7 @@ MEM-W-001 through MEM-W-003, and F-MEM-001/F-MEM-002. No Member seed data or
 membership/attendance/business-module behavior is included. P8-G-001 through
 P8-G-006 are explicitly resolved; the complete contract and traceability are in
 `PHASE_8/PHASE_8_CONTRACT_STATUS_REPORT.md` and
-`PHASE_8/16_PHASE_8_GAP_REGISTER.md`. Implementation remains unauthorized in
-the contract-closure task.
+`PHASE_8/16_PHASE_8_GAP_REGISTER.md`. The explicit implementation is complete
+for the approved core; evidence is in `PHASE_8/17_MEMBERS_IMPLEMENTATION.md`
+and `PHASE_8/18_MEMBERS_TEST_RESULTS.md`. No later phase or business module
+was started.

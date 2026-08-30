@@ -10,6 +10,8 @@ public sealed class GymDbContext(DbContextOptions<GymDbContext> options) : DbCon
     public DbSet<GymContextEntity> GymContexts => Set<GymContextEntity>();
     public DbSet<GymUserEntity> GymUsers => Set<GymUserEntity>();
     public DbSet<GymAuditEventEntity> AuditEvents => Set<GymAuditEventEntity>();
+    public DbSet<MemberEntity> Members => Set<MemberEntity>();
+    public DbSet<MemberTimelineEventEntity> MemberTimelineEvents => Set<MemberTimelineEventEntity>();
     public DbSet<SeedInstallationEntity> SeedInstallations => Set<SeedInstallationEntity>();
     public DbSet<MuscleGroupEntity> MuscleGroups => Set<MuscleGroupEntity>();
     public DbSet<MuscleEntity> Muscles => Set<MuscleEntity>();
@@ -29,6 +31,8 @@ public sealed class GymDbContext(DbContextOptions<GymDbContext> options) : DbCon
         ConfigureGymContext(modelBuilder.Entity<GymContextEntity>());
         ConfigureGymUser(modelBuilder.Entity<GymUserEntity>());
         ConfigureAuditEvent(modelBuilder.Entity<GymAuditEventEntity>());
+        ConfigureMember(modelBuilder.Entity<MemberEntity>());
+        ConfigureMemberTimelineEvent(modelBuilder.Entity<MemberTimelineEventEntity>());
         ConfigureSeedInstallation(modelBuilder.Entity<SeedInstallationEntity>());
         ConfigureMuscleGroup(modelBuilder.Entity<MuscleGroupEntity>());
         ConfigureMuscle(modelBuilder.Entity<MuscleEntity>());
@@ -89,6 +93,53 @@ public sealed class GymDbContext(DbContextOptions<GymDbContext> options) : DbCon
         builder.Property(x => x.Reason).HasColumnName("reason").HasMaxLength(500);
         builder.Property(x => x.MetadataJson).HasColumnName("metadata_json").HasColumnType("nvarchar(max)");
         builder.Property(x => x.OccurredAtUtc).HasColumnName("occurred_at_utc").HasColumnType("datetime2(3)").HasDefaultValueSql("SYSUTCDATETIME()");
+    }
+
+    private static void ConfigureMember(EntityTypeBuilder<MemberEntity> builder)
+    {
+        builder.ToTable("members", "members", table => table.HasCheckConstraint(
+            "CK_members_status",
+            "[status] IN (N'ACTIVE', N'INACTIVE', N'ARCHIVED')"));
+        builder.HasKey(x => x.MemberId).HasName("PK_members_members");
+        builder.Property(x => x.MemberId).HasColumnName("member_id").HasDefaultValueSql("NEWSEQUENTIALID()");
+        builder.Property(x => x.GymId).HasColumnName("gym_id").IsRequired();
+        builder.Property(x => x.MemberCode).HasColumnName("member_code").HasMaxLength(40).IsRequired();
+        builder.Property(x => x.FullName).HasColumnName("full_name").HasMaxLength(120).IsRequired();
+        builder.Property(x => x.Phone).HasColumnName("phone").HasMaxLength(30).IsRequired();
+        builder.Property(x => x.Email).HasColumnName("email").HasMaxLength(254);
+        builder.Property(x => x.RegistrationDate).HasColumnName("registration_date").HasColumnType("date").IsRequired();
+        builder.Property(x => x.Notes).HasColumnName("notes").HasMaxLength(1000);
+        builder.Property(x => x.Status).HasColumnName("status").HasMaxLength(40).HasDefaultValue("ACTIVE").IsRequired();
+        builder.Property(x => x.CreateIdempotencyKeyHash).HasColumnName("create_idempotency_key_hash").HasColumnType("char(64)").IsRequired();
+        builder.Property(x => x.CreateRequestFingerprint).HasColumnName("create_request_fingerprint").HasColumnType("char(64)").IsRequired();
+        builder.Property(x => x.CreatedByUserId).HasColumnName("created_by_user_id");
+        builder.Property(x => x.UpdatedByUserId).HasColumnName("updated_by_user_id");
+        ConfigureAudit(builder, x => x.CreatedAtUtc, x => x.UpdatedAtUtc);
+        builder.Property(x => x.RowVersion).HasColumnName("row_version").IsRowVersion();
+        builder.HasIndex(x => new { x.GymId, x.MemberCode }).IsUnique().HasDatabaseName("UQ_members_member_code_gym");
+        builder.HasIndex(x => new { x.GymId, x.CreateIdempotencyKeyHash }).IsUnique().HasDatabaseName("UQ_members_create_idempotency");
+        builder.HasIndex(x => new { x.Status, x.CreatedAtUtc, x.MemberId }).HasDatabaseName("IX_members_status_created");
+        builder.HasIndex(x => new { x.GymId, x.UpdatedAtUtc, x.MemberId }).HasDatabaseName("IX_members_gym_updated");
+        builder.HasIndex(x => x.Phone).HasDatabaseName("IX_members_phone");
+        builder.HasIndex(x => x.Email).HasDatabaseName("IX_members_email");
+    }
+
+    private static void ConfigureMemberTimelineEvent(EntityTypeBuilder<MemberTimelineEventEntity> builder)
+    {
+        builder.ToTable("timeline_events", "members");
+        builder.HasKey(x => x.TimelineEventId).HasName("PK_members_timeline_events");
+        builder.Property(x => x.TimelineEventId).HasColumnName("timeline_event_id").HasDefaultValueSql("NEWSEQUENTIALID()");
+        builder.Property(x => x.MemberId).HasColumnName("member_id").IsRequired();
+        builder.Property(x => x.EventType).HasColumnName("event_type").HasMaxLength(50).IsRequired();
+        builder.Property(x => x.EventAtUtc).HasColumnName("event_at_utc").HasColumnType("datetime2(3)").IsRequired();
+        builder.Property(x => x.ActorUserId).HasColumnName("actor_user_id");
+        builder.Property(x => x.SourceType).HasColumnName("source_type").HasMaxLength(80).IsRequired();
+        builder.Property(x => x.SourceId).HasColumnName("source_id");
+        builder.Property(x => x.Summary).HasColumnName("summary").HasMaxLength(240).IsRequired();
+        builder.Property(x => x.MetadataJson).HasColumnName("metadata_json").HasMaxLength(2000).HasColumnType("nvarchar(2000)");
+        builder.Property(x => x.CreatedAtUtc).HasColumnName("created_at_utc").HasColumnType("datetime2(3)").HasDefaultValueSql("SYSUTCDATETIME()");
+        builder.HasIndex(x => new { x.MemberId, x.EventAtUtc, x.TimelineEventId }).HasDatabaseName("IX_members_timeline_member_event");
+        builder.HasOne(x => x.Member).WithMany(x => x.TimelineEvents).HasForeignKey(x => x.MemberId).OnDelete(DeleteBehavior.Restrict);
     }
 
     private static void ConfigureSeedInstallation(EntityTypeBuilder<SeedInstallationEntity> builder)

@@ -7,9 +7,9 @@ public sealed class PermissionCatalogTests
     [Fact]
     public void ApprovedCatalogContainsTheExpectedShape()
     {
-        Assert.Equal(16, PermissionCatalog.Permissions.Count);
+        Assert.Equal(21, PermissionCatalog.Permissions.Count);
         Assert.Equal(3, PermissionCatalog.Roles.Count);
-        Assert.Equal(15, PermissionCatalog.RolePermissions.Count);
+        Assert.Equal(21, PermissionCatalog.RolePermissions.Count);
         Assert.Equal(PermissionCatalog.Permissions.Count, PermissionCatalog.Permissions.Select(x => x.Key).Distinct(StringComparer.Ordinal).Count());
         Assert.Equal(PermissionCatalog.Roles.Count, PermissionCatalog.Roles.Select(x => x.Key).Distinct(StringComparer.Ordinal).Count());
         Assert.Equal(PermissionCatalog.RolePermissions.Count, PermissionCatalog.RolePermissions.Distinct().Count());

@@ -5,6 +5,7 @@ using LogicFit.Infrastructure.Services.Seeding;
 using LogicFit.Infrastructure.Security;
 using LogicFit.Infrastructure.Identity;
 using LogicFit.Infrastructure.Provisioning;
+using LogicFit.Infrastructure.Members;
 using LogicFit.Domain.Constants;
 using LogicFit.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
@@ -94,6 +95,7 @@ public static class DependencyInjection
         services.AddScoped<ISessionStore, SqlSessionStore>();
         services.AddScoped<IAuthRepository, SqlAuthRepository>();
         services.AddScoped<IPlatformRepository, SqlPlatformRepository>();
+        services.AddScoped<IMembersService, MembersService>();
         services.AddScoped<ISeedCoordinator, SeedCoordinator>();
         services.AddScoped<DatabaseFoundationService>();
         services.AddSingleton<ProvisioningQueue>();

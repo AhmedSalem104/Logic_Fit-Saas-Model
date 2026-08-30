@@ -116,4 +116,4 @@ The name selectors are API search projections over the canonical `full_name` val
 
 ## Idempotency and errors
 
-Create requires the existing `Idempotency-Key` policy. An equivalent repeated key returns the original result; a conflicting payload returns deterministic `409 IDEMPOTENCY_KEY_CONFLICT`. Concurrent Member Code creation yields one success and one deterministic `409 DUPLICATE_RESOURCE`. Stale update/archive returns `409 CONCURRENCY_CONFLICT`. Invalid or unauthorized Gym context never causes an unscoped query.
+Create requires the existing `Idempotency-Key` policy. An equivalent repeated key returns the original result; a conflicting payload returns deterministic `409 DUPLICATE_RESOURCE`. Concurrent Member Code creation yields one success and one deterministic `409 DUPLICATE_RESOURCE`. Stale update/archive returns `409 CONCURRENCY_CONFLICT`. Invalid or unauthorized Gym context never causes an unscoped query.

@@ -202,6 +202,42 @@ export type ProvisioningRetryAccepted = {
 };
 export type PlatformPage<T> = { data: T[]; meta: { page: number; pageSize: number; total: number; hasNext: boolean } };
 
+export type MemberStatus = 'ACTIVE' | 'INACTIVE' | 'ARCHIVED';
+export type MemberSummary = {
+  memberId: string;
+  memberCode: string;
+  fullName: string;
+  phone: string;
+  email: string | null;
+  registrationDate: string;
+  status: MemberStatus;
+  createdAtUtc: string;
+  updatedAtUtc: string;
+  version: string;
+};
+export type MemberDetail = MemberSummary & {
+  gymId: string;
+  notes: string | null;
+};
+export type MemberArchive = { memberId: string; status: 'ARCHIVED'; archivedAtUtc: string; version: string };
+export type MemberTimelineItem = {
+  eventId: string;
+  memberId: string;
+  gymId: string;
+  eventType: 'MEMBER_CREATED' | 'MEMBER_UPDATED' | 'MEMBER_ARCHIVED' | 'MEMBER_STATUS_CHANGED';
+  occurredAt: string;
+  actorId: string | null;
+  metadata: Record<string, string | null>;
+};
+export type MemberCreateInput = {
+  fullName: string;
+  phone: string;
+  email: string | null;
+  registrationDate: string;
+  notes: string | null;
+};
+export type MemberUpdateInput = MemberCreateInput & { status: 'ACTIVE' | 'INACTIVE' };
+
 const ACCESS_TOKEN_KEY = 'logicfit.session.accessToken';
 const SESSION_STATE_KEY = 'logicfit.session.state';
 
@@ -324,4 +360,15 @@ export const apiClient = {
   requestProvisioning: (input: ProvisioningRequest, idempotencyKey: string) => request<{ data: ProvisioningAccepted }>('/platform/provisioning', { method: 'POST', headers: { 'Idempotency-Key': idempotencyKey }, body: JSON.stringify(input) }),
   provisioningStatus: (operationId: string) => request<{ data: ProvisioningStatus }>(`/platform/provisioning/${operationId}`),
   retryProvisioning: (operationId: string, reason: string, idempotencyKey: string) => request<{ data: ProvisioningRetryAccepted }>(`/platform/provisioning/${operationId}/retry`, { method: 'POST', headers: { 'Idempotency-Key': idempotencyKey }, body: JSON.stringify({ reason }) }),
+  listMembers: (gymId: string, options: { page?: number; pageSize?: number; search?: string; statuses?: MemberStatus[]; sort?: string } = {}) => {
+    const params = new URLSearchParams({ page: String(options.page ?? 1), pageSize: String(options.pageSize ?? 25), sort: options.sort ?? 'createdAt:desc' });
+    if (options.search) params.set('search', options.search);
+    for (const status of options.statuses ?? []) params.append('status', status);
+    return request<PlatformPage<MemberSummary>>(`/gyms/${encodeURIComponent(gymId)}/members?${params.toString()}`);
+  },
+  createMember: (gymId: string, input: MemberCreateInput, idempotencyKey = crypto.randomUUID()) => request<{ data: MemberDetail }>(`/gyms/${encodeURIComponent(gymId)}/members`, { method: 'POST', headers: { 'Idempotency-Key': idempotencyKey }, body: JSON.stringify(input) }),
+  getMember: (gymId: string, memberId: string) => request<{ data: MemberDetail }>(`/gyms/${encodeURIComponent(gymId)}/members/${encodeURIComponent(memberId)}`),
+  updateMember: (gymId: string, memberId: string, version: string, input: MemberUpdateInput) => request<{ data: MemberDetail }>(`/gyms/${encodeURIComponent(gymId)}/members/${encodeURIComponent(memberId)}`, { method: 'PUT', headers: { 'If-Match': `"${version}"` }, body: JSON.stringify(input) }),
+  archiveMember: (gymId: string, memberId: string, version: string) => request<{ data: MemberArchive }>(`/gyms/${encodeURIComponent(gymId)}/members/${encodeURIComponent(memberId)}`, { method: 'DELETE', headers: { 'If-Match': `"${version}"` } }),
+  memberTimeline: (gymId: string, memberId: string, page = 1, pageSize = 25) => request<PlatformPage<MemberTimelineItem>>(`/gyms/${encodeURIComponent(gymId)}/members/${encodeURIComponent(memberId)}/timeline?page=${page}&pageSize=${pageSize}`),
 };

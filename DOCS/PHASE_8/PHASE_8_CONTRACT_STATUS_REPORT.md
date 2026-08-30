@@ -35,6 +35,18 @@ Phase 8 Members core covers Gym-scoped list/search/filter/page, create, detail, 
 - Portal authentication boundary preserved.
 - No implementation, schema migration, database write, client code, seed, or TOP GYM change.
 
+## Implementation result
+
+The explicit Phase 8 implementation authorization has been executed. The
+approved Members core is implemented and verified without changing the
+contract boundary. Runtime and test evidence is recorded in
+`17_MEMBERS_IMPLEMENTATION.md` and `18_MEMBERS_TEST_RESULTS.md`. The final
+handoff remains limited to Members; no later phase or business module was
+started.
+
 ## Next authorization boundary
 
-Phase 8 implementation may begin only in a future explicit authorization. This task stops at the GREEN contract gate and does not start Members, Memberships, Attendance, Measurements, Training, Nutrition, Finance, Store, CRM, Classes, or any other module.
+Phase 9 and all other business modules remain stopped pending a separate
+explicit authorization. This report does not authorize Memberships,
+Attendance, Measurements, Training, Nutrition, Finance, Store, CRM, Classes,
+Documents, Notifications, or any other module.

@@ -25,13 +25,17 @@ public sealed class EfFoundationTests
         Assert.True(await gym.Database.CanConnectAsync());
         Assert.Contains("20260825144155_InitialControlPlaneFoundation", await controlPlane.Database.GetAppliedMigrationsAsync());
         Assert.Contains("20260825144011_InitialGymFoundation", await gym.Database.GetAppliedMigrationsAsync());
-        Assert.Equal(16, await controlPlane.Permissions.CountAsync());
+        Assert.Contains("20260830084936_Phase8Members", await gym.Database.GetAppliedMigrationsAsync());
+        Assert.Empty(await controlPlane.Database.GetPendingMigrationsAsync());
+        Assert.Empty(await gym.Database.GetPendingMigrationsAsync());
+        Assert.Equal(21, await controlPlane.Permissions.CountAsync());
         Assert.Equal(3, await controlPlane.Roles.CountAsync());
-        Assert.Equal(15, await controlPlane.RolePermissions.CountAsync());
+        Assert.Equal(21, await controlPlane.RolePermissions.CountAsync());
         Assert.Equal(1133, await gym.Exercises.CountAsync());
         Assert.Equal(367, await gym.Foods.CountAsync());
         Assert.Equal(297, await gym.Muscles.CountAsync());
         Assert.Equal(194, await gym.AnatomyMappings.CountAsync());
+        Assert.Equal(0, await gym.Members.CountAsync());
         Assert.Equal(0, await gym.Exercises.GroupBy(x => x.SeedKey).Where(x => x.Count() > 1).CountAsync());
         Assert.Equal(0, await gym.Foods.GroupBy(x => x.SeedKey).Where(x => x.Count() > 1).CountAsync());
     }
@@ -53,6 +57,8 @@ public sealed class EfFoundationTests
         Assert.NotNull(controlPlane.Model.FindEntityType("LogicFit.Infrastructure.Persistence.Entities.SessionEntity"));
         Assert.NotNull(gym.Model.FindEntityType("LogicFit.Infrastructure.Persistence.Entities.ExerciseEntity"));
         Assert.NotNull(gym.Model.FindEntityType("LogicFit.Infrastructure.Persistence.Entities.FoodEntity"));
+        Assert.NotNull(gym.Model.FindEntityType("LogicFit.Infrastructure.Persistence.Entities.MemberEntity"));
+        Assert.NotNull(gym.Model.FindEntityType("LogicFit.Infrastructure.Persistence.Entities.MemberTimelineEventEntity"));
     }
 
     private static string Connection(string database)
